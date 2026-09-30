@@ -98,7 +98,7 @@ function Dashboard() {
               >
                 <span className="text-xs font-medium text-muted-foreground">{d.hours}h</span>
                 <div
-                  className="w-full rounded-t-lg bg-primary/85 transition-all duration-500 hover:bg-primary"
+                  className="w-full min-h-1 shrink-0 rounded-t-lg bg-primary/85 transition-all duration-500 hover:bg-primary"
                   style={{ height: `${(d.hours / maxHours) * 100}%` }}
                 />
                 <span className="text-xs text-muted-foreground">{d.day}</span>
