@@ -90,7 +90,7 @@ function Dashboard() {
             </div>
             <Badge variant="secondary">+14% vs last week</Badge>
           </div>
-          <div className="flex h-48 items-end gap-3">
+          <div className="flex min-h-48 flex-1 items-end gap-3">
             {weeklyStudy.map((d) => (
               <div
                 key={d.day}
