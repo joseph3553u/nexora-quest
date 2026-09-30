@@ -112,7 +112,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="fixed inset-0 z-50 lg:hidden">
           <button
             aria-label="Close navigation"
-            className="absolute inset-0 bg-foreground/30 animate-in fade-in"
+            className="absolute inset-0 bg-foreground/20 backdrop-blur-sm animate-in fade-in"
             onClick={() => setMobileOpen(false)}
           />
           <div className="absolute inset-y-0 left-0 flex w-72 flex-col bg-sidebar shadow-lift animate-in slide-in-from-left duration-200">
@@ -131,7 +131,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <div className="lg:pl-64">
         <header className="glass-panel sticky top-0 z-30 border-b border-border">
-          <div className="flex h-16 items-center gap-3 px-4 sm:px-6">
+          <div className="flex h-16 items-center gap-3 px-4 sm:px-6 lg:px-8">
             <Button
               variant="ghost"
               size="icon"
@@ -210,7 +210,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </header>
 
-        <main className="mx-auto w-full max-w-7xl px-4 pb-28 pt-6 sm:px-6 lg:pb-12">{children}</main>
+        <main className="mx-auto w-full max-w-7xl px-4 pb-28 pt-6 sm:px-6 lg:px-8 lg:pb-12 lg:pt-8">{children}</main>
       </div>
 
       {/* Mobile bottom nav */}
