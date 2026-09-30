@@ -99,7 +99,7 @@ function Dashboard() {
               >
                 <span className="text-xs font-medium text-muted-foreground">{d.hours}h</span>
                 <div
-                  className="w-full min-h-1 shrink-0 rounded-t-lg bg-primary/85 transition-all duration-500 hover:bg-primary"
+                   className="progress-glow w-full min-h-1 shrink-0 rounded-t-md bg-primary/85 transition-all duration-500 hover:bg-primary"
                   style={{ height: `${(d.hours / maxHours) * 100}%` }}
                 />
                 <span className="text-xs text-muted-foreground">{d.day}</span>
@@ -179,7 +179,7 @@ function Dashboard() {
           <div className="grid gap-4 md:grid-cols-2">
             {opportunities.slice(0, 4).map((o) => (
               <div key={o.id} className="surface lift flex items-start gap-4 p-5">
-                <span className="flex size-10 items-center justify-center rounded-xl bg-primary-softer text-primary">
+                 <span className="status-glow flex size-10 items-center justify-center rounded-md bg-primary-softer text-primary">
                   <Target className="size-5" />
                 </span>
                 <div className="min-w-0">

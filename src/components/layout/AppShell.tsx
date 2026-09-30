@@ -1,6 +1,7 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
-import { Bell, Menu, Search, Sparkles, X } from "lucide-react";
+import { Bell, LogOut, Menu, Search, Sparkles, X } from "lucide-react";
 import { navGroups, navItems, mobileNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 import { student } from "@/data/demo";
@@ -16,11 +17,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 function Brand({ onClick }: { onClick?: () => void }) {
   return (
-    <Link to="/" onClick={onClick} className="flex items-center gap-2.5 px-1">
-      <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+    <Link to="/dashboard" onClick={onClick} className="flex items-center gap-2.5 px-1">
+      <span className="status-glow flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
         <Sparkles className="size-4.5" />
       </span>
       <span className="flex flex-col leading-tight">
@@ -75,11 +77,20 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [query, setQuery] = useState("");
   const pathname = useRouterState({ select: (r) => r.location.pathname });
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  async function handleSignOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    await navigate({ to: "/auth", replace: true });
+  }
 
   return (
     <div className="min-h-screen w-full bg-background">
       {/* Desktop sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-sidebar-border bg-sidebar lg:flex">
+      <aside className="glass-panel fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-sidebar-border lg:flex">
         <div className="px-4 py-5">
           <Brand />
         </div>
@@ -87,7 +98,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <NavList />
         </div>
         <div className="border-t border-sidebar-border p-3">
-          <div className="rounded-xl bg-primary-softer p-3.5">
+          <div className="rounded-md border border-primary/20 bg-primary-softer p-3.5">
             <p className="text-sm font-semibold">Study streak</p>
             <p className="mt-0.5 text-xs text-muted-foreground">
               {student.streak} days in a row. Keep it going.
@@ -119,7 +130,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       )}
 
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur">
+        <header className="glass-panel sticky top-0 z-30 border-b border-border">
           <div className="flex h-16 items-center gap-3 px-4 sm:px-6">
             <Button
               variant="ghost"
@@ -146,7 +157,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search notes, courses, deadlines…"
-                className="h-10 rounded-full bg-muted pl-9"
+                 className="h-10 rounded-md bg-muted/60 pl-9"
               />
             </form>
 
@@ -189,6 +200,10 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <DropdownMenuItem onSelect={() => toast("Settings are coming soon")}>
                     Settings
                   </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onSelect={handleSignOut}>
+                    <LogOut className="size-4" /> Sign out
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -199,7 +214,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
 
       {/* Mobile bottom nav */}
-      <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur lg:hidden">
+      <nav className="glass-panel fixed inset-x-0 bottom-0 z-40 border-t border-border lg:hidden">
         <div className="grid grid-cols-5">
           {mobileNav.map((item) => {
             const active = pathname === item.to;
