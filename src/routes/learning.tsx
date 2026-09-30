@@ -33,7 +33,7 @@ function Learning() {
   const [courses, setCourses] = useState(seedCourses);
   const [track, setTrack] = useState("All");
   const [query, setQuery] = useState("");
-  const [openId, setOpenId] = useState(seedCourses[0].id);
+  const [openId, setOpenId] = useState(seedCourses[0]?.id ?? "");
 
   const list = useMemo(
     () =>

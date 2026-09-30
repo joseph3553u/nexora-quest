@@ -107,7 +107,10 @@ function Projects() {
                 </Button>
                 <Button
                   onClick={() => {
-                    if (!form.name.trim()) return toast("Give the project a name");
+                    if (!form.name.trim()) {
+                      toast("Give the project a name");
+                      return;
+                    }
                     setItems((prev) => [
                       {
                         id: `pr${Date.now()}`,

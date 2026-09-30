@@ -110,7 +110,10 @@ function Deadlines() {
                 </Button>
                 <Button
                   onClick={() => {
-                    if (!form.title.trim()) return toast("Give the deadline a title");
+                    if (!form.title.trim()) {
+                      toast("Give the deadline a title");
+                      return;
+                    }
                     setItems((prev) => [
                       ...prev,
                       {

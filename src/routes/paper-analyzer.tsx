@@ -34,9 +34,9 @@ export const Route = createFileRoute("/paper-analyzer")({
 });
 
 function PaperAnalyzer() {
-  const [paperId, setPaperId] = useState(papers[0].id);
+  const [paperId, setPaperId] = useState(papers[0]!.id);
   const paper = useMemo(() => papers.find((p) => p.id === paperId)!, [paperId]);
-  const topTopic = paper.topics[0];
+  const topTopic = paper.topics[0]!;
 
   return (
     <div className="space-y-6">

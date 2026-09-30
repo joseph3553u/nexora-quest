@@ -50,7 +50,10 @@ function Community() {
   );
 
   function publish() {
-    if (!draft.trim()) return toast("Write something first");
+    if (!draft.trim()) {
+      toast("Write something first");
+      return;
+    }
     setItems((prev) => [
       {
         id: `cm${Date.now()}`,

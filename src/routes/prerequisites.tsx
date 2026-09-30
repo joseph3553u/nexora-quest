@@ -28,7 +28,7 @@ export const Route = createFileRoute("/prerequisites")({
 
 function Prerequisites() {
   const [query, setQuery] = useState("");
-  const [selectedId, setSelectedId] = useState(subjects[4].id);
+  const [selectedId, setSelectedId] = useState(subjects[4]!.id);
 
   const list = useMemo(
     () =>
