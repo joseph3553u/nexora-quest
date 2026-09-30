@@ -21,8 +21,9 @@ export function useCourseProgress() {
   });
 
   const mutation = useMutation({
-    mutationFn: saveProgress,
-    onMutate: async ({ data }) => {
+    mutationFn: (input: { courseId: string; lessonId: string; completed: boolean }) =>
+      saveProgress({ data: input }),
+    onMutate: async (data) => {
       await queryClient.cancelQueries({ queryKey: ["course-progress"] });
       const previous = queryClient.getQueryData<typeof query.data>(["course-progress"]);
       queryClient.setQueryData<typeof query.data>(["course-progress"], (current = []) => {

@@ -50,7 +50,7 @@ function Learning() {
       .find((course) => course.id === courseId)
       ?.lessons.find((item) => item.id === lessonId);
     if (!lesson) return;
-    saveLesson({ data: { courseId, lessonId, completed: !lesson.done } });
+    saveLesson({ courseId, lessonId, completed: !lesson.done });
   }
 
   return (
