@@ -12,6 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CampusRouteImport } from './routes/campus'
 import { Route as CollegeHubRouteImport } from './routes/college-hub'
+import { Route as LearningRouteImport } from './routes/learning'
+import { Route as MistakeBankRouteImport } from './routes/mistake-bank'
+import { Route as PaperAnalyzerRouteImport } from './routes/paper-analyzer'
+import { Route as PrerequisitesRouteImport } from './routes/prerequisites'
 import { Route as ResourcesRouteImport } from './routes/resources'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +33,26 @@ const CollegeHubRoute = CollegeHubRouteImport.update({
   path: '/college-hub',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LearningRoute = LearningRouteImport.update({
+  id: '/learning',
+  path: '/learning',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MistakeBankRoute = MistakeBankRouteImport.update({
+  id: '/mistake-bank',
+  path: '/mistake-bank',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaperAnalyzerRoute = PaperAnalyzerRouteImport.update({
+  id: '/paper-analyzer',
+  path: '/paper-analyzer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrerequisitesRoute = PrerequisitesRouteImport.update({
+  id: '/prerequisites',
+  path: '/prerequisites',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
@@ -39,12 +63,20 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/campus': typeof CampusRoute
   '/college-hub': typeof CollegeHubRoute
+  '/learning': typeof LearningRoute
+  '/mistake-bank': typeof MistakeBankRoute
+  '/paper-analyzer': typeof PaperAnalyzerRoute
+  '/prerequisites': typeof PrerequisitesRoute
   '/resources': typeof ResourcesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/campus': typeof CampusRoute
   '/college-hub': typeof CollegeHubRoute
+  '/learning': typeof LearningRoute
+  '/mistake-bank': typeof MistakeBankRoute
+  '/paper-analyzer': typeof PaperAnalyzerRoute
+  '/prerequisites': typeof PrerequisitesRoute
   '/resources': typeof ResourcesRoute
 }
 export interface FileRoutesById {
@@ -52,20 +84,53 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/campus': typeof CampusRoute
   '/college-hub': typeof CollegeHubRoute
+  '/learning': typeof LearningRoute
+  '/mistake-bank': typeof MistakeBankRoute
+  '/paper-analyzer': typeof PaperAnalyzerRoute
+  '/prerequisites': typeof PrerequisitesRoute
   '/resources': typeof ResourcesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/campus' | '/college-hub' | '/resources'
+  fullPaths:
+    | '/'
+    | '/campus'
+    | '/college-hub'
+    | '/learning'
+    | '/mistake-bank'
+    | '/paper-analyzer'
+    | '/prerequisites'
+    | '/resources'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/campus' | '/college-hub' | '/resources'
-  id: '__root__' | '/' | '/campus' | '/college-hub' | '/resources'
+  to:
+    | '/'
+    | '/campus'
+    | '/college-hub'
+    | '/learning'
+    | '/mistake-bank'
+    | '/paper-analyzer'
+    | '/prerequisites'
+    | '/resources'
+  id:
+    | '__root__'
+    | '/'
+    | '/campus'
+    | '/college-hub'
+    | '/learning'
+    | '/mistake-bank'
+    | '/paper-analyzer'
+    | '/prerequisites'
+    | '/resources'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CampusRoute: typeof CampusRoute
   CollegeHubRoute: typeof CollegeHubRoute
+  LearningRoute: typeof LearningRoute
+  MistakeBankRoute: typeof MistakeBankRoute
+  PaperAnalyzerRoute: typeof PaperAnalyzerRoute
+  PrerequisitesRoute: typeof PrerequisitesRoute
   ResourcesRoute: typeof ResourcesRoute
 }
 
@@ -92,6 +157,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollegeHubRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/learning': {
+      id: '/learning'
+      path: '/learning'
+      fullPath: '/learning'
+      preLoaderRoute: typeof LearningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mistake-bank': {
+      id: '/mistake-bank'
+      path: '/mistake-bank'
+      fullPath: '/mistake-bank'
+      preLoaderRoute: typeof MistakeBankRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paper-analyzer': {
+      id: '/paper-analyzer'
+      path: '/paper-analyzer'
+      fullPath: '/paper-analyzer'
+      preLoaderRoute: typeof PaperAnalyzerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prerequisites': {
+      id: '/prerequisites'
+      path: '/prerequisites'
+      fullPath: '/prerequisites'
+      preLoaderRoute: typeof PrerequisitesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resources': {
       id: '/resources'
       path: '/resources'
@@ -106,6 +199,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CampusRoute: CampusRoute,
   CollegeHubRoute: CollegeHubRoute,
+  LearningRoute: LearningRoute,
+  MistakeBankRoute: MistakeBankRoute,
+  PaperAnalyzerRoute: PaperAnalyzerRoute,
+  PrerequisitesRoute: PrerequisitesRoute,
   ResourcesRoute: ResourcesRoute,
 }
 export const routeTree = rootRouteImport
