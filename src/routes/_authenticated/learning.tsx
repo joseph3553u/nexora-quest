@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { CheckCircle2, Circle, Clock } from "lucide-react";
+import { CheckCircle2, Circle, Cloud, CloudAlert, Clock, LoaderCircle } from "lucide-react";
 import { PageHeader } from "@/components/common/PageHeader";
 import { FilterChips, SearchField, EmptyState } from "@/components/common/FilterBar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { courses as seedCourses } from "@/data/demo";
+import { useCourseProgress } from "@/hooks/use-course-progress";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/learning")({
@@ -30,10 +30,10 @@ export const Route = createFileRoute("/_authenticated/learning")({
 const tracks = ["All", "Core CS", "Development", "AI & Data", "Careers"];
 
 function Learning() {
-  const [courses, setCourses] = useState(seedCourses);
+  const { courses, isLoading, isError, saving, saveLesson } = useCourseProgress();
   const [track, setTrack] = useState("All");
   const [query, setQuery] = useState("");
-  const [openId, setOpenId] = useState(seedCourses[0]?.id ?? "");
+  const [openId, setOpenId] = useState("c1");
 
   const list = useMemo(
     () =>
@@ -46,14 +46,11 @@ function Learning() {
   );
 
   function toggleLesson(courseId: string, lessonId: string) {
-    setCourses((prev) =>
-      prev.map((c) => {
-        if (c.id !== courseId) return c;
-        const lessons = c.lessons.map((l) => (l.id === lessonId ? { ...l, done: !l.done } : l));
-        const progress = Math.round((lessons.filter((l) => l.done).length / lessons.length) * 100);
-        return { ...c, lessons, progress };
-      }),
-    );
+    const lesson = courses
+      .find((course) => course.id === courseId)
+      ?.lessons.find((item) => item.id === lessonId);
+    if (!lesson) return;
+    saveLesson({ data: { courseId, lessonId, completed: !lesson.done } });
   }
 
   return (
@@ -61,7 +58,19 @@ function Learning() {
       <PageHeader
         eyebrow="Keep moving"
         title="Learning Center"
-        description="Structured tracks with lesson-level progress. Tick a lesson to update your completion."
+        description="Structured tracks with lesson-level progress, securely synced to your account."
+        actions={
+          <span className="flex items-center gap-2 text-xs text-muted-foreground">
+            {saving ? (
+              <LoaderCircle className="size-4 animate-spin text-primary" />
+            ) : isError ? (
+              <CloudAlert className="size-4 text-destructive" />
+            ) : (
+              <Cloud className="size-4 text-primary" />
+            )}
+            {saving ? "Saving…" : isError ? "Sync unavailable" : isLoading ? "Loading progress…" : "Progress saved"}
+          </span>
+        }
       />
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

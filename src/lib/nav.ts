@@ -26,7 +26,7 @@ export type NavItem = {
 };
 
 export const navItems: NavItem[] = [
-  { title: "Dashboard", short: "Home", to: "/", icon: LayoutDashboard, group: "Overview" },
+  { title: "Dashboard", short: "Home", to: "/dashboard", icon: LayoutDashboard, group: "Overview" },
   { title: "College Hub", short: "College", to: "/college-hub", icon: Building2, group: "Overview" },
   { title: "Campus Info", short: "Campus", to: "/campus", icon: MapPin, group: "Overview" },
 
@@ -79,5 +79,5 @@ export const navItems: NavItem[] = [
 export const navGroups = ["Overview", "Learn", "Grow", "Connect"];
 
 export const mobileNav = navItems.filter((i) =>
-  ["/", "/resources", "/deadlines", "/competitions", "/community"].includes(i.to),
+  ["/dashboard", "/resources", "/deadlines", "/competitions", "/community"].includes(i.to),
 );
