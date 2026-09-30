@@ -82,7 +82,7 @@ function Dashboard() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <section className="surface p-6 lg:col-span-2">
+        <section className="surface flex flex-col p-6 lg:col-span-2">
           <div className="mb-5 flex items-center justify-between">
             <div>
               <h2 className="text-lg font-semibold">Study hours this week</h2>
