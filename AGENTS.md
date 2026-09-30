@@ -11,3 +11,4 @@
 
 - Keep student workspace routes under the `_authenticated` pathless layout because profiles and progress are private.
 - Store lesson completion in `course_progress` and derive course percentages from those rows as the single source of truth.
+- Keep the shared visual system token-driven so palette changes update every student workspace consistently.
