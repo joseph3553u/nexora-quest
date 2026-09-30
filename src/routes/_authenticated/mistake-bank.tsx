@@ -21,7 +21,7 @@ import {
 import { mistakes as seedMistakes, type Mistake } from "@/data/demo";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/mistake-bank")({
+export const Route = createFileRoute("/_authenticated/mistake-bank")({
   head: () => ({
     meta: [
       { title: "Mistake Bank · Nexora" },

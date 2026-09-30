@@ -11,7 +11,7 @@ import { posts as seed, student, type Post } from "@/data/demo";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/community")({
+export const Route = createFileRoute("/_authenticated/community")({
   head: () => ({
     meta: [
       { title: "Student Community · Nexora" },

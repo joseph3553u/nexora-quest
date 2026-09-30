@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { courses as seedCourses } from "@/data/demo";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/learning")({
+export const Route = createFileRoute("/_authenticated/learning")({
   head: () => ({
     meta: [
       { title: "Learning Center · Nexora" },

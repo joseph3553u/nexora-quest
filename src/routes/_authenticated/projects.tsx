@@ -20,7 +20,7 @@ import {
 import { projects as seed, type Project } from "@/data/demo";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/projects")({
+export const Route = createFileRoute("/_authenticated/projects")({
   head: () => ({
     meta: [
       { title: "Project Hub · Nexora" },

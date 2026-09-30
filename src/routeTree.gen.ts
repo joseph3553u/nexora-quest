@@ -9,14 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
 import { Route as AchievementsRouteImport } from './routes/achievements'
 import { Route as CampusRouteImport } from './routes/campus'
 import { Route as CollegeHubRouteImport } from './routes/college-hub'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CompetitionsRouteImport } from './routes/competitions'
 import { Route as DeadlinesRouteImport } from './routes/deadlines'
-import { Route as LearningRouteImport } from './routes/learning'
 import { Route as MistakeBankRouteImport } from './routes/mistake-bank'
 import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as PaperAnalyzerRouteImport } from './routes/paper-analyzer'
@@ -24,12 +22,9 @@ import { Route as PrerequisitesRouteImport } from './routes/prerequisites'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as TeamFinderRouteImport } from './routes/team-finder'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedLearningRouteImport } from './routes/_authenticated/learning'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AchievementsRoute = AchievementsRouteImport.update({
   id: '/achievements',
   path: '/achievements',
@@ -58,11 +53,6 @@ const CompetitionsRoute = CompetitionsRouteImport.update({
 const DeadlinesRoute = DeadlinesRouteImport.update({
   id: '/deadlines',
   path: '/deadlines',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LearningRoute = LearningRouteImport.update({
-  id: '/learning',
-  path: '/learning',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MistakeBankRoute = MistakeBankRouteImport.update({
@@ -100,16 +90,24 @@ const TeamFinderRoute = TeamFinderRouteImport.update({
   path: '/team-finder',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/_authenticated/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedLearningRoute = AuthenticatedLearningRouteImport.update({
+  id: '/_authenticated/learning',
+  path: '/learning',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/achievements': typeof AchievementsRoute
   '/campus': typeof CampusRoute
   '/college-hub': typeof CollegeHubRoute
   '/community': typeof CommunityRoute
   '/competitions': typeof CompetitionsRoute
   '/deadlines': typeof DeadlinesRoute
-  '/learning': typeof LearningRoute
   '/mistake-bank': typeof MistakeBankRoute
   '/opportunities': typeof OpportunitiesRoute
   '/paper-analyzer': typeof PaperAnalyzerRoute
@@ -117,16 +115,16 @@ export interface FileRoutesByFullPath {
   '/projects': typeof ProjectsRoute
   '/resources': typeof ResourcesRoute
   '/team-finder': typeof TeamFinderRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/learning': typeof AuthenticatedLearningRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/achievements': typeof AchievementsRoute
   '/campus': typeof CampusRoute
   '/college-hub': typeof CollegeHubRoute
   '/community': typeof CommunityRoute
   '/competitions': typeof CompetitionsRoute
   '/deadlines': typeof DeadlinesRoute
-  '/learning': typeof LearningRoute
   '/mistake-bank': typeof MistakeBankRoute
   '/opportunities': typeof OpportunitiesRoute
   '/paper-analyzer': typeof PaperAnalyzerRoute
@@ -134,17 +132,17 @@ export interface FileRoutesByTo {
   '/projects': typeof ProjectsRoute
   '/resources': typeof ResourcesRoute
   '/team-finder': typeof TeamFinderRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/learning': typeof AuthenticatedLearningRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/achievements': typeof AchievementsRoute
   '/campus': typeof CampusRoute
   '/college-hub': typeof CollegeHubRoute
   '/community': typeof CommunityRoute
   '/competitions': typeof CompetitionsRoute
   '/deadlines': typeof DeadlinesRoute
-  '/learning': typeof LearningRoute
   '/mistake-bank': typeof MistakeBankRoute
   '/opportunities': typeof OpportunitiesRoute
   '/paper-analyzer': typeof PaperAnalyzerRoute
@@ -152,18 +150,18 @@ export interface FileRoutesById {
   '/projects': typeof ProjectsRoute
   '/resources': typeof ResourcesRoute
   '/team-finder': typeof TeamFinderRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/learning': typeof AuthenticatedLearningRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/achievements'
     | '/campus'
     | '/college-hub'
     | '/community'
     | '/competitions'
     | '/deadlines'
-    | '/learning'
     | '/mistake-bank'
     | '/opportunities'
     | '/paper-analyzer'
@@ -171,16 +169,16 @@ export interface FileRouteTypes {
     | '/projects'
     | '/resources'
     | '/team-finder'
+    | '/dashboard'
+    | '/learning'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/achievements'
     | '/campus'
     | '/college-hub'
     | '/community'
     | '/competitions'
     | '/deadlines'
-    | '/learning'
     | '/mistake-bank'
     | '/opportunities'
     | '/paper-analyzer'
@@ -188,16 +186,16 @@ export interface FileRouteTypes {
     | '/projects'
     | '/resources'
     | '/team-finder'
+    | '/dashboard'
+    | '/learning'
   id:
     | '__root__'
-    | '/'
     | '/achievements'
     | '/campus'
     | '/college-hub'
     | '/community'
     | '/competitions'
     | '/deadlines'
-    | '/learning'
     | '/mistake-bank'
     | '/opportunities'
     | '/paper-analyzer'
@@ -205,17 +203,17 @@ export interface FileRouteTypes {
     | '/projects'
     | '/resources'
     | '/team-finder'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/learning'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   AchievementsRoute: typeof AchievementsRoute
   CampusRoute: typeof CampusRoute
   CollegeHubRoute: typeof CollegeHubRoute
   CommunityRoute: typeof CommunityRoute
   CompetitionsRoute: typeof CompetitionsRoute
   DeadlinesRoute: typeof DeadlinesRoute
-  LearningRoute: typeof LearningRoute
   MistakeBankRoute: typeof MistakeBankRoute
   OpportunitiesRoute: typeof OpportunitiesRoute
   PaperAnalyzerRoute: typeof PaperAnalyzerRoute
@@ -223,17 +221,12 @@ export interface RootRouteChildren {
   ProjectsRoute: typeof ProjectsRoute
   ResourcesRoute: typeof ResourcesRoute
   TeamFinderRoute: typeof TeamFinderRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedLearningRoute: typeof AuthenticatedLearningRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/achievements': {
       id: '/achievements'
       path: '/achievements'
@@ -274,13 +267,6 @@ declare module '@tanstack/react-router' {
       path: '/deadlines'
       fullPath: '/deadlines'
       preLoaderRoute: typeof DeadlinesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/learning': {
-      id: '/learning'
-      path: '/learning'
-      fullPath: '/learning'
-      preLoaderRoute: typeof LearningRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mistake-bank': {
@@ -332,18 +318,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamFinderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/learning': {
+      id: '/_authenticated/learning'
+      path: '/learning'
+      fullPath: '/learning'
+      preLoaderRoute: typeof AuthenticatedLearningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   AchievementsRoute: AchievementsRoute,
   CampusRoute: CampusRoute,
   CollegeHubRoute: CollegeHubRoute,
   CommunityRoute: CommunityRoute,
   CompetitionsRoute: CompetitionsRoute,
   DeadlinesRoute: DeadlinesRoute,
-  LearningRoute: LearningRoute,
   MistakeBankRoute: MistakeBankRoute,
   OpportunitiesRoute: OpportunitiesRoute,
   PaperAnalyzerRoute: PaperAnalyzerRoute,
@@ -351,6 +349,8 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsRoute: ProjectsRoute,
   ResourcesRoute: ResourcesRoute,
   TeamFinderRoute: TeamFinderRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedLearningRoute: AuthenticatedLearningRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

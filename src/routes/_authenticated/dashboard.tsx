@@ -26,7 +26,7 @@ import {
   weeklyStudy,
 } from "@/data/demo";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
       { title: "Dashboard · Nexora Student OS" },

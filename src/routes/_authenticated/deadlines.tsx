@@ -22,7 +22,7 @@ import { deadlines as seed, daysUntil, formatDate, type Deadline } from "@/data/
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/deadlines")({
+export const Route = createFileRoute("/_authenticated/deadlines")({
   head: () => ({
     meta: [
       { title: "Deadline Center · Nexora" },

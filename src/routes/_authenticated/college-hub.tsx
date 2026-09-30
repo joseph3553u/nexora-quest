@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { collegeNotices, departments, formatDate } from "@/data/demo";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/college-hub")({
+export const Route = createFileRoute("/_authenticated/college-hub")({
   head: () => ({
     meta: [
       { title: "College Hub · Nexora" },

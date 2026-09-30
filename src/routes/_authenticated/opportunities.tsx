@@ -9,7 +9,7 @@ import { opportunities as seed } from "@/data/demo";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/opportunities")({
+export const Route = createFileRoute("/_authenticated/opportunities")({
   head: () => ({
     meta: [
       { title: "Opportunity Feed · Nexora" },
