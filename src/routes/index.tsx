@@ -92,7 +92,10 @@ function Dashboard() {
           </div>
           <div className="flex h-48 items-end gap-3">
             {weeklyStudy.map((d) => (
-              <div key={d.day} className="flex flex-1 flex-col items-center gap-2">
+              <div
+                key={d.day}
+                className="flex h-full flex-1 flex-col items-center justify-end gap-2"
+              >
                 <span className="text-xs font-medium text-muted-foreground">{d.hours}h</span>
                 <div
                   className="w-full rounded-t-lg bg-primary/85 transition-all duration-500 hover:bg-primary"
