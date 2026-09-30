@@ -10,20 +10,29 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AchievementsRouteImport } from './routes/achievements'
 import { Route as CampusRouteImport } from './routes/campus'
 import { Route as CollegeHubRouteImport } from './routes/college-hub'
+import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CompetitionsRouteImport } from './routes/competitions'
 import { Route as DeadlinesRouteImport } from './routes/deadlines'
 import { Route as LearningRouteImport } from './routes/learning'
 import { Route as MistakeBankRouteImport } from './routes/mistake-bank'
+import { Route as OpportunitiesRouteImport } from './routes/opportunities'
 import { Route as PaperAnalyzerRouteImport } from './routes/paper-analyzer'
 import { Route as PrerequisitesRouteImport } from './routes/prerequisites'
+import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as TeamFinderRouteImport } from './routes/team-finder'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AchievementsRoute = AchievementsRouteImport.update({
+  id: '/achievements',
+  path: '/achievements',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CampusRoute = CampusRouteImport.update({
@@ -34,6 +43,11 @@ const CampusRoute = CampusRouteImport.update({
 const CollegeHubRoute = CollegeHubRouteImport.update({
   id: '/college-hub',
   path: '/college-hub',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompetitionsRoute = CompetitionsRouteImport.update({
@@ -56,6 +70,11 @@ const MistakeBankRoute = MistakeBankRouteImport.update({
   path: '/mistake-bank',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OpportunitiesRoute = OpportunitiesRouteImport.update({
+  id: '/opportunities',
+  path: '/opportunities',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PaperAnalyzerRoute = PaperAnalyzerRouteImport.update({
   id: '/paper-analyzer',
   path: '/paper-analyzer',
@@ -64,6 +83,11 @@ const PaperAnalyzerRoute = PaperAnalyzerRouteImport.update({
 const PrerequisitesRoute = PrerequisitesRouteImport.update({
   id: '/prerequisites',
   path: '/prerequisites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResourcesRoute = ResourcesRouteImport.update({
@@ -79,41 +103,53 @@ const TeamFinderRoute = TeamFinderRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/achievements': typeof AchievementsRoute
   '/campus': typeof CampusRoute
   '/college-hub': typeof CollegeHubRoute
+  '/community': typeof CommunityRoute
   '/competitions': typeof CompetitionsRoute
   '/deadlines': typeof DeadlinesRoute
   '/learning': typeof LearningRoute
   '/mistake-bank': typeof MistakeBankRoute
+  '/opportunities': typeof OpportunitiesRoute
   '/paper-analyzer': typeof PaperAnalyzerRoute
   '/prerequisites': typeof PrerequisitesRoute
+  '/projects': typeof ProjectsRoute
   '/resources': typeof ResourcesRoute
   '/team-finder': typeof TeamFinderRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/achievements': typeof AchievementsRoute
   '/campus': typeof CampusRoute
   '/college-hub': typeof CollegeHubRoute
+  '/community': typeof CommunityRoute
   '/competitions': typeof CompetitionsRoute
   '/deadlines': typeof DeadlinesRoute
   '/learning': typeof LearningRoute
   '/mistake-bank': typeof MistakeBankRoute
+  '/opportunities': typeof OpportunitiesRoute
   '/paper-analyzer': typeof PaperAnalyzerRoute
   '/prerequisites': typeof PrerequisitesRoute
+  '/projects': typeof ProjectsRoute
   '/resources': typeof ResourcesRoute
   '/team-finder': typeof TeamFinderRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/achievements': typeof AchievementsRoute
   '/campus': typeof CampusRoute
   '/college-hub': typeof CollegeHubRoute
+  '/community': typeof CommunityRoute
   '/competitions': typeof CompetitionsRoute
   '/deadlines': typeof DeadlinesRoute
   '/learning': typeof LearningRoute
   '/mistake-bank': typeof MistakeBankRoute
+  '/opportunities': typeof OpportunitiesRoute
   '/paper-analyzer': typeof PaperAnalyzerRoute
   '/prerequisites': typeof PrerequisitesRoute
+  '/projects': typeof ProjectsRoute
   '/resources': typeof ResourcesRoute
   '/team-finder': typeof TeamFinderRoute
 }
@@ -121,54 +157,70 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/achievements'
     | '/campus'
     | '/college-hub'
+    | '/community'
     | '/competitions'
     | '/deadlines'
     | '/learning'
     | '/mistake-bank'
+    | '/opportunities'
     | '/paper-analyzer'
     | '/prerequisites'
+    | '/projects'
     | '/resources'
     | '/team-finder'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/achievements'
     | '/campus'
     | '/college-hub'
+    | '/community'
     | '/competitions'
     | '/deadlines'
     | '/learning'
     | '/mistake-bank'
+    | '/opportunities'
     | '/paper-analyzer'
     | '/prerequisites'
+    | '/projects'
     | '/resources'
     | '/team-finder'
   id:
     | '__root__'
     | '/'
+    | '/achievements'
     | '/campus'
     | '/college-hub'
+    | '/community'
     | '/competitions'
     | '/deadlines'
     | '/learning'
     | '/mistake-bank'
+    | '/opportunities'
     | '/paper-analyzer'
     | '/prerequisites'
+    | '/projects'
     | '/resources'
     | '/team-finder'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AchievementsRoute: typeof AchievementsRoute
   CampusRoute: typeof CampusRoute
   CollegeHubRoute: typeof CollegeHubRoute
+  CommunityRoute: typeof CommunityRoute
   CompetitionsRoute: typeof CompetitionsRoute
   DeadlinesRoute: typeof DeadlinesRoute
   LearningRoute: typeof LearningRoute
   MistakeBankRoute: typeof MistakeBankRoute
+  OpportunitiesRoute: typeof OpportunitiesRoute
   PaperAnalyzerRoute: typeof PaperAnalyzerRoute
   PrerequisitesRoute: typeof PrerequisitesRoute
+  ProjectsRoute: typeof ProjectsRoute
   ResourcesRoute: typeof ResourcesRoute
   TeamFinderRoute: typeof TeamFinderRoute
 }
@@ -180,6 +232,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/achievements': {
+      id: '/achievements'
+      path: '/achievements'
+      fullPath: '/achievements'
+      preLoaderRoute: typeof AchievementsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/campus': {
@@ -194,6 +253,13 @@ declare module '@tanstack/react-router' {
       path: '/college-hub'
       fullPath: '/college-hub'
       preLoaderRoute: typeof CollegeHubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/competitions': {
@@ -224,6 +290,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MistakeBankRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/opportunities': {
+      id: '/opportunities'
+      path: '/opportunities'
+      fullPath: '/opportunities'
+      preLoaderRoute: typeof OpportunitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/paper-analyzer': {
       id: '/paper-analyzer'
       path: '/paper-analyzer'
@@ -236,6 +309,13 @@ declare module '@tanstack/react-router' {
       path: '/prerequisites'
       fullPath: '/prerequisites'
       preLoaderRoute: typeof PrerequisitesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/resources': {
@@ -257,14 +337,18 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AchievementsRoute: AchievementsRoute,
   CampusRoute: CampusRoute,
   CollegeHubRoute: CollegeHubRoute,
+  CommunityRoute: CommunityRoute,
   CompetitionsRoute: CompetitionsRoute,
   DeadlinesRoute: DeadlinesRoute,
   LearningRoute: LearningRoute,
   MistakeBankRoute: MistakeBankRoute,
+  OpportunitiesRoute: OpportunitiesRoute,
   PaperAnalyzerRoute: PaperAnalyzerRoute,
   PrerequisitesRoute: PrerequisitesRoute,
+  ProjectsRoute: ProjectsRoute,
   ResourcesRoute: ResourcesRoute,
   TeamFinderRoute: TeamFinderRoute,
 }
