@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { CheckCircle2, Circle, Clock, PlayCircle } from "lucide-react";
+import { CheckCircle2, Circle, Clock } from "lucide-react";
 import { PageHeader } from "@/components/common/PageHeader";
 import { FilterChips, SearchField, EmptyState } from "@/components/common/FilterBar";
 import { Badge } from "@/components/ui/badge";
@@ -24,9 +24,115 @@ export const Route = createFileRoute("/learning")({
       },
     ],
   }),
-  component: Learning();
+  component: Learning,
 });
 
+const tracks = ["All", "Core CS", "Development", "AI & Data", "Careers"];
+
 function Learning() {
-  return null;
+  const [courses, setCourses] = useState(seedCourses);
+  const [track, setTrack] = useState("All");
+  const [query, setQuery] = useState("");
+  const [openId, setOpenId] = useState(seedCourses[0].id);
+
+  const list = useMemo(
+    () =>
+      courses.filter(
+        (c) =>
+          (track === "All" || c.track === track) &&
+          c.title.toLowerCase().includes(query.toLowerCase()),
+      ),
+    [courses, track, query],
+  );
+
+  function toggleLesson(courseId: string, lessonId: string) {
+    setCourses((prev) =>
+      prev.map((c) => {
+        if (c.id !== courseId) return c;
+        const lessons = c.lessons.map((l) => (l.id === lessonId ? { ...l, done: !l.done } : l));
+        const progress = Math.round((lessons.filter((l) => l.done).length / lessons.length) * 100);
+        return { ...c, lessons, progress };
+      }),
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <PageHeader
+        eyebrow="Keep moving"
+        title="Learning Center"
+        description="Structured tracks with lesson-level progress. Tick a lesson to update your completion."
+      />
+
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <SearchField value={query} onChange={setQuery} placeholder="Search courses" />
+        <FilterChips options={tracks} value={track} onChange={setTrack} />
+      </div>
+
+      {list.length === 0 ? (
+        <EmptyState message="No courses in this track yet." />
+      ) : (
+        <div className="space-y-4">
+          {list.map((course) => {
+            const open = openId === course.id;
+            return (
+              <article key={course.id} className="surface overflow-hidden">
+                <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge variant="secondary">{course.track}</Badge>
+                      <Badge variant="outline">{course.level}</Badge>
+                      <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <Clock className="size-3.5" /> {course.hours}h
+                      </span>
+                    </div>
+                    <h3 className="mt-2 font-semibold">{course.title}</h3>
+                    <Progress value={course.progress} className="mt-3 max-w-md" />
+                    <p className="mt-1.5 text-xs text-muted-foreground">
+                      {course.progress}% complete ·{" "}
+                      {course.lessons.filter((l) => l.done).length}/{course.lessons.length} lessons
+                    </p>
+                  </div>
+                  <Button
+                    variant={open ? "secondary" : "default"}
+                    onClick={() => setOpenId(open ? "" : course.id)}
+                    className="sm:self-center"
+                  >
+                    {open ? "Hide lessons" : "View lessons"}
+                  </Button>
+                </div>
+                {open && (
+                  <ul className="divide-y divide-border border-t border-border bg-muted/40">
+                    {course.lessons.map((l) => (
+                      <li key={l.id}>
+                        <button
+                          onClick={() => toggleLesson(course.id, l.id)}
+                          className="flex w-full items-center gap-3 px-5 py-3 text-left transition-colors hover:bg-muted"
+                        >
+                          {l.done ? (
+                            <CheckCircle2 className="size-4.5 text-success" />
+                          ) : (
+                            <Circle className="size-4.5 text-muted-foreground" />
+                          )}
+                          <span
+                            className={cn(
+                              "flex-1 text-sm",
+                              l.done && "text-muted-foreground line-through",
+                            )}
+                          >
+                            {l.title}
+                          </span>
+                          <span className="text-xs text-muted-foreground">{l.minutes} min</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
 }
