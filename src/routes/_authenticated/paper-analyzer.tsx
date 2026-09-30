@@ -14,7 +14,7 @@ import {
 import { papers } from "@/data/demo";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/paper-analyzer")({
+export const Route = createFileRoute("/_authenticated/paper-analyzer")({
   head: () => ({
     meta: [
       { title: "Previous-Paper Analyzer · Nexora" },

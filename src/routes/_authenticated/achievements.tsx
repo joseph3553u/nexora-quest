@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { achievements as seed, formatDate, type Achievement } from "@/data/demo";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/achievements")({
+export const Route = createFileRoute("/_authenticated/achievements")({
   head: () => ({
     meta: [
       { title: "Student Achievements · Nexora" },

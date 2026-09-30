@@ -6,7 +6,7 @@ import { FilterChips, SearchField, EmptyState } from "@/components/common/Filter
 import { Badge } from "@/components/ui/badge";
 import { campusPlaces } from "@/data/demo";
 
-export const Route = createFileRoute("/campus")({
+export const Route = createFileRoute("/_authenticated/campus")({
   head: () => ({
     meta: [
       { title: "Campus Information · Nexora" },

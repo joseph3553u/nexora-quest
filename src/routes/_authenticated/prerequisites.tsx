@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { subjects } from "@/data/demo";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/prerequisites")({
+export const Route = createFileRoute("/_authenticated/prerequisites")({
   head: () => ({
     meta: [
       { title: "Prerequisite Finder · Nexora" },

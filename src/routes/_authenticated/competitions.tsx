@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { competitions as seed, daysUntil, formatDate } from "@/data/demo";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/competitions")({
+export const Route = createFileRoute("/_authenticated/competitions")({
   head: () => ({
     meta: [
       { title: "Competition Hub · Nexora" },

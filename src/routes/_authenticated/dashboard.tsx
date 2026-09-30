@@ -17,7 +17,6 @@ import { Progress } from "@/components/ui/progress";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  courses,
   deadlines as seedDeadlines,
   daysUntil,
   formatDate,
@@ -25,8 +24,9 @@ import {
   student,
   weeklyStudy,
 } from "@/data/demo";
+import { useCourseProgress } from "@/hooks/use-course-progress";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
       { title: "Dashboard · Nexora Student OS" },
@@ -47,6 +47,7 @@ export const Route = createFileRoute("/")({
 
 function Dashboard() {
   const [tasks, setTasks] = useState(seedDeadlines);
+  const { courses } = useCourseProgress();
   const maxHours = Math.max(...weeklyStudy.map((d) => d.hours));
 
   const upcoming = tasks

@@ -21,7 +21,7 @@ import {
 import { teamPosts as seed, type TeamPost } from "@/data/demo";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/team-finder")({
+export const Route = createFileRoute("/_authenticated/team-finder")({
   head: () => ({
     meta: [
       { title: "Team Finder · Nexora" },

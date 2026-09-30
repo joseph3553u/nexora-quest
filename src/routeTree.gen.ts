@@ -9,149 +9,163 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as AchievementsRouteImport } from './routes/achievements'
-import { Route as CampusRouteImport } from './routes/campus'
-import { Route as CollegeHubRouteImport } from './routes/college-hub'
-import { Route as CommunityRouteImport } from './routes/community'
-import { Route as CompetitionsRouteImport } from './routes/competitions'
-import { Route as DeadlinesRouteImport } from './routes/deadlines'
-import { Route as LearningRouteImport } from './routes/learning'
-import { Route as MistakeBankRouteImport } from './routes/mistake-bank'
-import { Route as OpportunitiesRouteImport } from './routes/opportunities'
-import { Route as PaperAnalyzerRouteImport } from './routes/paper-analyzer'
-import { Route as PrerequisitesRouteImport } from './routes/prerequisites'
-import { Route as ProjectsRouteImport } from './routes/projects'
-import { Route as ResourcesRouteImport } from './routes/resources'
-import { Route as TeamFinderRouteImport } from './routes/team-finder'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authenticated/achievements'
+import { Route as AuthenticatedCampusRouteImport } from './routes/_authenticated/campus'
+import { Route as AuthenticatedCollegeHubRouteImport } from './routes/_authenticated/college-hub'
+import { Route as AuthenticatedCommunityRouteImport } from './routes/_authenticated/community'
+import { Route as AuthenticatedCompetitionsRouteImport } from './routes/_authenticated/competitions'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedDeadlinesRouteImport } from './routes/_authenticated/deadlines'
+import { Route as AuthenticatedLearningRouteImport } from './routes/_authenticated/learning'
+import { Route as AuthenticatedMistakeBankRouteImport } from './routes/_authenticated/mistake-bank'
+import { Route as AuthenticatedOpportunitiesRouteImport } from './routes/_authenticated/opportunities'
+import { Route as AuthenticatedPaperAnalyzerRouteImport } from './routes/_authenticated/paper-analyzer'
+import { Route as AuthenticatedPrerequisitesRouteImport } from './routes/_authenticated/prerequisites'
+import { Route as AuthenticatedProjectsRouteImport } from './routes/_authenticated/projects'
+import { Route as AuthenticatedResourcesRouteImport } from './routes/_authenticated/resources'
+import { Route as AuthenticatedTeamFinderRouteImport } from './routes/_authenticated/team-finder'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AchievementsRoute = AchievementsRouteImport.update({
-  id: '/achievements',
-  path: '/achievements',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CampusRoute = CampusRouteImport.update({
+const AuthenticatedAchievementsRoute =
+  AuthenticatedAchievementsRouteImport.update({
+    id: '/achievements',
+    path: '/achievements',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCampusRoute = AuthenticatedCampusRouteImport.update({
   id: '/campus',
   path: '/campus',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const CollegeHubRoute = CollegeHubRouteImport.update({
+const AuthenticatedCollegeHubRoute = AuthenticatedCollegeHubRouteImport.update({
   id: '/college-hub',
   path: '/college-hub',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const CommunityRoute = CommunityRouteImport.update({
+const AuthenticatedCommunityRoute = AuthenticatedCommunityRouteImport.update({
   id: '/community',
   path: '/community',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const CompetitionsRoute = CompetitionsRouteImport.update({
-  id: '/competitions',
-  path: '/competitions',
-  getParentRoute: () => rootRouteImport,
+const AuthenticatedCompetitionsRoute =
+  AuthenticatedCompetitionsRouteImport.update({
+    id: '/competitions',
+    path: '/competitions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const DeadlinesRoute = DeadlinesRouteImport.update({
+const AuthenticatedDeadlinesRoute = AuthenticatedDeadlinesRouteImport.update({
   id: '/deadlines',
   path: '/deadlines',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const LearningRoute = LearningRouteImport.update({
+const AuthenticatedLearningRoute = AuthenticatedLearningRouteImport.update({
   id: '/learning',
   path: '/learning',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const MistakeBankRoute = MistakeBankRouteImport.update({
-  id: '/mistake-bank',
-  path: '/mistake-bank',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OpportunitiesRoute = OpportunitiesRouteImport.update({
-  id: '/opportunities',
-  path: '/opportunities',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PaperAnalyzerRoute = PaperAnalyzerRouteImport.update({
-  id: '/paper-analyzer',
-  path: '/paper-analyzer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrerequisitesRoute = PrerequisitesRouteImport.update({
-  id: '/prerequisites',
-  path: '/prerequisites',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjectsRoute = ProjectsRouteImport.update({
+const AuthenticatedMistakeBankRoute =
+  AuthenticatedMistakeBankRouteImport.update({
+    id: '/mistake-bank',
+    path: '/mistake-bank',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedOpportunitiesRoute =
+  AuthenticatedOpportunitiesRouteImport.update({
+    id: '/opportunities',
+    path: '/opportunities',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPaperAnalyzerRoute =
+  AuthenticatedPaperAnalyzerRouteImport.update({
+    id: '/paper-analyzer',
+    path: '/paper-analyzer',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPrerequisitesRoute =
+  AuthenticatedPrerequisitesRouteImport.update({
+    id: '/prerequisites',
+    path: '/prerequisites',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedProjectsRoute = AuthenticatedProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const ResourcesRoute = ResourcesRouteImport.update({
+const AuthenticatedResourcesRoute = AuthenticatedResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const TeamFinderRoute = TeamFinderRouteImport.update({
+const AuthenticatedTeamFinderRoute = AuthenticatedTeamFinderRouteImport.update({
   id: '/team-finder',
   path: '/team-finder',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/achievements': typeof AchievementsRoute
-  '/campus': typeof CampusRoute
-  '/college-hub': typeof CollegeHubRoute
-  '/community': typeof CommunityRoute
-  '/competitions': typeof CompetitionsRoute
-  '/deadlines': typeof DeadlinesRoute
-  '/learning': typeof LearningRoute
-  '/mistake-bank': typeof MistakeBankRoute
-  '/opportunities': typeof OpportunitiesRoute
-  '/paper-analyzer': typeof PaperAnalyzerRoute
-  '/prerequisites': typeof PrerequisitesRoute
-  '/projects': typeof ProjectsRoute
-  '/resources': typeof ResourcesRoute
-  '/team-finder': typeof TeamFinderRoute
+  '/': typeof AuthenticatedRouteRouteWithChildren
+  '/achievements': typeof AuthenticatedAchievementsRoute
+  '/campus': typeof AuthenticatedCampusRoute
+  '/college-hub': typeof AuthenticatedCollegeHubRoute
+  '/community': typeof AuthenticatedCommunityRoute
+  '/competitions': typeof AuthenticatedCompetitionsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/deadlines': typeof AuthenticatedDeadlinesRoute
+  '/learning': typeof AuthenticatedLearningRoute
+  '/mistake-bank': typeof AuthenticatedMistakeBankRoute
+  '/opportunities': typeof AuthenticatedOpportunitiesRoute
+  '/paper-analyzer': typeof AuthenticatedPaperAnalyzerRoute
+  '/prerequisites': typeof AuthenticatedPrerequisitesRoute
+  '/projects': typeof AuthenticatedProjectsRoute
+  '/resources': typeof AuthenticatedResourcesRoute
+  '/team-finder': typeof AuthenticatedTeamFinderRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/achievements': typeof AchievementsRoute
-  '/campus': typeof CampusRoute
-  '/college-hub': typeof CollegeHubRoute
-  '/community': typeof CommunityRoute
-  '/competitions': typeof CompetitionsRoute
-  '/deadlines': typeof DeadlinesRoute
-  '/learning': typeof LearningRoute
-  '/mistake-bank': typeof MistakeBankRoute
-  '/opportunities': typeof OpportunitiesRoute
-  '/paper-analyzer': typeof PaperAnalyzerRoute
-  '/prerequisites': typeof PrerequisitesRoute
-  '/projects': typeof ProjectsRoute
-  '/resources': typeof ResourcesRoute
-  '/team-finder': typeof TeamFinderRoute
+  '/': typeof AuthenticatedRouteRouteWithChildren
+  '/achievements': typeof AuthenticatedAchievementsRoute
+  '/campus': typeof AuthenticatedCampusRoute
+  '/college-hub': typeof AuthenticatedCollegeHubRoute
+  '/community': typeof AuthenticatedCommunityRoute
+  '/competitions': typeof AuthenticatedCompetitionsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/deadlines': typeof AuthenticatedDeadlinesRoute
+  '/learning': typeof AuthenticatedLearningRoute
+  '/mistake-bank': typeof AuthenticatedMistakeBankRoute
+  '/opportunities': typeof AuthenticatedOpportunitiesRoute
+  '/paper-analyzer': typeof AuthenticatedPaperAnalyzerRoute
+  '/prerequisites': typeof AuthenticatedPrerequisitesRoute
+  '/projects': typeof AuthenticatedProjectsRoute
+  '/resources': typeof AuthenticatedResourcesRoute
+  '/team-finder': typeof AuthenticatedTeamFinderRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/achievements': typeof AchievementsRoute
-  '/campus': typeof CampusRoute
-  '/college-hub': typeof CollegeHubRoute
-  '/community': typeof CommunityRoute
-  '/competitions': typeof CompetitionsRoute
-  '/deadlines': typeof DeadlinesRoute
-  '/learning': typeof LearningRoute
-  '/mistake-bank': typeof MistakeBankRoute
-  '/opportunities': typeof OpportunitiesRoute
-  '/paper-analyzer': typeof PaperAnalyzerRoute
-  '/prerequisites': typeof PrerequisitesRoute
-  '/projects': typeof ProjectsRoute
-  '/resources': typeof ResourcesRoute
-  '/team-finder': typeof TeamFinderRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
+  '/_authenticated/campus': typeof AuthenticatedCampusRoute
+  '/_authenticated/college-hub': typeof AuthenticatedCollegeHubRoute
+  '/_authenticated/community': typeof AuthenticatedCommunityRoute
+  '/_authenticated/competitions': typeof AuthenticatedCompetitionsRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/deadlines': typeof AuthenticatedDeadlinesRoute
+  '/_authenticated/learning': typeof AuthenticatedLearningRoute
+  '/_authenticated/mistake-bank': typeof AuthenticatedMistakeBankRoute
+  '/_authenticated/opportunities': typeof AuthenticatedOpportunitiesRoute
+  '/_authenticated/paper-analyzer': typeof AuthenticatedPaperAnalyzerRoute
+  '/_authenticated/prerequisites': typeof AuthenticatedPrerequisitesRoute
+  '/_authenticated/projects': typeof AuthenticatedProjectsRoute
+  '/_authenticated/resources': typeof AuthenticatedResourcesRoute
+  '/_authenticated/team-finder': typeof AuthenticatedTeamFinderRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -162,6 +176,7 @@ export interface FileRouteTypes {
     | '/college-hub'
     | '/community'
     | '/competitions'
+    | '/dashboard'
     | '/deadlines'
     | '/learning'
     | '/mistake-bank'
@@ -179,6 +194,7 @@ export interface FileRouteTypes {
     | '/college-hub'
     | '/community'
     | '/competitions'
+    | '/dashboard'
     | '/deadlines'
     | '/learning'
     | '/mistake-bank'
@@ -190,167 +206,186 @@ export interface FileRouteTypes {
     | '/team-finder'
   id:
     | '__root__'
-    | '/'
-    | '/achievements'
-    | '/campus'
-    | '/college-hub'
-    | '/community'
-    | '/competitions'
-    | '/deadlines'
-    | '/learning'
-    | '/mistake-bank'
-    | '/opportunities'
-    | '/paper-analyzer'
-    | '/prerequisites'
-    | '/projects'
-    | '/resources'
-    | '/team-finder'
+    | '/_authenticated'
+    | '/_authenticated/achievements'
+    | '/_authenticated/campus'
+    | '/_authenticated/college-hub'
+    | '/_authenticated/community'
+    | '/_authenticated/competitions'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/deadlines'
+    | '/_authenticated/learning'
+    | '/_authenticated/mistake-bank'
+    | '/_authenticated/opportunities'
+    | '/_authenticated/paper-analyzer'
+    | '/_authenticated/prerequisites'
+    | '/_authenticated/projects'
+    | '/_authenticated/resources'
+    | '/_authenticated/team-finder'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AchievementsRoute: typeof AchievementsRoute
-  CampusRoute: typeof CampusRoute
-  CollegeHubRoute: typeof CollegeHubRoute
-  CommunityRoute: typeof CommunityRoute
-  CompetitionsRoute: typeof CompetitionsRoute
-  DeadlinesRoute: typeof DeadlinesRoute
-  LearningRoute: typeof LearningRoute
-  MistakeBankRoute: typeof MistakeBankRoute
-  OpportunitiesRoute: typeof OpportunitiesRoute
-  PaperAnalyzerRoute: typeof PaperAnalyzerRoute
-  PrerequisitesRoute: typeof PrerequisitesRoute
-  ProjectsRoute: typeof ProjectsRoute
-  ResourcesRoute: typeof ResourcesRoute
-  TeamFinderRoute: typeof TeamFinderRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/achievements': {
-      id: '/achievements'
+    '/_authenticated/achievements': {
+      id: '/_authenticated/achievements'
       path: '/achievements'
       fullPath: '/achievements'
-      preLoaderRoute: typeof AchievementsRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedAchievementsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/campus': {
-      id: '/campus'
+    '/_authenticated/campus': {
+      id: '/_authenticated/campus'
       path: '/campus'
       fullPath: '/campus'
-      preLoaderRoute: typeof CampusRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedCampusRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/college-hub': {
-      id: '/college-hub'
+    '/_authenticated/college-hub': {
+      id: '/_authenticated/college-hub'
       path: '/college-hub'
       fullPath: '/college-hub'
-      preLoaderRoute: typeof CollegeHubRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedCollegeHubRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/community': {
-      id: '/community'
+    '/_authenticated/community': {
+      id: '/_authenticated/community'
       path: '/community'
       fullPath: '/community'
-      preLoaderRoute: typeof CommunityRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedCommunityRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/competitions': {
-      id: '/competitions'
+    '/_authenticated/competitions': {
+      id: '/_authenticated/competitions'
       path: '/competitions'
       fullPath: '/competitions'
-      preLoaderRoute: typeof CompetitionsRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedCompetitionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/deadlines': {
-      id: '/deadlines'
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/deadlines': {
+      id: '/_authenticated/deadlines'
       path: '/deadlines'
       fullPath: '/deadlines'
-      preLoaderRoute: typeof DeadlinesRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedDeadlinesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/learning': {
-      id: '/learning'
+    '/_authenticated/learning': {
+      id: '/_authenticated/learning'
       path: '/learning'
       fullPath: '/learning'
-      preLoaderRoute: typeof LearningRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedLearningRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/mistake-bank': {
-      id: '/mistake-bank'
+    '/_authenticated/mistake-bank': {
+      id: '/_authenticated/mistake-bank'
       path: '/mistake-bank'
       fullPath: '/mistake-bank'
-      preLoaderRoute: typeof MistakeBankRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedMistakeBankRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/opportunities': {
-      id: '/opportunities'
+    '/_authenticated/opportunities': {
+      id: '/_authenticated/opportunities'
       path: '/opportunities'
       fullPath: '/opportunities'
-      preLoaderRoute: typeof OpportunitiesRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedOpportunitiesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/paper-analyzer': {
-      id: '/paper-analyzer'
+    '/_authenticated/paper-analyzer': {
+      id: '/_authenticated/paper-analyzer'
       path: '/paper-analyzer'
       fullPath: '/paper-analyzer'
-      preLoaderRoute: typeof PaperAnalyzerRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedPaperAnalyzerRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/prerequisites': {
-      id: '/prerequisites'
+    '/_authenticated/prerequisites': {
+      id: '/_authenticated/prerequisites'
       path: '/prerequisites'
       fullPath: '/prerequisites'
-      preLoaderRoute: typeof PrerequisitesRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedPrerequisitesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/projects': {
-      id: '/projects'
+    '/_authenticated/projects': {
+      id: '/_authenticated/projects'
       path: '/projects'
       fullPath: '/projects'
-      preLoaderRoute: typeof ProjectsRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedProjectsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/resources': {
-      id: '/resources'
+    '/_authenticated/resources': {
+      id: '/_authenticated/resources'
       path: '/resources'
       fullPath: '/resources'
-      preLoaderRoute: typeof ResourcesRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedResourcesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/team-finder': {
-      id: '/team-finder'
+    '/_authenticated/team-finder': {
+      id: '/_authenticated/team-finder'
       path: '/team-finder'
       fullPath: '/team-finder'
-      preLoaderRoute: typeof TeamFinderRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedTeamFinderRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
+  AuthenticatedCampusRoute: typeof AuthenticatedCampusRoute
+  AuthenticatedCollegeHubRoute: typeof AuthenticatedCollegeHubRoute
+  AuthenticatedCommunityRoute: typeof AuthenticatedCommunityRoute
+  AuthenticatedCompetitionsRoute: typeof AuthenticatedCompetitionsRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDeadlinesRoute: typeof AuthenticatedDeadlinesRoute
+  AuthenticatedLearningRoute: typeof AuthenticatedLearningRoute
+  AuthenticatedMistakeBankRoute: typeof AuthenticatedMistakeBankRoute
+  AuthenticatedOpportunitiesRoute: typeof AuthenticatedOpportunitiesRoute
+  AuthenticatedPaperAnalyzerRoute: typeof AuthenticatedPaperAnalyzerRoute
+  AuthenticatedPrerequisitesRoute: typeof AuthenticatedPrerequisitesRoute
+  AuthenticatedProjectsRoute: typeof AuthenticatedProjectsRoute
+  AuthenticatedResourcesRoute: typeof AuthenticatedResourcesRoute
+  AuthenticatedTeamFinderRoute: typeof AuthenticatedTeamFinderRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAchievementsRoute: AuthenticatedAchievementsRoute,
+  AuthenticatedCampusRoute: AuthenticatedCampusRoute,
+  AuthenticatedCollegeHubRoute: AuthenticatedCollegeHubRoute,
+  AuthenticatedCommunityRoute: AuthenticatedCommunityRoute,
+  AuthenticatedCompetitionsRoute: AuthenticatedCompetitionsRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDeadlinesRoute: AuthenticatedDeadlinesRoute,
+  AuthenticatedLearningRoute: AuthenticatedLearningRoute,
+  AuthenticatedMistakeBankRoute: AuthenticatedMistakeBankRoute,
+  AuthenticatedOpportunitiesRoute: AuthenticatedOpportunitiesRoute,
+  AuthenticatedPaperAnalyzerRoute: AuthenticatedPaperAnalyzerRoute,
+  AuthenticatedPrerequisitesRoute: AuthenticatedPrerequisitesRoute,
+  AuthenticatedProjectsRoute: AuthenticatedProjectsRoute,
+  AuthenticatedResourcesRoute: AuthenticatedResourcesRoute,
+  AuthenticatedTeamFinderRoute: AuthenticatedTeamFinderRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AchievementsRoute: AchievementsRoute,
-  CampusRoute: CampusRoute,
-  CollegeHubRoute: CollegeHubRoute,
-  CommunityRoute: CommunityRoute,
-  CompetitionsRoute: CompetitionsRoute,
-  DeadlinesRoute: DeadlinesRoute,
-  LearningRoute: LearningRoute,
-  MistakeBankRoute: MistakeBankRoute,
-  OpportunitiesRoute: OpportunitiesRoute,
-  PaperAnalyzerRoute: PaperAnalyzerRoute,
-  PrerequisitesRoute: PrerequisitesRoute,
-  ProjectsRoute: ProjectsRoute,
-  ResourcesRoute: ResourcesRoute,
-  TeamFinderRoute: TeamFinderRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -16,7 +16,7 @@ import { resources } from "@/data/demo";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/resources")({
+export const Route = createFileRoute("/_authenticated/resources")({
   head: () => ({
     meta: [
       { title: "Resource Library · Nexora" },

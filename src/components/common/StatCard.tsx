@@ -21,7 +21,7 @@ export function StatCard({
           <p className="mt-2 font-display text-2xl font-semibold">{value}</p>
           {hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>}
         </div>
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary-softer text-primary">
+        <span className="status-glow flex size-10 shrink-0 items-center justify-center rounded-md bg-primary-softer text-primary">
           <Icon className="size-5" />
         </span>
       </div>

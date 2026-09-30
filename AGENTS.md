@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep student workspace routes under the `_authenticated` pathless layout because profiles and progress are private.
+- Store lesson completion in `course_progress` and derive course percentages from those rows as the single source of truth.
