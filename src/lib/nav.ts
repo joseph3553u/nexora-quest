@@ -15,6 +15,7 @@ import {
   Bug,
   MapPin,
   DoorOpen,
+  CalendarDays,
   type LucideIcon,
 } from "lucide-react";
 
@@ -29,11 +30,23 @@ export type NavItem = {
 export const navItems: NavItem[] = [
   { title: "Dashboard", short: "Home", to: "/dashboard", icon: LayoutDashboard, group: "Overview" },
   { title: "Rooms", short: "Rooms", to: "/rooms", icon: DoorOpen, group: "Overview" },
-  { title: "College Hub", short: "College", to: "/college-hub", icon: Building2, group: "Overview" },
+  {
+    title: "College Hub",
+    short: "College",
+    to: "/college-hub",
+    icon: Building2,
+    group: "Overview",
+  },
   { title: "Campus Info", short: "Campus", to: "/campus", icon: MapPin, group: "Overview" },
 
   { title: "Resource Library", short: "Library", to: "/resources", icon: Library, group: "Learn" },
-  { title: "Learning Center", short: "Learn", to: "/learning", icon: GraduationCap, group: "Learn" },
+  {
+    title: "Learning Center",
+    short: "Learn",
+    to: "/learning",
+    icon: GraduationCap,
+    group: "Learn",
+  },
   {
     title: "Paper Analyzer",
     short: "Papers",
@@ -67,6 +80,13 @@ export const navItems: NavItem[] = [
     short: "Deadlines",
     to: "/deadlines",
     icon: CalendarClock,
+    group: "Connect",
+  },
+  {
+    title: "Timetable",
+    short: "Timetable",
+    to: "/timetable",
+    icon: CalendarDays,
     group: "Connect",
   },
   {

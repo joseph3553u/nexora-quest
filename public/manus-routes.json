@@ -1,0 +1,25 @@
+{
+  "routes": [
+    { "path": "/", "title": "Home" },
+    { "path": "/auth", "title": "Sign in" },
+    { "path": "/dashboard", "title": "Dashboard" },
+    { "path": "/achievements", "title": "Achievements" },
+    { "path": "/campus", "title": "Campus Info" },
+    { "path": "/college-hub", "title": "College Hub" },
+    { "path": "/community", "title": "Community" },
+    { "path": "/competitions", "title": "Competitions" },
+    { "path": "/deadlines", "title": "Deadline Center" },
+    { "path": "/learning", "title": "Learning Center" },
+    { "path": "/mistake-bank", "title": "Mistake Bank" },
+    { "path": "/onboarding", "title": "Profile onboarding" },
+    { "path": "/opportunities", "title": "Opportunity Feed" },
+    { "path": "/paper-analyzer", "title": "Paper Analyzer" },
+    { "path": "/prerequisites", "title": "Prerequisite Finder" },
+    { "path": "/profile", "title": "Student Profile" },
+    { "path": "/projects", "title": "Project Hub" },
+    { "path": "/resources", "title": "Resource Library" },
+    { "path": "/rooms", "title": "Study Rooms" },
+    { "path": "/team-finder", "title": "Team Finder" },
+    { "path": "/timetable", "title": "Timetable" }
+  ]
+}

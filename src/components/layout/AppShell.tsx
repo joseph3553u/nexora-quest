@@ -4,7 +4,6 @@ import { useState, type ReactNode } from "react";
 import { Bell, LogOut, Menu, Search, Sparkles, X } from "lucide-react";
 import { navGroups, navItems, mobileNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
-import { student } from "@/data/demo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -20,6 +19,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useRooms } from "@/hooks/use-rooms";
 import { useProfile } from "@/hooks/use-profile";
+import { useTimetableReminders } from "@/hooks/use-timetable-reminders";
 import { DoorOpen, ChevronDown } from "lucide-react";
 
 function RoomSwitcher() {
@@ -121,13 +121,14 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
 }
 
 export function AppShell({ children }: { children: ReactNode }) {
+  useTimetableReminders();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [query, setQuery] = useState("");
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data: profile } = useProfile();
-  const profileName = profile?.display_name || student.name;
+  const profileName = profile?.display_name || "Student";
   const profileInitials = profileName
     .split(" ")
     .map((part) => part[0])
@@ -156,7 +157,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="rounded-md border border-primary/20 bg-primary-softer p-3.5">
             <p className="text-sm font-semibold">Study streak</p>
             <p className="mt-0.5 text-xs text-muted-foreground">
-              {student.streak} days in a row. Keep it going.
+              Track your weekly rhythm from your saved learning progress.
             </p>
           </div>
         </div>
@@ -222,8 +223,8 @@ export function AppShell({ children }: { children: ReactNode }) {
                 variant="ghost"
                 size="icon"
                 className="relative"
-                aria-label="Notifications"
-                onClick={() => toast("3 new notifications")}
+                aria-label="Timetable reminders"
+                onClick={() => void navigate({ to: "/timetable" })}
               >
                 <Bell className="size-5" />
                 <span className="absolute right-2 top-2 size-2 rounded-full bg-primary" />
@@ -239,13 +240,13 @@ export function AppShell({ children }: { children: ReactNode }) {
                     <span className="hidden text-left leading-tight md:block">
                       <span className="block text-sm font-medium">{profileName}</span>
                       <span className="block text-[11px] text-muted-foreground">
-                        {student.semester}
+                        {profile?.semester || "Student profile"}
                       </span>
                     </span>
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-52">
-                  <DropdownMenuLabel>{student.program}</DropdownMenuLabel>
+                  <DropdownMenuLabel>{profile?.program || "Civora Student"}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
                     <Link to="/achievements">My achievements</Link>
@@ -253,8 +254,8 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <DropdownMenuItem asChild>
                     <Link to="/projects">My projects</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onSelect={() => toast("Settings are coming soon")}>
-                    Settings
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile">Profile &amp; onboarding</Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onSelect={handleSignOut}>

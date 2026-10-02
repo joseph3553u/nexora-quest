@@ -1,102 +1,45 @@
 # Civora Student Hub
 
-Build the Civora student web app as a complete, responsive MVP frontend.
+Civora is an AI-powered student workspace built with React, TypeScript, TanStack Start, Supabase, and Gemini. The existing Civora navigation and visual structure remain in place while student-facing workflows use authenticated, persisted data.
 
-Civora is an AI-powered Student Operating System.
+## Backend-backed features
 
-Create:
+- Supabase authentication and session handling, with first-login profile onboarding.
+- Editable student profiles and persisted learning Q&A.
+- Course catalog, per-student lesson completion, and saved AI study roadmaps.
+- Timetable PDF import, class review/removal, and browser notification reminders.
+- Exam-paper PDF upload, Gemini analysis, saved history, and JSON export.
+- Persistent community posts, likes, and comments.
+- Private file uploads, public/private resource sharing, search/filtering, saved items, signed downloads, and Gemini Q&A grounded in extracted resource text.
 
-- Responsive app shell
+## Setup
 
-- Sidebar navigation on desktop
+1. Install dependencies with `npm install`.
+2. Copy `.env.example` to `.env.local`; set the Supabase project URL and publishable key for your app's existing project.
+3. Apply [`supabase/migrations/20261002_civora_backend.sql`](supabase/migrations/20261002_civora_backend.sql) to that project with the Supabase SQL editor or `supabase db push`.
+4. Set `GEMINI_API_KEY` in the server/runtime environment. It is read only by server functions; do not prefix it with `VITE_` or expose it in client code. AI flows use Gemini 3.8 Flash in JSON mode.
+5. Run `npm run dev`.
 
-- Mobile navigation
+PDF text extraction is browser-side and supports selectable text. Image-only PDFs can be shared as resources, but need OCR before AI chat can use them. Timetable reminders use browser notifications while a Civora tab is open; they are not push notifications after the browser closes.
 
-- Header/search/profile
+## Validation
 
-- Dashboard
+```sh
+npx tsc --noEmit
+npm run build
+```
 
-- College Hub
-
-- Resource Library
-
-- Learning Center
-
-- Previous-Paper Analyzer
-
-- Competition Hub
-
-- Team Finder
-
-- Deadline Center
-
-- Student Achievements
-
-- Prerequisite Finder
-
-- Project Hub
-
-- Opportunity Feed
-
-- Student Community
-
-- Mistake Bank
-
-- Campus Information
-
-Use React + TypeScript and a clean reusable component architecture.
-
-Design:
-
-- Minimalist
-
-- Premium
-
-- Clean light interface
-
-- Purple/violet accent
-
-- Excellent spacing and typography
-
-- Responsive mobile/tablet/desktop
-
-- Subtle animations only
-
-- No excessive glassmorphism
-
-Use realistic local demo data for now.
-
-Make navigation between every page work.
-
-Make buttons, tabs, filters, search fields and forms visually and functionally usable with local state.
-
-IMPORTANT:
-
-Do not implement Supabase, authentication, AI APIs or external integrations yet.
-
-Do not create unnecessary complexity.
-
-Keep the entire project runnable.
-
-Before finishing, fix build errors and ensure the application starts successfully.
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/fbb2f836-f117-4cdf-b7de-628316a99e40).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+The original UI/route hierarchy is retained; new profile and timetable routes are added within the authenticated shell.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Prefer working locally? Use Node.js and npm:
 
 ```sh
 git clone <this-repository-url>
 cd <repository-name>
-npm i
+npm install
 npm run dev
 ```
+
+This project was initially created with [Lovable](https://lovable.dev); repository changes can continue syncing through its GitHub integration.

@@ -21,13 +21,16 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedDeadlinesRouteImport } from './routes/_authenticated/deadlines'
 import { Route as AuthenticatedLearningRouteImport } from './routes/_authenticated/learning'
 import { Route as AuthenticatedMistakeBankRouteImport } from './routes/_authenticated/mistake-bank'
+import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedOpportunitiesRouteImport } from './routes/_authenticated/opportunities'
 import { Route as AuthenticatedPaperAnalyzerRouteImport } from './routes/_authenticated/paper-analyzer'
 import { Route as AuthenticatedPrerequisitesRouteImport } from './routes/_authenticated/prerequisites'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedProjectsRouteImport } from './routes/_authenticated/projects'
 import { Route as AuthenticatedResourcesRouteImport } from './routes/_authenticated/resources'
 import { Route as AuthenticatedRoomsRouteImport } from './routes/_authenticated/rooms'
 import { Route as AuthenticatedTeamFinderRouteImport } from './routes/_authenticated/team-finder'
+import { Route as AuthenticatedTimetableRouteImport } from './routes/_authenticated/timetable'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -91,6 +94,11 @@ const AuthenticatedMistakeBankRoute =
     path: '/mistake-bank',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedOpportunitiesRoute =
   AuthenticatedOpportunitiesRouteImport.update({
     id: '/opportunities',
@@ -109,6 +117,11 @@ const AuthenticatedPrerequisitesRoute =
     path: '/prerequisites',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedProjectsRoute = AuthenticatedProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
@@ -129,6 +142,11 @@ const AuthenticatedTeamFinderRoute = AuthenticatedTeamFinderRouteImport.update({
   path: '/team-finder',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedTimetableRoute = AuthenticatedTimetableRouteImport.update({
+  id: '/timetable',
+  path: '/timetable',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -142,13 +160,16 @@ export interface FileRoutesByFullPath {
   '/deadlines': typeof AuthenticatedDeadlinesRoute
   '/learning': typeof AuthenticatedLearningRoute
   '/mistake-bank': typeof AuthenticatedMistakeBankRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
   '/opportunities': typeof AuthenticatedOpportunitiesRoute
   '/paper-analyzer': typeof AuthenticatedPaperAnalyzerRoute
   '/prerequisites': typeof AuthenticatedPrerequisitesRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/projects': typeof AuthenticatedProjectsRoute
   '/resources': typeof AuthenticatedResourcesRoute
   '/rooms': typeof AuthenticatedRoomsRoute
   '/team-finder': typeof AuthenticatedTeamFinderRoute
+  '/timetable': typeof AuthenticatedTimetableRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -162,13 +183,16 @@ export interface FileRoutesByTo {
   '/deadlines': typeof AuthenticatedDeadlinesRoute
   '/learning': typeof AuthenticatedLearningRoute
   '/mistake-bank': typeof AuthenticatedMistakeBankRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
   '/opportunities': typeof AuthenticatedOpportunitiesRoute
   '/paper-analyzer': typeof AuthenticatedPaperAnalyzerRoute
   '/prerequisites': typeof AuthenticatedPrerequisitesRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/projects': typeof AuthenticatedProjectsRoute
   '/resources': typeof AuthenticatedResourcesRoute
   '/rooms': typeof AuthenticatedRoomsRoute
   '/team-finder': typeof AuthenticatedTeamFinderRoute
+  '/timetable': typeof AuthenticatedTimetableRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -184,13 +208,16 @@ export interface FileRoutesById {
   '/_authenticated/deadlines': typeof AuthenticatedDeadlinesRoute
   '/_authenticated/learning': typeof AuthenticatedLearningRoute
   '/_authenticated/mistake-bank': typeof AuthenticatedMistakeBankRoute
+  '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/opportunities': typeof AuthenticatedOpportunitiesRoute
   '/_authenticated/paper-analyzer': typeof AuthenticatedPaperAnalyzerRoute
   '/_authenticated/prerequisites': typeof AuthenticatedPrerequisitesRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/projects': typeof AuthenticatedProjectsRoute
   '/_authenticated/resources': typeof AuthenticatedResourcesRoute
   '/_authenticated/rooms': typeof AuthenticatedRoomsRoute
   '/_authenticated/team-finder': typeof AuthenticatedTeamFinderRoute
+  '/_authenticated/timetable': typeof AuthenticatedTimetableRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -206,13 +233,16 @@ export interface FileRouteTypes {
     | '/deadlines'
     | '/learning'
     | '/mistake-bank'
+    | '/onboarding'
     | '/opportunities'
     | '/paper-analyzer'
     | '/prerequisites'
+    | '/profile'
     | '/projects'
     | '/resources'
     | '/rooms'
     | '/team-finder'
+    | '/timetable'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -226,13 +256,16 @@ export interface FileRouteTypes {
     | '/deadlines'
     | '/learning'
     | '/mistake-bank'
+    | '/onboarding'
     | '/opportunities'
     | '/paper-analyzer'
     | '/prerequisites'
+    | '/profile'
     | '/projects'
     | '/resources'
     | '/rooms'
     | '/team-finder'
+    | '/timetable'
   id:
     | '__root__'
     | '/'
@@ -247,13 +280,16 @@ export interface FileRouteTypes {
     | '/_authenticated/deadlines'
     | '/_authenticated/learning'
     | '/_authenticated/mistake-bank'
+    | '/_authenticated/onboarding'
     | '/_authenticated/opportunities'
     | '/_authenticated/paper-analyzer'
     | '/_authenticated/prerequisites'
+    | '/_authenticated/profile'
     | '/_authenticated/projects'
     | '/_authenticated/resources'
     | '/_authenticated/rooms'
     | '/_authenticated/team-finder'
+    | '/_authenticated/timetable'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -348,6 +384,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMistakeBankRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/onboarding': {
+      id: '/_authenticated/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/opportunities': {
       id: '/_authenticated/opportunities'
       path: '/opportunities'
@@ -367,6 +410,13 @@ declare module '@tanstack/react-router' {
       path: '/prerequisites'
       fullPath: '/prerequisites'
       preLoaderRoute: typeof AuthenticatedPrerequisitesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/projects': {
@@ -397,6 +447,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTeamFinderRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/timetable': {
+      id: '/_authenticated/timetable'
+      path: '/timetable'
+      fullPath: '/timetable'
+      preLoaderRoute: typeof AuthenticatedTimetableRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -410,13 +467,16 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDeadlinesRoute: typeof AuthenticatedDeadlinesRoute
   AuthenticatedLearningRoute: typeof AuthenticatedLearningRoute
   AuthenticatedMistakeBankRoute: typeof AuthenticatedMistakeBankRoute
+  AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedOpportunitiesRoute: typeof AuthenticatedOpportunitiesRoute
   AuthenticatedPaperAnalyzerRoute: typeof AuthenticatedPaperAnalyzerRoute
   AuthenticatedPrerequisitesRoute: typeof AuthenticatedPrerequisitesRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedProjectsRoute: typeof AuthenticatedProjectsRoute
   AuthenticatedResourcesRoute: typeof AuthenticatedResourcesRoute
   AuthenticatedRoomsRoute: typeof AuthenticatedRoomsRoute
   AuthenticatedTeamFinderRoute: typeof AuthenticatedTeamFinderRoute
+  AuthenticatedTimetableRoute: typeof AuthenticatedTimetableRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -429,13 +489,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDeadlinesRoute: AuthenticatedDeadlinesRoute,
   AuthenticatedLearningRoute: AuthenticatedLearningRoute,
   AuthenticatedMistakeBankRoute: AuthenticatedMistakeBankRoute,
+  AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedOpportunitiesRoute: AuthenticatedOpportunitiesRoute,
   AuthenticatedPaperAnalyzerRoute: AuthenticatedPaperAnalyzerRoute,
   AuthenticatedPrerequisitesRoute: AuthenticatedPrerequisitesRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedProjectsRoute: AuthenticatedProjectsRoute,
   AuthenticatedResourcesRoute: AuthenticatedResourcesRoute,
   AuthenticatedRoomsRoute: AuthenticatedRoomsRoute,
   AuthenticatedTeamFinderRoute: AuthenticatedTeamFinderRoute,
+  AuthenticatedTimetableRoute: AuthenticatedTimetableRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
