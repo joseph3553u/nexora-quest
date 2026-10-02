@@ -39,10 +39,6 @@ if (
   );
 }
 
-const define: Record<string, string> = {};
-if (serverUrl) define["import.meta.env.SUPABASE_URL"] = JSON.stringify(serverUrl);
-if (serverKey) define["import.meta.env.SUPABASE_PUBLISHABLE_KEY"] = JSON.stringify(serverKey);
-
 export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
@@ -51,9 +47,6 @@ export default defineConfig({
     build: {
       rollupOptions: {},
     },
-    // Expose only the two explicitly public Supabase values as a fallback;
-    // never expose SUPABASE_SERVICE_ROLE_KEY.
-    define,
   },
   nitro: {
     preset: "node-server",

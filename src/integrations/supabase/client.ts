@@ -44,20 +44,15 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
 }
 
 function createSupabaseClient() {
-  // Browser VITE_* values take precedence. Vite also injects only the two
-  // explicitly public SUPABASE_* values as a fallback for Render builds.
-  const publicEnv = import.meta.env;
+  // The browser must use only VITE_* values. Server SUPABASE_* values are
+  // available only during SSR and are never injected into the client bundle.
   const serverEnv = typeof process === "undefined" ? undefined : process.env;
   const SUPABASE_URL =
-    publicEnv["VITE_SUPABASE_URL"] ||
-    // @ts-expect-error This exact public value is injected by vite.config.ts.
-    import.meta.env.SUPABASE_URL ||
-    serverEnv?.["SUPABASE_URL"];
+    import.meta.env["VITE_SUPABASE_URL"] ||
+    (typeof window === "undefined" ? serverEnv?.["SUPABASE_URL"] : undefined);
   const SUPABASE_PUBLISHABLE_KEY =
-    publicEnv["VITE_SUPABASE_PUBLISHABLE_KEY"] ||
-    // @ts-expect-error This exact public value is injected by vite.config.ts.
-    import.meta.env.SUPABASE_PUBLISHABLE_KEY ||
-    serverEnv?.["SUPABASE_PUBLISHABLE_KEY"];
+    import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"] ||
+    (typeof window === "undefined" ? serverEnv?.["SUPABASE_PUBLISHABLE_KEY"] : undefined);
 
   if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
     const missing = [
