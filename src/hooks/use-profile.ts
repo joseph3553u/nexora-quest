@@ -37,10 +37,10 @@ export function useProfile() {
       return {
         id: userData.user.id,
         display_name:
-          userData.user.user_metadata?.display_name ||
+          userData.user.user_metadata?.["display_name"] ||
           userData.user.email?.split("@")[0] ||
           "Student",
-        avatar_url: userData.user.user_metadata?.avatar_url ?? null,
+        avatar_url: userData.user.user_metadata?.["avatar_url"] ?? null,
         preferences: {},
       };
     },

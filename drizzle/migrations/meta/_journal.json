@@ -22,6 +22,13 @@
       "when": 1790905435967,
       "tag": "0002_room_create_and_chapters",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1790935200000,
+      "tag": "0003_auth_account_status",
+      "breakpoints": true
     }
   ]
 }

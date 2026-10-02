@@ -176,6 +176,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      auth_account_status: { Args: { _email: string }; Returns: string }
       create_or_join_room: {
         Args: { _code: string; _name?: string }
         Returns: string
