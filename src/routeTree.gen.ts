@@ -26,6 +26,7 @@ import { Route as AuthenticatedPaperAnalyzerRouteImport } from './routes/_authen
 import { Route as AuthenticatedPrerequisitesRouteImport } from './routes/_authenticated/prerequisites'
 import { Route as AuthenticatedProjectsRouteImport } from './routes/_authenticated/projects'
 import { Route as AuthenticatedResourcesRouteImport } from './routes/_authenticated/resources'
+import { Route as AuthenticatedRoomsRouteImport } from './routes/_authenticated/rooms'
 import { Route as AuthenticatedTeamFinderRouteImport } from './routes/_authenticated/team-finder'
 
 const IndexRoute = IndexRouteImport.update({
@@ -118,6 +119,11 @@ const AuthenticatedResourcesRoute = AuthenticatedResourcesRouteImport.update({
   path: '/resources',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedRoomsRoute = AuthenticatedRoomsRouteImport.update({
+  id: '/rooms',
+  path: '/rooms',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedTeamFinderRoute = AuthenticatedTeamFinderRouteImport.update({
   id: '/team-finder',
   path: '/team-finder',
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/prerequisites': typeof AuthenticatedPrerequisitesRoute
   '/projects': typeof AuthenticatedProjectsRoute
   '/resources': typeof AuthenticatedResourcesRoute
+  '/rooms': typeof AuthenticatedRoomsRoute
   '/team-finder': typeof AuthenticatedTeamFinderRoute
 }
 export interface FileRoutesByTo {
@@ -160,6 +167,7 @@ export interface FileRoutesByTo {
   '/prerequisites': typeof AuthenticatedPrerequisitesRoute
   '/projects': typeof AuthenticatedProjectsRoute
   '/resources': typeof AuthenticatedResourcesRoute
+  '/rooms': typeof AuthenticatedRoomsRoute
   '/team-finder': typeof AuthenticatedTeamFinderRoute
 }
 export interface FileRoutesById {
@@ -181,6 +189,7 @@ export interface FileRoutesById {
   '/_authenticated/prerequisites': typeof AuthenticatedPrerequisitesRoute
   '/_authenticated/projects': typeof AuthenticatedProjectsRoute
   '/_authenticated/resources': typeof AuthenticatedResourcesRoute
+  '/_authenticated/rooms': typeof AuthenticatedRoomsRoute
   '/_authenticated/team-finder': typeof AuthenticatedTeamFinderRoute
 }
 export interface FileRouteTypes {
@@ -202,6 +211,7 @@ export interface FileRouteTypes {
     | '/prerequisites'
     | '/projects'
     | '/resources'
+    | '/rooms'
     | '/team-finder'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -221,6 +231,7 @@ export interface FileRouteTypes {
     | '/prerequisites'
     | '/projects'
     | '/resources'
+    | '/rooms'
     | '/team-finder'
   id:
     | '__root__'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/_authenticated/prerequisites'
     | '/_authenticated/projects'
     | '/_authenticated/resources'
+    | '/_authenticated/rooms'
     | '/_authenticated/team-finder'
   fileRoutesById: FileRoutesById
 }
@@ -371,6 +383,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedResourcesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/rooms': {
+      id: '/_authenticated/rooms'
+      path: '/rooms'
+      fullPath: '/rooms'
+      preLoaderRoute: typeof AuthenticatedRoomsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/team-finder': {
       id: '/_authenticated/team-finder'
       path: '/team-finder'
@@ -396,6 +415,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedPrerequisitesRoute: typeof AuthenticatedPrerequisitesRoute
   AuthenticatedProjectsRoute: typeof AuthenticatedProjectsRoute
   AuthenticatedResourcesRoute: typeof AuthenticatedResourcesRoute
+  AuthenticatedRoomsRoute: typeof AuthenticatedRoomsRoute
   AuthenticatedTeamFinderRoute: typeof AuthenticatedTeamFinderRoute
 }
 
@@ -414,6 +434,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedPrerequisitesRoute: AuthenticatedPrerequisitesRoute,
   AuthenticatedProjectsRoute: AuthenticatedProjectsRoute,
   AuthenticatedResourcesRoute: AuthenticatedResourcesRoute,
+  AuthenticatedRoomsRoute: AuthenticatedRoomsRoute,
   AuthenticatedTeamFinderRoute: AuthenticatedTeamFinderRoute,
 }
 
