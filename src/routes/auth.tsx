@@ -44,9 +44,14 @@ function AuthPage() {
   const [suggestion, setSuggestion] = useState<Suggestion>(null);
 
   useEffect(() => {
-    void supabase.auth.getUser().then(({ data }) => {
-      if (data.user) void navigate({ to: "/dashboard", replace: true });
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if ((event === "INITIAL_SESSION" || event === "SIGNED_IN") && session) {
+        void navigate({ to: "/dashboard", replace: true });
+      }
     });
+    return () => subscription.unsubscribe();
   }, [navigate]);
 
   function switchMode(next: "signin" | "signup") {
