@@ -40,9 +40,14 @@ export function useRooms() {
   const activeRoom = rooms.find((r) => r.id === activeId) ?? rooms[0] ?? null;
 
   const join = useMutation({
-    mutationFn: async (code: string) => {
-      const { data, error } = await supabase.rpc("join_room", { _code: code });
-      if (error) throw new Error(error.message.includes("not found") ? "No Room matches that code" : error.message);
+    mutationFn: async (input: { code: string; name?: string }) => {
+      const code = input.code.trim().toUpperCase();
+      if (!/^[A-Z0-9-]{3,20}$/.test(code)) throw new Error("Code must be 3–20 letters, numbers or dashes");
+      const { data, error } = await supabase.rpc("create_or_join_room", {
+        _code: code,
+        _name: input.name?.trim().slice(0, 60) || undefined,
+      });
+      if (error) throw new Error(error.message);
       return data as string;
     },
     onSuccess: async (id) => {
