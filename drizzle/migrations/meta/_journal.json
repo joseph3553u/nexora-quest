@@ -15,6 +15,13 @@
       "when": 1790904780671,
       "tag": "0001_create_rooms",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790905435967,
+      "tag": "0002_room_create_and_chapters",
+      "breakpoints": true
     }
   ]
 }

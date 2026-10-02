@@ -73,6 +73,7 @@ export type Database = {
       }
       room_files: {
         Row: {
+          chapter: string
           created_at: string
           file_type: string
           id: string
@@ -84,6 +85,7 @@ export type Database = {
           uploaded_by: string
         }
         Insert: {
+          chapter?: string
           created_at?: string
           file_type?: string
           id?: string
@@ -95,6 +97,7 @@ export type Database = {
           uploaded_by?: string
         }
         Update: {
+          chapter?: string
           created_at?: string
           file_type?: string
           id?: string
@@ -173,6 +176,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_or_join_room: {
+        Args: { _code: string; _name?: string }
+        Returns: string
+      }
       is_room_member: {
         Args: { _room_id: string; _user_id: string }
         Returns: boolean
