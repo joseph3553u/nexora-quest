@@ -23,6 +23,22 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
+type Suggestion = "signup" | "signin" | "google" | "resend" | null;
+
+const LOVABLE_HOST_ZONES = ["lovable.app", "lovableproject.com", "lovableproject-dev.com"];
+
+// Lovable's OAuth broker (/~oauth/initiate) only exists on Lovable-hosted domains.
+function onLovableHost() {
+  const host = window.location.hostname;
+  return LOVABLE_HOST_ZONES.some((zone) => host === zone || host.endsWith(`.${zone}`));
+}
+
+async function getAccountStatus(email: string) {
+  const { data, error } = await supabase.rpc("auth_account_status", { _email: email });
+  if (error) return null;
+  return data as "none" | "unconfirmed" | "oauth_only" | "password";
+}
+
 function AuthPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
@@ -31,6 +47,7 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [pending, setPending] = useState(false);
   const [message, setMessage] = useState("");
+  const [suggestion, setSuggestion] = useState<Suggestion>(null);
 
   useEffect(() => {
     void supabase.auth.getUser().then(({ data }) => {
@@ -38,52 +55,148 @@ function AuthPage() {
     });
   }, [navigate]);
 
+  function switchMode(next: "signin" | "signup") {
+    setMode(next);
+    setMessage("");
+    setSuggestion(null);
+  }
+
+  function report(text: string, next: Suggestion = null) {
+    setMessage(text);
+    setSuggestion(next);
+  }
+
+  async function explainFailedSignIn() {
+    const status = await getAccountStatus(email);
+    if (status === "none") {
+      report(
+        "No account exists for this email yet. Create a new account to get started.",
+        "signup",
+      );
+    } else if (status === "unconfirmed") {
+      report(
+        "This account hasn't been confirmed yet. Check your inbox for the confirmation link.",
+        "resend",
+      );
+    } else if (status === "oauth_only") {
+      report(
+        "This account was created with Google. Use “Continue with Google” to sign in.",
+        "google",
+      );
+    } else if (status === "password") {
+      report("Incorrect password. Please try again.");
+    } else {
+      report("Invalid email or password.");
+    }
+  }
+
   async function submit(event: FormEvent) {
     event.preventDefault();
     setPending(true);
-    setMessage("");
+    report("");
     try {
-      const result =
-        mode === "signin"
-          ? await supabase.auth.signInWithPassword({ email, password })
-          : await supabase.auth.signUp({
-              email,
-              password,
-              options: {
-                emailRedirectTo: window.location.origin,
-                data: { display_name: displayName },
-              },
-            });
-      if (result.error) {
-        setMessage(result.error.message);
-        return;
-      }
-      if (mode === "signup" && !result.data.session) {
-        setMessage("Check your email to confirm your account, then sign in.");
-        return;
+      if (mode === "signin") {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          if (error.code === "email_not_confirmed") {
+            report("Please confirm your email first. Check your inbox for the link.", "resend");
+          } else if (error.code === "invalid_credentials") {
+            await explainFailedSignIn();
+          } else {
+            report(error.message);
+          }
+          return;
+        }
+      } else {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: window.location.origin,
+            data: { display_name: displayName },
+          },
+        });
+        if (error) {
+          if (error.code === "user_already_exists") {
+            report("An account with this email already exists. Sign in instead.", "signin");
+          } else {
+            report(error.message);
+          }
+          return;
+        }
+        // With email confirmation on, Supabase returns a user with no identities
+        // instead of an error when the email is already registered.
+        if (data.user && data.user.identities?.length === 0) {
+          report("An account with this email already exists. Sign in instead.", "signin");
+          return;
+        }
+        if (!data.session) {
+          report("Check your email to confirm your account, then sign in.", "resend");
+          return;
+        }
       }
       await navigate({ to: "/dashboard", replace: true });
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Unable to complete authentication.");
+      report(error instanceof Error ? error.message : "Unable to complete authentication.");
     } finally {
       setPending(false);
     }
   }
 
+  async function resendConfirmation() {
+    setPending(true);
+    try {
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email,
+        options: { emailRedirectTo: window.location.origin },
+      });
+      report(error ? error.message : "Confirmation email sent. Check your inbox.");
+    } finally {
+      setPending(false);
+    }
+  }
+
+  async function signInWithGoogleViaSupabase() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/auth`, skipBrowserRedirect: true },
+    });
+    if (error) return report(error.message);
+    // Check the provider is configured before leaving the page, otherwise the
+    // browser lands on a raw JSON error from Supabase.
+    try {
+      const probe = await fetch(data.url, { redirect: "manual" });
+      if (probe.type !== "opaqueredirect" && !probe.ok) {
+        report(
+          "Google sign-in isn't set up for this site yet. Sign in with email and password instead.",
+        );
+        return;
+      }
+    } catch {
+      // The probe is best-effort; fall through to the redirect.
+    }
+    window.location.assign(data.url);
+  }
+
   async function signInWithGoogle() {
     setPending(true);
-    setMessage("");
+    report("");
     try {
+      if (!onLovableHost()) {
+        await signInWithGoogleViaSupabase();
+        return;
+      }
       const result = await lovable.auth.signInWithOAuth("google", {
         redirect_uri: window.location.origin,
       });
       if (result.error) {
-        setMessage(result.error.message);
+        report(result.error.message);
         return;
       }
       if (!result.redirected) await navigate({ to: "/dashboard", replace: true });
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Unable to start Google sign-in.");
+      report(error instanceof Error ? error.message : "Unable to start Google sign-in.");
     } finally {
       setPending(false);
     }
@@ -140,6 +253,34 @@ function AuthPage() {
               className="rounded-md border border-border bg-muted/60 p-3 text-sm text-muted-foreground"
             >
               {message}
+              {suggestion === "signup" && (
+                <button
+                  type="button"
+                  className="mt-2 block font-medium text-primary hover:underline"
+                  onClick={() => switchMode("signup")}
+                >
+                  Create a new account
+                </button>
+              )}
+              {suggestion === "signin" && (
+                <button
+                  type="button"
+                  className="mt-2 block font-medium text-primary hover:underline"
+                  onClick={() => switchMode("signin")}
+                >
+                  Go to sign in
+                </button>
+              )}
+              {suggestion === "resend" && (
+                <button
+                  type="button"
+                  className="mt-2 block font-medium text-primary hover:underline"
+                  disabled={pending}
+                  onClick={resendConfirmation}
+                >
+                  Resend confirmation email
+                </button>
+              )}
             </p>
           )}
           <Button className="w-full" disabled={pending} type="submit">
@@ -157,10 +298,7 @@ function AuthPage() {
         </Button>
         <button
           className="mt-6 w-full text-sm text-muted-foreground transition-colors hover:text-foreground"
-          onClick={() => {
-            setMode(mode === "signin" ? "signup" : "signin");
-            setMessage("");
-          }}
+          onClick={() => switchMode(mode === "signin" ? "signup" : "signin")}
         >
           {mode === "signin"
             ? "New to Civora? Create an account"
