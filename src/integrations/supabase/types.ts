@@ -71,12 +71,113 @@ export type Database = {
         }
         Relationships: []
       }
+      room_files: {
+        Row: {
+          created_at: string
+          file_type: string
+          id: string
+          room_id: string
+          semester: number | null
+          size_label: string
+          subject: string
+          title: string
+          uploaded_by: string
+        }
+        Insert: {
+          created_at?: string
+          file_type?: string
+          id?: string
+          room_id: string
+          semester?: number | null
+          size_label?: string
+          subject?: string
+          title: string
+          uploaded_by?: string
+        }
+        Update: {
+          created_at?: string
+          file_type?: string
+          id?: string
+          room_id?: string
+          semester?: number | null
+          size_label?: string
+          subject?: string
+          title?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_files_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      room_members: {
+        Row: {
+          id: string
+          joined_at: string
+          room_id: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          joined_at?: string
+          room_id: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          joined_at?: string
+          room_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_members_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rooms: {
+        Row: {
+          code: string
+          created_at: string
+          description: string
+          id: string
+          name: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_room_member: {
+        Args: { _room_id: string; _user_id: string }
+        Returns: boolean
+      }
+      join_room: { Args: { _code: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never

@@ -8,6 +8,13 @@
       "when": 1790800730564,
       "tag": "0000_create_student_profiles_and_course_progress",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790904780671,
+      "tag": "0001_create_rooms",
+      "breakpoints": true
     }
   ]
 }

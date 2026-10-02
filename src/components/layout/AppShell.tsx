@@ -18,6 +18,51 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useRooms } from "@/hooks/use-rooms";
+import { DoorOpen, ChevronDown } from "lucide-react";
+
+function RoomSwitcher() {
+  const { rooms, activeRoom, setActiveId, leave } = useRooms();
+  if (!activeRoom) {
+    return (
+      <Button asChild variant="outline" size="sm">
+        <Link to="/rooms">
+          <DoorOpen className="size-4" /> Join a Room
+        </Link>
+      </Button>
+    );
+  }
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="sm" className="max-w-44 gap-1.5">
+          <DoorOpen className="size-4 text-primary" />
+          <span className="truncate font-semibold">{activeRoom.name}</span>
+          <ChevronDown className="size-3.5 opacity-60" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuLabel>Your Rooms</DropdownMenuLabel>
+        {rooms.map((r) => (
+          <DropdownMenuItem key={r.id} onSelect={() => setActiveId(r.id)}>
+            {r.name} {r.id === activeRoom.id && <span className="ml-auto text-xs text-primary">Active</span>}
+          </DropdownMenuItem>
+        ))}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link to="/rooms">Join another Room</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onSelect={() =>
+            leave.mutate(activeRoom.id, { onSuccess: () => toast(`Left ${activeRoom.name}`) })
+          }
+        >
+          <LogOut className="size-4" /> Leave Room
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 function Brand({ onClick }: { onClick?: () => void }) {
   return (
@@ -162,6 +207,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </form>
 
             <div className="ml-auto flex items-center gap-1.5 lg:ml-0">
+              <RoomSwitcher />
               <Button
                 variant="ghost"
                 size="icon"

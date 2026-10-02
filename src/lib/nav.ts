@@ -14,6 +14,7 @@ import {
   MessagesSquare,
   Bug,
   MapPin,
+  DoorOpen,
   type LucideIcon,
 } from "lucide-react";
 
@@ -27,6 +28,7 @@ export type NavItem = {
 
 export const navItems: NavItem[] = [
   { title: "Dashboard", short: "Home", to: "/dashboard", icon: LayoutDashboard, group: "Overview" },
+  { title: "Rooms", short: "Rooms", to: "/rooms", icon: DoorOpen, group: "Overview" },
   { title: "College Hub", short: "College", to: "/college-hub", icon: Building2, group: "Overview" },
   { title: "Campus Info", short: "Campus", to: "/campus", icon: MapPin, group: "Overview" },
 
