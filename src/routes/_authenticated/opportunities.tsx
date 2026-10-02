@@ -12,12 +12,12 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/opportunities")({
   head: () => ({
     meta: [
-      { title: "Opportunity Feed · Nexora" },
+      { title: "Opportunity Feed · Civora" },
       {
         name: "description",
         content: "Internships, full-time roles, research positions and scholarships matched to your profile.",
       },
-      { property: "og:title", content: "Opportunity Feed · Nexora" },
+      { property: "og:title", content: "Opportunity Feed · Civora" },
       {
         property: "og:description",
         content: "Internships, jobs, research roles and scholarships for students.",

@@ -80,17 +80,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Nexora — Student Operating System" },
+      { title: "Civora — Student Operating System" },
       {
         name: "description",
         content:
-          "Nexora brings courses, deadlines, resources, competitions and campus life into one calm student workspace.",
+          "Civora brings courses, deadlines, resources, competitions and campus life into one calm student workspace.",
       },
-      { property: "og:title", content: "Nexora — Student Operating System" },
+      { property: "og:title", content: "Civora — Student Operating System" },
       {
         property: "og:description",
         content:
-          "Nexora brings courses, deadlines, resources, competitions and campus life into one calm student workspace.",
+          "Civora brings courses, deadlines, resources, competitions and campus life into one calm student workspace.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

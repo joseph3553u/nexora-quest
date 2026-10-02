@@ -11,9 +11,9 @@ import { useRoomFiles, useRooms } from "@/hooks/use-rooms";
 export const Route = createFileRoute("/_authenticated/rooms")({
   head: () => ({
     meta: [
-      { title: "Rooms — Nexora" },
+      { title: "Rooms — Civora" },
       { name: "description", content: "Create or join a class Room with a code and browse subject files by chapter." },
-      { property: "og:title", content: "Rooms — Nexora" },
+      { property: "og:title", content: "Rooms — Civora" },
       { property: "og:description", content: "Create or join a class Room with a code and browse subject files by chapter." },
     ],
   }),

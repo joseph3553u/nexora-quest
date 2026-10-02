@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
-const KEY = "nexora-active-room";
-const EVT = "nexora-active-room-change";
+const KEY = "civora-active-room";
+const EVT = "civora-active-room-change";
 
 export type Room = { id: string; code: string; name: string; description: string };
 

@@ -107,7 +107,7 @@ export const courses: Course[] = [
   {
     id: "c1",
     title: "Data Structures Masterclass",
-    provider: "Nexora Learn",
+    provider: "Civora Learn",
     level: "Intermediate",
     hours: 28,
     progress: 62,
@@ -122,7 +122,7 @@ export const courses: Course[] = [
   {
     id: "c2",
     title: "Full-Stack Web Engineering",
-    provider: "Nexora Learn",
+    provider: "Civora Learn",
     level: "Advanced",
     hours: 42,
     progress: 24,
@@ -136,7 +136,7 @@ export const courses: Course[] = [
   {
     id: "c3",
     title: "Applied Machine Learning",
-    provider: "Nexora Learn",
+    provider: "Civora Learn",
     level: "Advanced",
     hours: 36,
     progress: 8,
@@ -150,7 +150,7 @@ export const courses: Course[] = [
   {
     id: "c4",
     title: "Aptitude & Placement Prep",
-    provider: "Nexora Learn",
+    provider: "Civora Learn",
     level: "Beginner",
     hours: 18,
     progress: 88,
@@ -232,8 +232,8 @@ export type Competition = {
 export const competitions: Competition[] = [
   {
     id: "k1",
-    name: "Nexora Build Sprint 2026",
-    host: "Nexora Labs",
+    name: "Civora Build Sprint 2026",
+    host: "Civora Labs",
     mode: "Online",
     category: "Hackathon",
     prize: "₹2,00,000",
@@ -277,7 +277,7 @@ export const competitions: Competition[] = [
   {
     id: "k5",
     name: "Undergrad Research Symposium",
-    host: "Nexora Academic Council",
+    host: "Civora Academic Council",
     mode: "On-campus",
     category: "Research",
     prize: "Publication + ₹40,000",
@@ -303,7 +303,7 @@ export const teamPosts: TeamPost[] = [
     id: "t1",
     title: "Looking for a backend dev for Build Sprint",
     owner: "Aditya V.",
-    event: "Nexora Build Sprint 2026",
+    event: "Civora Build Sprint 2026",
     needed: ["Node.js", "Postgres"],
     slots: 4,
     filled: 3,
@@ -414,7 +414,7 @@ export const achievements: Achievement[] = [
   {
     id: "a1",
     title: "Runner-up — Intra-college Hackathon",
-    issuer: "Nexora University",
+    issuer: "Civora University",
     date: "2026-08-21",
     type: "Award",
     points: 120,
@@ -438,7 +438,7 @@ export const achievements: Achievement[] = [
   {
     id: "a4",
     title: "500-day learning streak",
-    issuer: "Nexora Learn",
+    issuer: "Civora Learn",
     date: "2026-09-12",
     type: "Milestone",
     points: 60,
@@ -613,7 +613,7 @@ export const opportunities: Opportunity[] = [
   {
     id: "o2",
     role: "Research Assistant — NLP Lab",
-    org: "Nexora University",
+    org: "Civora University",
     type: "Research",
     location: "On-campus",
     stipend: "₹15,000 / month",

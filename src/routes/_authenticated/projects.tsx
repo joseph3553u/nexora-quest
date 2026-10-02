@@ -23,12 +23,12 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/projects")({
   head: () => ({
     meta: [
-      { title: "Project Hub · Nexora" },
+      { title: "Project Hub · Civora" },
       {
         name: "description",
         content: "Track your builds from idea to shipped, with stack, collaborators and progress.",
       },
-      { property: "og:title", content: "Project Hub · Nexora" },
+      { property: "og:title", content: "Project Hub · Civora" },
       {
         property: "og:description",
         content: "Track student projects from planning to shipped.",

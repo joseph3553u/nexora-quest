@@ -1,8 +1,8 @@
-# Nexora Student Hub
+# Civora Student Hub
 
-Build the Nexora student web app as a complete, responsive MVP frontend.
+Build the Civora student web app as a complete, responsive MVP frontend.
 
-Nexora is an AI-powered Student Operating System.
+Civora is an AI-powered Student Operating System.
 
 Create:
 

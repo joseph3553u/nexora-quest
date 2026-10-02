@@ -24,12 +24,12 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/team-finder")({
   head: () => ({
     meta: [
-      { title: "Team Finder · Nexora" },
+      { title: "Team Finder · Civora" },
       {
         name: "description",
         content: "Post an open slot or join a team that needs your skills for an upcoming event.",
       },
-      { property: "og:title", content: "Team Finder · Nexora" },
+      { property: "og:title", content: "Team Finder · Civora" },
       {
         property: "og:description",
         content: "Find teammates for hackathons, case comps and research projects.",
@@ -114,7 +114,7 @@ function TeamFinder() {
                     id="event"
                     value={form.event}
                     onChange={(e) => setForm({ ...form, event: e.target.value })}
-                    placeholder="Nexora Build Sprint 2026"
+                    placeholder="Civora Build Sprint 2026"
                   />
                 </div>
                 <div className="space-y-2">

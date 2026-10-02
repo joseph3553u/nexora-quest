@@ -29,13 +29,13 @@ import { useCourseProgress } from "@/hooks/use-course-progress";
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
-      { title: "Dashboard · Nexora Student OS" },
+      { title: "Dashboard · Civora Student OS" },
       {
         name: "description",
         content:
           "Your semester at a glance: attendance, CGPA, study hours, upcoming deadlines and course progress.",
       },
-      { property: "og:title", content: "Dashboard · Nexora Student OS" },
+      { property: "og:title", content: "Dashboard · Civora Student OS" },
       {
         property: "og:description",
         content: "Your semester at a glance — deadlines, progress and study momentum.",

@@ -10,13 +10,13 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/prerequisites")({
   head: () => ({
     meta: [
-      { title: "Prerequisite Finder · Nexora" },
+      { title: "Prerequisite Finder · Civora" },
       {
         name: "description",
         content:
           "Trace which subjects you need before a course and which courses it unlocks later in the degree.",
       },
-      { property: "og:title", content: "Prerequisite Finder · Nexora" },
+      { property: "og:title", content: "Prerequisite Finder · Civora" },
       {
         property: "og:description",
         content: "Map subject prerequisites and the courses they unlock.",

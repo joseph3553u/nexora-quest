@@ -14,12 +14,12 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/community")({
   head: () => ({
     meta: [
-      { title: "Student Community · Nexora" },
+      { title: "Student Community · Civora" },
       {
         name: "description",
         content: "Ask questions, share wins and keep up with what your batch is talking about.",
       },
-      { property: "og:title", content: "Student Community · Nexora" },
+      { property: "og:title", content: "Student Community · Civora" },
       {
         property: "og:description",
         content: "Spaces for academics, placements, competitions and projects.",

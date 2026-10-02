@@ -11,13 +11,13 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/competitions")({
   head: () => ({
     meta: [
-      { title: "Competition Hub · Nexora" },
+      { title: "Competition Hub · Civora" },
       {
         name: "description",
         content:
           "Hackathons, coding contests, case competitions and research meets with deadlines and prizes.",
       },
-      { property: "og:title", content: "Competition Hub · Nexora" },
+      { property: "og:title", content: "Competition Hub · Civora" },
       {
         property: "og:description",
         content: "Find hackathons, contests and case competitions worth your time.",

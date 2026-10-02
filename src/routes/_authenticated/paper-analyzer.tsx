@@ -17,13 +17,13 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/paper-analyzer")({
   head: () => ({
     meta: [
-      { title: "Previous-Paper Analyzer · Nexora" },
+      { title: "Previous-Paper Analyzer · Civora" },
       {
         name: "description",
         content:
           "See which topics repeat across past exam papers and how much weight each one carries.",
       },
-      { property: "og:title", content: "Previous-Paper Analyzer · Nexora" },
+      { property: "og:title", content: "Previous-Paper Analyzer · Civora" },
       {
         property: "og:description",
         content: "Topic weightage and repeat counts from past exam papers.",

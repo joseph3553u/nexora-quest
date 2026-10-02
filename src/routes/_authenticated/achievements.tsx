@@ -12,12 +12,12 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/achievements")({
   head: () => ({
     meta: [
-      { title: "Student Achievements · Nexora" },
+      { title: "Student Achievements · Civora" },
       {
         name: "description",
         content: "A verified record of awards, certifications, publications and milestones you have earned.",
       },
-      { property: "og:title", content: "Student Achievements · Nexora" },
+      { property: "og:title", content: "Student Achievements · Civora" },
       {
         property: "og:description",
         content: "Your awards, certifications, publications and milestones in one profile.",

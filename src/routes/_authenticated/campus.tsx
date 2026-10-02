@@ -9,12 +9,12 @@ import { campusPlaces } from "@/data/demo";
 export const Route = createFileRoute("/_authenticated/campus")({
   head: () => ({
     meta: [
-      { title: "Campus Information · Nexora" },
+      { title: "Campus Information · Civora" },
       {
         name: "description",
         content: "Opening hours, locations and details for libraries, labs, canteens and support services.",
       },
-      { property: "og:title", content: "Campus Information · Nexora" },
+      { property: "og:title", content: "Campus Information · Civora" },
       {
         property: "og:description",
         content: "Hours and locations for every facility on campus.",

@@ -25,13 +25,13 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/deadlines")({
   head: () => ({
     meta: [
-      { title: "Deadline Center · Nexora" },
+      { title: "Deadline Center · Civora" },
       {
         name: "description",
         content:
           "Every assignment, application and competition deadline in one prioritised list you can tick off.",
       },
-      { property: "og:title", content: "Deadline Center · Nexora" },
+      { property: "og:title", content: "Deadline Center · Civora" },
       {
         property: "og:description",
         content: "One prioritised list for every academic and competition deadline.",

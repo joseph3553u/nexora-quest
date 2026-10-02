@@ -19,12 +19,12 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/resources")({
   head: () => ({
     meta: [
-      { title: "Resource Library · Nexora" },
+      { title: "Resource Library · Civora" },
       {
         name: "description",
         content: "Notes, books, slides and cheatsheets shared by students and faculty, filtered by subject and semester.",
       },
-      { property: "og:title", content: "Resource Library · Nexora" },
+      { property: "og:title", content: "Resource Library · Civora" },
       {
         property: "og:description",
         content: "Search notes, books, slides and cheatsheets by subject and semester.",

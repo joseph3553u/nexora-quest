@@ -13,12 +13,12 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/college-hub")({
   head: () => ({
     meta: [
-      { title: "College Hub · Nexora" },
+      { title: "College Hub · Civora" },
       {
         name: "description",
         content: "Departments, notices, faculty and academic announcements for your college.",
       },
-      { property: "og:title", content: "College Hub · Nexora" },
+      { property: "og:title", content: "College Hub · Civora" },
       {
         property: "og:description",
         content: "Departments, notices and academic announcements in one place.",

@@ -12,12 +12,12 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/learning")({
   head: () => ({
     meta: [
-      { title: "Learning Center · Nexora" },
+      { title: "Learning Center · Civora" },
       {
         name: "description",
         content: "Track course progress, tick off lessons and pick up exactly where you left off.",
       },
-      { property: "og:title", content: "Learning Center · Nexora" },
+      { property: "og:title", content: "Learning Center · Civora" },
       {
         property: "og:description",
         content: "Course tracks, lesson checklists and learning progress.",

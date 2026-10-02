@@ -19,6 +19,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useRooms } from "@/hooks/use-rooms";
+import { useProfile } from "@/hooks/use-profile";
 import { DoorOpen, ChevronDown } from "lucide-react";
 
 function RoomSwitcher() {
@@ -45,7 +46,8 @@ function RoomSwitcher() {
         <DropdownMenuLabel>Your Rooms</DropdownMenuLabel>
         {rooms.map((r) => (
           <DropdownMenuItem key={r.id} onSelect={() => setActiveId(r.id)}>
-            {r.name} {r.id === activeRoom.id && <span className="ml-auto text-xs text-primary">Active</span>}
+            {r.name}{" "}
+            {r.id === activeRoom.id && <span className="ml-auto text-xs text-primary">Active</span>}
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />
@@ -71,7 +73,7 @@ function Brand({ onClick }: { onClick?: () => void }) {
         <Sparkles className="size-4.5" />
       </span>
       <span className="flex flex-col leading-tight">
-        <span className="font-display text-base font-semibold tracking-tight">Nexora</span>
+        <span className="font-display text-base font-semibold tracking-tight">Civora</span>
         <span className="text-[11px] text-muted-foreground">Student OS</span>
       </span>
     </Link>
@@ -124,6 +126,14 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { data: profile } = useProfile();
+  const profileName = profile?.display_name || student.name;
+  const profileInitials = profileName
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
   async function handleSignOut() {
     await queryClient.cancelQueries();
@@ -202,7 +212,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search notes, courses, deadlines…"
-                 className="h-10 rounded-md bg-muted/60 pl-9"
+                className="h-10 rounded-md bg-muted/60 pl-9"
               />
             </form>
 
@@ -223,11 +233,11 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <button className="flex items-center gap-2.5 rounded-full py-1 pl-1 pr-2 transition-colors hover:bg-muted">
                     <Avatar className="size-8">
                       <AvatarFallback className="bg-primary-soft text-xs font-semibold text-accent-foreground">
-                        JH
+                        {profileInitials}
                       </AvatarFallback>
                     </Avatar>
                     <span className="hidden text-left leading-tight md:block">
-                      <span className="block text-sm font-medium">{student.name}</span>
+                      <span className="block text-sm font-medium">{profileName}</span>
                       <span className="block text-[11px] text-muted-foreground">
                         {student.semester}
                       </span>
@@ -256,7 +266,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </header>
 
-        <main className="mx-auto w-full max-w-7xl px-4 pb-28 pt-6 sm:px-6 lg:px-8 lg:pb-12 lg:pt-8">{children}</main>
+        <main className="mx-auto w-full max-w-7xl px-4 pb-28 pt-6 sm:px-6 lg:px-8 lg:pb-12 lg:pt-8">
+          {children}
+        </main>
       </div>
 
       {/* Mobile bottom nav */}

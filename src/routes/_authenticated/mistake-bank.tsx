@@ -24,13 +24,13 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/_authenticated/mistake-bank")({
   head: () => ({
     meta: [
-      { title: "Mistake Bank · Nexora" },
+      { title: "Mistake Bank · Civora" },
       {
         name: "description",
         content:
           "Log every exam mistake with what went wrong and the fix, then review them before the next test.",
       },
-      { property: "og:title", content: "Mistake Bank · Nexora" },
+      { property: "og:title", content: "Mistake Bank · Civora" },
       {
         property: "og:description",
         content: "Log mistakes, capture the fix and review before exams.",
