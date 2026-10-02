@@ -33,12 +33,6 @@ function onLovableHost() {
   return LOVABLE_HOST_ZONES.some((zone) => host === zone || host.endsWith(`.${zone}`));
 }
 
-async function getAccountStatus(email: string) {
-  const { data, error } = await supabase.rpc("auth_account_status", { _email: email });
-  if (error) return null;
-  return data as "none" | "unconfirmed" | "oauth_only" | "password";
-}
-
 function AuthPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
@@ -66,30 +60,6 @@ function AuthPage() {
     setSuggestion(next);
   }
 
-  async function explainFailedSignIn() {
-    const status = await getAccountStatus(email);
-    if (status === "none") {
-      report(
-        "No account exists for this email yet. Create a new account to get started.",
-        "signup",
-      );
-    } else if (status === "unconfirmed") {
-      report(
-        "This account hasn't been confirmed yet. Check your inbox for the confirmation link.",
-        "resend",
-      );
-    } else if (status === "oauth_only") {
-      report(
-        "This account was created with Google. Use “Continue with Google” to sign in.",
-        "google",
-      );
-    } else if (status === "password") {
-      report("Incorrect password. Please try again.");
-    } else {
-      report("Invalid email or password.");
-    }
-  }
-
   async function submit(event: FormEvent) {
     event.preventDefault();
     setPending(true);
@@ -101,7 +71,10 @@ function AuthPage() {
           if (error.code === "email_not_confirmed") {
             report("Please confirm your email first. Check your inbox for the link.", "resend");
           } else if (error.code === "invalid_credentials") {
-            await explainFailedSignIn();
+            report(
+              "Invalid email or password. If you are new to Civora, create an account.",
+              "signup",
+            );
           } else {
             report(error.message);
           }
@@ -124,14 +97,11 @@ function AuthPage() {
           }
           return;
         }
-        // With email confirmation on, Supabase returns a user with no identities
-        // instead of an error when the email is already registered.
-        if (data.user && data.user.identities?.length === 0) {
-          report("An account with this email already exists. Sign in instead.", "signin");
-          return;
-        }
         if (!data.session) {
-          report("Check your email to confirm your account, then sign in.", "resend");
+          report(
+            "If your account can be created, check your email for a confirmation link.",
+            "resend",
+          );
           return;
         }
       }
@@ -168,9 +138,35 @@ function AuthPage() {
     try {
       const probe = await fetch(data.url, { redirect: "manual" });
       if (probe.type !== "opaqueredirect" && !probe.ok) {
-        report(
-          "Google sign-in isn't set up for this site yet. Sign in with email and password instead.",
-        );
+        const body = (await probe
+          .clone()
+          .json()
+          .catch(() => null)) as {
+          msg?: string;
+          message?: string;
+          error?: string;
+          error_description?: string;
+        } | null;
+        const detail = [body?.msg, body?.message, body?.error, body?.error_description]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+        if (
+          /provider/.test(detail) &&
+          /(not enabled|disabled|unsupported|not configured)/.test(detail)
+        ) {
+          report(
+            "Google sign-in is disabled in Supabase Auth. Enable the Google provider and configure its OAuth Client ID and Secret.",
+          );
+        } else if (/redirect/.test(detail) && /(not allowed|invalid|unauthorized)/.test(detail)) {
+          report(
+            "Supabase rejected this sign-in redirect. Add this site's /auth URL to the Supabase Auth redirect allow-list.",
+          );
+        } else {
+          report(
+            `Google sign-in could not start (Supabase HTTP ${probe.status}). Check the Google provider and this site's /auth redirect allow-list in Supabase Auth.`,
+          );
+        }
         return;
       }
     } catch {

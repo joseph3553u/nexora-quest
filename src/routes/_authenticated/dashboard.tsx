@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
 import {
   ArrowRight,
   CalendarClock,
@@ -14,17 +13,9 @@ import { StatCard } from "@/components/common/StatCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  deadlines as seedDeadlines,
-  daysUntil,
-  formatDate,
-  opportunities,
-  student,
-  weeklyStudy,
-} from "@/data/demo";
 import { useCourseProgress } from "@/hooks/use-course-progress";
+import { useProfile } from "@/hooks/use-profile";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -32,13 +23,12 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
       { title: "Dashboard · Civora Student OS" },
       {
         name: "description",
-        content:
-          "Your semester at a glance: attendance, CGPA, study hours, upcoming deadlines and course progress.",
+        content: "Your student profile, saved lesson progress, learning activity and next steps.",
       },
       { property: "og:title", content: "Dashboard · Civora Student OS" },
       {
         property: "og:description",
-        content: "Your semester at a glance — deadlines, progress and study momentum.",
+        content: "Your profile and saved learning progress at a glance.",
       },
     ],
   }),
@@ -46,21 +36,30 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 });
 
 function Dashboard() {
-  const [tasks, setTasks] = useState(seedDeadlines);
-  const { courses } = useCourseProgress();
-  const maxHours = Math.max(...weeklyStudy.map((d) => d.hours));
-
-  const upcoming = tasks
-    .filter((t) => !t.done)
-    .sort((a, b) => a.due.localeCompare(b.due))
-    .slice(0, 5);
+  const {
+    courses,
+    isLoading: coursesLoading,
+    isError: coursesError,
+    studyStreak,
+    weeklyActivity,
+  } = useCourseProgress();
+  const { data: profile, isLoading: profileLoading } = useProfile();
+  const firstName = profile?.display_name.trim().split(/\s+/)[0] || "Student";
+  const programAndSemester = [profile?.program, profile?.semester].filter(Boolean).join(" · ");
+  const activityTotal = weeklyActivity.reduce((sum, day) => sum + day.count, 0);
+  const maxCompletions = Math.max(1, ...weeklyActivity.map((day) => day.count));
 
   return (
     <div className="space-y-8">
       <PageHeader
         eyebrow="Welcome back"
-        title={`Good to see you, ${student.name.split(" ")[0]}`}
-        description={`${student.program} · ${student.semester}. Here is everything that needs you this week.`}
+        title={`Good to see you, ${firstName}`}
+        description={
+          programAndSemester ||
+          (profileLoading
+            ? "Loading your student profile…"
+            : "Complete your profile to personalize your dashboard.")
+        }
         actions={
           <>
             <Button variant="outline" asChild>
@@ -76,33 +75,71 @@ function Dashboard() {
       />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="CGPA" value={student.cgpa.toFixed(2)} hint="+0.12 this semester" icon={TrendingUp} />
-        <StatCard label="Attendance" value={`${student.attendance}%`} hint="Safe above 75%" icon={Percent} />
-        <StatCard label="Credits earned" value={`${student.credits}`} hint="of 160 total" icon={GraduationCap} />
-        <StatCard label="Study streak" value={`${student.streak} days`} hint="Best streak: 31" icon={Flame} />
+        <StatCard
+          label="CGPA"
+          value={profile?.cgpa == null ? "—" : Number(profile.cgpa).toFixed(2)}
+          hint={profile?.cgpa == null ? "Add it in your profile" : "From your student profile"}
+          icon={TrendingUp}
+        />
+        <StatCard
+          label="Attendance"
+          value={profile?.attendance == null ? "—" : `${Number(profile.attendance)}%`}
+          hint={
+            profile?.attendance == null ? "Add it in your profile" : "From your student profile"
+          }
+          icon={Percent}
+        />
+        <StatCard
+          label="Credits earned"
+          value={profile?.credits == null ? "—" : `${profile.credits}`}
+          hint={profile?.credits == null ? "Add it in your profile" : "From your student profile"}
+          icon={GraduationCap}
+        />
+        <StatCard
+          label="Learning streak"
+          value={`${studyStreak} ${studyStreak === 1 ? "day" : "days"}`}
+          hint={
+            studyStreak
+              ? "Consecutive days with saved lesson completions"
+              : "Complete a lesson to start"
+          }
+          icon={Flame}
+        />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <section className="surface flex flex-col p-6 lg:col-span-2">
           <div className="mb-5 flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-semibold">Study hours this week</h2>
-              <p className="text-sm text-muted-foreground">29.1 hours logged across 7 days</p>
+              <h2 className="text-lg font-semibold">Lessons completed in the last 7 days</h2>
+              <p className="text-sm text-muted-foreground">
+                {coursesLoading
+                  ? "Loading saved learning activity…"
+                  : coursesError
+                    ? "Learning activity could not be loaded."
+                    : `${activityTotal} ${activityTotal === 1 ? "lesson" : "lessons"} completed`}
+              </p>
             </div>
-            <Badge variant="secondary">+14% vs last week</Badge>
+            <Badge variant="secondary">
+              {activityTotal} {activityTotal === 1 ? "completion" : "completions"}
+            </Badge>
           </div>
-          <div className="flex min-h-48 flex-1 items-end gap-3">
-            {weeklyStudy.map((d) => (
+          <div
+            className="flex min-h-48 flex-1 items-end gap-3"
+            role="img"
+            aria-label="Saved lesson completions for each of the last seven days"
+          >
+            {weeklyActivity.map((day, index) => (
               <div
-                key={d.day}
+                key={`${day.day}-${index}`}
                 className="flex h-full flex-1 flex-col items-center justify-end gap-2"
               >
-                <span className="text-xs font-medium text-muted-foreground">{d.hours}h</span>
+                <span className="text-xs font-medium text-muted-foreground">{day.count}</span>
                 <div
-                   className="progress-glow w-full min-h-1 shrink-0 rounded-t-md bg-primary/85 transition-all duration-500 hover:bg-primary"
-                  style={{ height: `${(d.hours / maxHours) * 100}%` }}
+                  className="progress-glow w-full min-h-1 shrink-0 rounded-t-md bg-primary/85 transition-all duration-500 hover:bg-primary"
+                  style={{ height: `${(day.count / maxCompletions) * 100}%` }}
                 />
-                <span className="text-xs text-muted-foreground">{d.day}</span>
+                <span className="text-xs text-muted-foreground">{day.day}</span>
               </div>
             ))}
           </div>
@@ -114,35 +151,12 @@ function Dashboard() {
             <CalendarClock className="size-4.5 text-muted-foreground" />
           </div>
           <ul className="space-y-3">
-            {upcoming.map((task) => {
-              const days = daysUntil(task.due);
-              return (
-                <li key={task.id} className="flex items-start gap-3 rounded-lg p-2 hover:bg-muted">
-                  <Checkbox
-                    checked={task.done}
-                    onCheckedChange={() =>
-                      setTasks((prev) =>
-                        prev.map((t) => (t.id === task.id ? { ...t, done: !t.done } : t)),
-                      )
-                    }
-                    className="mt-0.5"
-                  />
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium">{task.title}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {formatDate(task.due)} ·{" "}
-                      {days < 0 ? "overdue" : days === 0 ? "today" : `in ${days} days`}
-                    </p>
-                  </div>
-                  <Badge
-                    variant={task.priority === "High" ? "destructive" : "secondary"}
-                    className="shrink-0"
-                  >
-                    {task.priority}
-                  </Badge>
-                </li>
-              );
-            })}
+            <li className="rounded-lg border border-dashed border-border p-3">
+              <p className="text-sm font-medium">No synced deadlines yet</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Deadline reminders need a connected deadline data source.
+              </p>
+            </li>
           </ul>
           <Button variant="ghost" className="mt-4 w-full" asChild>
             <Link to="/deadlines">Open deadline center</Link>
@@ -156,41 +170,50 @@ function Dashboard() {
           <TabsTrigger value="opps">Recommended for you</TabsTrigger>
         </TabsList>
         <TabsContent value="courses" className="mt-5">
-          <div className="grid gap-4 md:grid-cols-2">
-            {courses.map((course) => (
-              <div key={course.id} className="surface lift p-5">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-xs font-medium text-primary">{course.track}</p>
-                    <h3 className="mt-1 font-semibold">{course.title}</h3>
+          {coursesError ? (
+            <div className="surface p-5 text-sm text-muted-foreground">
+              Course progress could not be loaded. Check your connection and try again.
+            </div>
+          ) : coursesLoading ? (
+            <div className="surface p-5 text-sm text-muted-foreground">Loading your courses…</div>
+          ) : courses.length === 0 ? (
+            <div className="surface p-5 text-sm text-muted-foreground">
+              No courses are available yet.
+            </div>
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2">
+              {courses.map((course) => (
+                <div key={course.id} className="surface lift p-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-medium text-primary">{course.track}</p>
+                      <h3 className="mt-1 font-semibold">{course.title}</h3>
+                    </div>
+                    <Badge variant="outline">{course.level}</Badge>
                   </div>
-                  <Badge variant="outline">{course.level}</Badge>
+                  <Progress value={course.progress} className="mt-4" />
+                  <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+                    <span>{course.progress}% complete</span>
+                    <span>{course.hours}h total</span>
+                  </div>
                 </div>
-                <Progress value={course.progress} className="mt-4" />
-                <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
-                  <span>{course.progress}% complete</span>
-                  <span>{course.hours}h total</span>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </TabsContent>
         <TabsContent value="opps" className="mt-5">
           <div className="grid gap-4 md:grid-cols-2">
-            {opportunities.slice(0, 4).map((o) => (
-              <div key={o.id} className="surface lift flex items-start gap-4 p-5">
-                 <span className="status-glow flex size-10 items-center justify-center rounded-md bg-primary-softer text-primary">
-                  <Target className="size-5" />
-                </span>
-                <div className="min-w-0">
-                  <h3 className="truncate font-semibold">{o.role}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {o.org} · {o.location}
-                  </p>
-                  <p className="mt-1 text-sm font-medium text-primary">{o.stipend}</p>
-                </div>
+            <div className="surface flex items-start gap-4 p-5 md:col-span-2">
+              <span className="status-glow flex size-10 items-center justify-center rounded-md bg-primary-softer text-primary">
+                <Target className="size-5" />
+              </span>
+              <div className="min-w-0">
+                <h3 className="font-semibold">Live recommendations are not connected yet</h3>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Opportunity listings need a live data source before they can be personalized here.
+                </p>
               </div>
-            ))}
+            </div>
           </div>
           <Button variant="outline" className="mt-4" asChild>
             <Link to="/opportunities">See all opportunities</Link>
