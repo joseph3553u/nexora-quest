@@ -1,0 +1,6 @@
+{
+  "name": "Civora — Student Operating System",
+  "description": "Civora brings courses, deadlines, resources, competitions and campus life into one calm student workspace.",
+  "permissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

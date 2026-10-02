@@ -96,7 +96,9 @@ function TeamFinder() {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Post a team request</DialogTitle>
-                <DialogDescription>Tell people what you are building and who you need.</DialogDescription>
+                <DialogDescription>
+                  Tell people what you are building and who you need.
+                </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
                 <div className="space-y-2">

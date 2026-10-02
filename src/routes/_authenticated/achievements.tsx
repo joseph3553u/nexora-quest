@@ -15,7 +15,8 @@ export const Route = createFileRoute("/_authenticated/achievements")({
       { title: "Student Achievements · Civora" },
       {
         name: "description",
-        content: "A verified record of awards, certifications, publications and milestones you have earned.",
+        content:
+          "A verified record of awards, certifications, publications and milestones you have earned.",
       },
       { property: "og:title", content: "Student Achievements · Civora" },
       {
@@ -33,10 +34,7 @@ function Achievements() {
   const [items] = useState<Achievement[]>(seed);
   const [type, setType] = useState("All");
 
-  const list = useMemo(
-    () => items.filter((a) => type === "All" || a.type === type),
-    [items, type],
-  );
+  const list = useMemo(() => items.filter((a) => type === "All" || a.type === type), [items, type]);
   const points = items.reduce((sum, a) => sum + a.points, 0);
 
   return (
@@ -53,8 +51,18 @@ function Achievements() {
       />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard label="Total achievements" value={`${items.length}`} hint="Verified by college" icon={Medal} />
-        <StatCard label="Merit points" value={`${points}`} hint="Rank 14 in your batch" icon={Star} />
+        <StatCard
+          label="Total achievements"
+          value={`${items.length}`}
+          hint="Verified by college"
+          icon={Medal}
+        />
+        <StatCard
+          label="Merit points"
+          value={`${points}`}
+          hint="Rank 14 in your batch"
+          icon={Star}
+        />
         <StatCard label="This year" value="4" hint="+2 vs last year" icon={Sparkles} />
       </div>
 

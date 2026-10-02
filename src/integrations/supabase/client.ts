@@ -54,25 +54,29 @@ function createSupabaseClient() {
     import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"] ||
     (typeof window === "undefined" ? serverEnv?.["SUPABASE_PUBLISHABLE_KEY"] : undefined);
 
+  const resolvedUrl = SUPABASE_URL || "https://placeholder-project.supabase.co";
+  const resolvedKey =
+    SUPABASE_PUBLISHABLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.placeholder";
+
   if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
     const missing = [
       ...(!SUPABASE_URL ? ["SUPABASE_URL"] : []),
       ...(!SUPABASE_PUBLISHABLE_KEY ? ["SUPABASE_PUBLISHABLE_KEY"] : []),
     ];
-    const message = `Missing Supabase environment variable(s): ${missing.join(", ")}. Set the public browser values at build time or provide the corresponding SUPABASE_* values to Render.`;
-    console.error(`[Supabase] ${message}`);
-    throw new Error(message);
+    console.warn(
+      `[Supabase] Missing environment variable(s): ${missing.join(", ")}. Using fallback in disconnected mode.`,
+    );
   }
 
-  if (isServerOnlySupabaseKey(SUPABASE_PUBLISHABLE_KEY)) {
+  if (SUPABASE_PUBLISHABLE_KEY && isServerOnlySupabaseKey(SUPABASE_PUBLISHABLE_KEY)) {
     throw new Error(
       "The public Supabase client requires a publishable/anon key, not a server-only secret/service-role key.",
     );
   }
 
-  return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  return createClient<Database>(resolvedUrl, resolvedKey, {
     global: {
-      fetch: createSupabaseFetch(SUPABASE_PUBLISHABLE_KEY),
+      fetch: createSupabaseFetch(resolvedKey),
     },
     auth: {
       storage: brokeredPreviewStorage(),

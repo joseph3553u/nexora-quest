@@ -16,6 +16,7 @@ import {
   MapPin,
   DoorOpen,
   CalendarDays,
+  Users2,
   type LucideIcon,
 } from "lucide-react";
 
@@ -87,6 +88,13 @@ export const navItems: NavItem[] = [
     short: "Timetable",
     to: "/timetable",
     icon: CalendarDays,
+    group: "Connect",
+  },
+  {
+    title: "Friends",
+    short: "Friends",
+    to: "/friends",
+    icon: Users2,
     group: "Connect",
   },
   {

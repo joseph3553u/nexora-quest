@@ -156,7 +156,12 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
-    background-image: linear-gradient(145deg, oklch(0.97 0.025 235), var(--color-background) 48%, oklch(0.95 0.045 158));
+    background-image: linear-gradient(
+      145deg,
+      oklch(0.97 0.025 235),
+      var(--color-background) 48%,
+      oklch(0.95 0.045 158)
+    );
     background-attachment: fixed;
   }
 
@@ -191,7 +196,12 @@
 }
 
 @utility auth-canvas {
-  background-image: linear-gradient(145deg, oklch(0.96 0.035 235), oklch(0.975 0.016 190) 48%, oklch(0.93 0.075 160));
+  background-image: linear-gradient(
+    145deg,
+    oklch(0.96 0.035 235),
+    oklch(0.975 0.016 190) 48%,
+    oklch(0.93 0.075 160)
+  );
 }
 
 @utility lift {
@@ -206,7 +216,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;

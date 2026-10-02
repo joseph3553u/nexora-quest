@@ -467,36 +467,66 @@ export type Subject = {
 export const subjects: Subject[] = [
   {
     id: "s1",
-    code: "CS101",
-    name: "Programming Fundamentals",
+    code: "PPS101",
+    name: "Programming for Problem Solving (PPS)",
     semester: 1,
     credits: 4,
     prerequisites: [],
     unlocks: ["CS201", "CS202"],
-    difficulty: "Easy",
+    difficulty: "Moderate",
   },
   {
     id: "s2",
-    code: "CS201",
-    name: "Data Structures",
-    semester: 3,
+    code: "MA101",
+    name: "Engineering Mathematics",
+    semester: 1,
     credits: 4,
-    prerequisites: ["CS101"],
-    unlocks: ["CS301", "CS305"],
+    prerequisites: [],
+    unlocks: ["CS202"],
     difficulty: "Hard",
   },
   {
     id: "s3",
-    code: "CS202",
-    name: "Discrete Mathematics",
-    semester: 3,
-    credits: 3,
-    prerequisites: ["CS101"],
-    unlocks: ["CS305"],
+    code: "PH101",
+    name: "Engineering Physics",
+    semester: 1,
+    credits: 4,
+    prerequisites: [],
+    unlocks: [],
     difficulty: "Moderate",
   },
   {
     id: "s4",
+    code: "EN101",
+    name: "English Communication Skills",
+    semester: 1,
+    credits: 2,
+    prerequisites: [],
+    unlocks: [],
+    difficulty: "Easy",
+  },
+  {
+    id: "s5",
+    code: "CS201",
+    name: "Data Structures & Algorithms",
+    semester: 3,
+    credits: 4,
+    prerequisites: ["PPS101"],
+    unlocks: ["CS301", "CS305"],
+    difficulty: "Hard",
+  },
+  {
+    id: "s6",
+    code: "CS202",
+    name: "Discrete Mathematics",
+    semester: 3,
+    credits: 3,
+    prerequisites: ["MA101"],
+    unlocks: ["CS305"],
+    difficulty: "Moderate",
+  },
+  {
+    id: "s7",
     code: "CS301",
     name: "Operating Systems",
     semester: 4,
@@ -506,34 +536,14 @@ export const subjects: Subject[] = [
     difficulty: "Hard",
   },
   {
-    id: "s5",
-    code: "CS305",
-    name: "Design & Analysis of Algorithms",
-    semester: 5,
+    id: "s8",
+    code: "CS302",
+    name: "Database Management Systems (DBMS)",
+    semester: 4,
     credits: 4,
-    prerequisites: ["CS201", "CS202"],
-    unlocks: ["CS410"],
-    difficulty: "Hard",
-  },
-  {
-    id: "s6",
-    code: "CS402",
-    name: "Distributed Systems",
-    semester: 6,
-    credits: 3,
-    prerequisites: ["CS301"],
+    prerequisites: ["CS201"],
     unlocks: [],
     difficulty: "Moderate",
-  },
-  {
-    id: "s7",
-    code: "CS410",
-    name: "Machine Learning",
-    semester: 6,
-    credits: 4,
-    prerequisites: ["CS305"],
-    unlocks: [],
-    difficulty: "Hard",
   },
 ];
 
@@ -586,6 +596,13 @@ export const projects: Project[] = [
   },
 ];
 
+export type SkillMatch = {
+  skill: string;
+  percentage: number;
+  level: "Strong" | "Moderate" | "Needs Prep";
+  description: string;
+};
+
 export type Opportunity = {
   id: string;
   role: string;
@@ -596,6 +613,10 @@ export type Opportunity = {
   posted: string;
   tags: string[];
   saved: boolean;
+  description?: string;
+  overallMatch?: number;
+  skillsBreakdown?: SkillMatch[];
+  whatToCoverHighlights?: string[];
 };
 
 export const opportunities: Opportunity[] = [
@@ -607,8 +628,42 @@ export const opportunities: Opportunity[] = [
     location: "Remote",
     stipend: "₹35,000 / month",
     posted: "2 days ago",
-    tags: ["React", "TypeScript"],
+    tags: ["React", "TypeScript", "JavaScript"],
     saved: true,
+    description:
+      "Join our product engineering pod to build modern, responsive web experiences with React, TypeScript, and state management libraries.",
+    overallMatch: 78,
+    skillsBreakdown: [
+      {
+        skill: "JavaScript & TypeScript",
+        percentage: 82,
+        level: "Strong",
+        description: "ES6+, Async/Await, and React hooks well covered in your courses.",
+      },
+      {
+        skill: "C & Algorithmic Logic (PPS)",
+        percentage: 88,
+        level: "Strong",
+        description: "Pointers and memory intuition from PPS give solid algorithmic foundation.",
+      },
+      {
+        skill: "Python & Backend Integration",
+        percentage: 70,
+        level: "Moderate",
+        description: "Basic REST consumption and scripting ready; asynchronous APIs recommended.",
+      },
+      {
+        skill: "CSS & Responsive Layouts",
+        percentage: 72,
+        level: "Moderate",
+        description: "Tailwind CSS and component libraries need hands-on project portfolio work.",
+      },
+    ],
+    whatToCoverHighlights: [
+      "Next.js App Router and Server-Side Rendering (SSR)",
+      "Global state management with Zustand or Redux Toolkit",
+      "Building a production web app with accessible form validation",
+    ],
   },
   {
     id: "o2",
@@ -618,8 +673,42 @@ export const opportunities: Opportunity[] = [
     location: "On-campus",
     stipend: "₹15,000 / month",
     posted: "5 days ago",
-    tags: ["Python", "NLP"],
+    tags: ["Python", "NLP", "Machine Learning"],
     saved: false,
+    description:
+      "Assist faculty in experimenting with LLM fine-tuning, embeddings, and text retrieval benchmarks on academic datasets.",
+    overallMatch: 84,
+    skillsBreakdown: [
+      {
+        skill: "Python & Data Science",
+        percentage: 86,
+        level: "Strong",
+        description: "NumPy, Pandas, and PyTorch syntax mastered in your academic tracks.",
+      },
+      {
+        skill: "C & Low-Level Algorithms",
+        percentage: 85,
+        level: "Strong",
+        description: "Strong grasp of memory allocation and tree traversal algorithms.",
+      },
+      {
+        skill: "Mathematics & Linear Algebra",
+        percentage: 82,
+        level: "Strong",
+        description: "Matrix rank, eigenvalues, and vectors from Sem 1 Mathematics.",
+      },
+      {
+        skill: "JavaScript & Visualization",
+        percentage: 66,
+        level: "Moderate",
+        description: "Interactive chart rendering and dashboard integration.",
+      },
+    ],
+    whatToCoverHighlights: [
+      "HuggingFace Transformers and custom tokenizers",
+      "Parameter-Efficient Fine-Tuning (PEFT / LoRA)",
+      "Vector embeddings and retrieval-augmented generation (RAG)",
+    ],
   },
   {
     id: "o3",
@@ -629,8 +718,36 @@ export const opportunities: Opportunity[] = [
     location: "India",
     stipend: "₹1,20,000 / year",
     posted: "1 week ago",
-    tags: ["Merit", "Need-based"],
+    tags: ["Merit", "Need-based", "Academic"],
     saved: false,
+    description:
+      "Annual merit award for undergraduate students with strong academic standing (CGPA > 8.0) and technical project achievements.",
+    overallMatch: 92,
+    skillsBreakdown: [
+      {
+        skill: "Academic Standing (CGPA 8.74)",
+        percentage: 95,
+        level: "Strong",
+        description: "Well above the 8.0 cutoff threshold required for consideration.",
+      },
+      {
+        skill: "Core Engineering Fundamentals",
+        percentage: 90,
+        level: "Strong",
+        description: "Distinctions in PPS, Mathematics, and Physics lab coursework.",
+      },
+      {
+        skill: "Technical Documentation",
+        percentage: 85,
+        level: "Strong",
+        description: "Verified lab records and previous-paper analyzer research notes.",
+      },
+    ],
+    whatToCoverHighlights: [
+      "Draft a 500-word statement of academic purpose and career goals",
+      "Gather faculty recommendation letters from CSE department",
+      "Showcase GitHub repository links for course projects",
+    ],
   },
   {
     id: "o4",
@@ -640,8 +757,42 @@ export const opportunities: Opportunity[] = [
     location: "Bengaluru",
     stipend: "₹12 LPA",
     posted: "3 days ago",
-    tags: ["Backend", "Java"],
+    tags: ["Backend", "Java", "C++", "Python"],
     saved: false,
+    description:
+      "Join a fast-growing backend team developing high-throughput microservices, API gateways, and distributed caching layers.",
+    overallMatch: 80,
+    skillsBreakdown: [
+      {
+        skill: "C & Data Structures (PPS)",
+        percentage: 90,
+        level: "Strong",
+        description: "Linked lists, trees, graphs, sorting, and Big-O time complexity analysis.",
+      },
+      {
+        skill: "Python & Object-Oriented Design",
+        percentage: 78,
+        level: "Moderate",
+        description: "Class hierarchies, error handling, and clean code principles.",
+      },
+      {
+        skill: "SQL & Relational Databases",
+        percentage: 72,
+        level: "Moderate",
+        description: "Normalization, foreign keys, and indexed queries.",
+      },
+      {
+        skill: "JavaScript & API Communication",
+        percentage: 74,
+        level: "Moderate",
+        description: "HTTP verbs, RESTful payloads, and JSON schemas.",
+      },
+    ],
+    whatToCoverHighlights: [
+      "System design basics: caching (Redis), rate limiters, and load balancing",
+      "Hands-on practice with Docker containerization",
+      "Advanced SQL indexing and transactional ACID properties",
+    ],
   },
   {
     id: "o5",
@@ -651,8 +802,42 @@ export const opportunities: Opportunity[] = [
     location: "Hyderabad",
     stipend: "₹25,000 / month",
     posted: "Today",
-    tags: ["SQL", "Dashboards"],
+    tags: ["SQL", "Dashboards", "Python"],
     saved: false,
+    description:
+      "Analyze product funnel metrics, build interactive executive dashboards, and automate periodic ETL reporting workflows.",
+    overallMatch: 76,
+    skillsBreakdown: [
+      {
+        skill: "Python (Pandas & Scripting)",
+        percentage: 82,
+        level: "Strong",
+        description: "Data frame manipulation, CSV ingestion, and statistical summaries.",
+      },
+      {
+        skill: "SQL & Database Queries",
+        percentage: 75,
+        level: "Moderate",
+        description: "JOINs, aggregations, and subqueries covered; window functions needed.",
+      },
+      {
+        skill: "C & Algorithmic Problem Solving",
+        percentage: 85,
+        level: "Strong",
+        description: "Analytical reasoning and structured logical workflows.",
+      },
+      {
+        skill: "JavaScript & Visualization Tools",
+        percentage: 65,
+        level: "Moderate",
+        description: "BI dashboard configuration and interactive charting.",
+      },
+    ],
+    whatToCoverHighlights: [
+      "SQL Window Functions (ROW_NUMBER, RANK, LEAD, LAG)",
+      "Interactive dashboard creation with Streamlit or PowerBI",
+      "Hypothesis testing and A/B test metric evaluation",
+    ],
   },
 ];
 
@@ -816,32 +1001,74 @@ export const campusPlaces = [
 ];
 
 export const departments = [
-  { id: "dep1", name: "Computer Science", students: 1240, faculty: 64, hod: "Prof. S. Iyer" },
-  { id: "dep2", name: "Electronics", students: 860, faculty: 48, hod: "Prof. R. Nambiar" },
-  { id: "dep3", name: "Mechanical", students: 910, faculty: 52, hod: "Prof. A. Deshpande" },
-  { id: "dep4", name: "Management", students: 540, faculty: 30, hod: "Prof. L. Fernandes" },
+  {
+    id: "dep1",
+    name: "Computer Science & Engineering",
+    students: 1240,
+    faculty: 64,
+    hod: "Prof. S. Iyer",
+  },
+  {
+    id: "dep2",
+    name: "Electronics & Communication",
+    students: 860,
+    faculty: 48,
+    hod: "Prof. R. Nambiar",
+  },
+  {
+    id: "dep3",
+    name: "Mechanical Engineering",
+    students: 910,
+    faculty: 52,
+    hod: "Prof. A. Deshpande",
+  },
+  { id: "dep4", name: "Civil Engineering", students: 540, faculty: 30, hod: "Prof. L. Fernandes" },
 ];
 
 export const collegeNotices = [
   {
     id: "n1",
-    title: "Mid-semester examination timetable released",
+    title: "KLRCET Mid-semester examination timetable released",
     date: "2026-09-29",
     tag: "Exams",
   },
-  { id: "n2", title: "Elective registration closes Friday", date: "2026-09-30", tag: "Academics" },
-  { id: "n3", title: "Annual tech fest volunteer signups open", date: "2026-10-03", tag: "Events" },
-  { id: "n4", title: "Library extends late-night hours", date: "2026-10-06", tag: "Facilities" },
+  {
+    id: "n2",
+    title: "PPS & Engineering Physics lab records verification",
+    date: "2026-09-30",
+    tag: "Academics",
+  },
+  {
+    id: "n3",
+    title: "KLRCET Annual Technical Symposium 2026 signups",
+    date: "2026-10-03",
+    tag: "Events",
+  },
+  {
+    id: "n4",
+    title: "Central Library late-night study hours open",
+    date: "2026-10-06",
+    tag: "Facilities",
+  },
 ];
 
 export const student = {
   name: "Joseph Harshith",
-  program: "B.Tech Computer Science",
+  college: "KLR College of Engineering and Technology (KLRCET)",
+  program: "B.Tech Computer Science & Engineering",
+  department: "Computer Science & Engineering",
   semester: "Semester 5",
   cgpa: 8.74,
   attendance: 86,
   credits: 112,
   streak: 23,
+  skills: [
+    "Programming for Problem Solving (PPS)",
+    "Data Structures",
+    "Python",
+    "Web Development",
+    "Database Systems",
+  ],
 };
 
 export const weeklyStudy = [

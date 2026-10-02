@@ -1,6 +1,6 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { Bell, LogOut, Menu, Search, Sparkles, X } from "lucide-react";
 import { navGroups, navItems, mobileNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
@@ -15,12 +15,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useRooms } from "@/hooks/use-rooms";
 import { useProfile } from "@/hooks/use-profile";
 import { useTimetableReminders } from "@/hooks/use-timetable-reminders";
 import { DoorOpen, ChevronDown } from "lucide-react";
+import { CivoraAiChat } from "@/components/ai/CivoraAiChat";
 
 function RoomSwitcher() {
   const { rooms, activeRoom, setActiveId, leave } = useRooms();
@@ -123,6 +125,8 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
 export function AppShell({ children }: { children: ReactNode }) {
   useTimetableReminders();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [aiOpen, setAiOpen] = useState(false);
+  const [initialAiPrompt, setInitialAiPrompt] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const pathname = useRouterState({ select: (r) => r.location.pathname });
   const navigate = useNavigate();
@@ -136,7 +140,25 @@ export function AppShell({ children }: { children: ReactNode }) {
     .slice(0, 2)
     .toUpperCase();
 
+  useEffect(() => {
+    function handleOpenAi(e: Event) {
+      const customEvent = e as CustomEvent<{ prompt?: string }>;
+      if (customEvent.detail?.prompt) {
+        setInitialAiPrompt(customEvent.detail.prompt);
+      } else {
+        setInitialAiPrompt(null);
+      }
+      setAiOpen(true);
+    }
+    window.addEventListener("open-civora-ai", handleOpenAi);
+    return () => window.removeEventListener("open-civora-ai", handleOpenAi);
+  }, []);
+
   async function handleSignOut() {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("civora_guest_session");
+      localStorage.removeItem("civora_google_session");
+    }
     await queryClient.cancelQueries();
     queryClient.clear();
     await supabase.auth.signOut();
@@ -218,6 +240,15 @@ export function AppShell({ children }: { children: ReactNode }) {
             </form>
 
             <div className="ml-auto flex items-center gap-1.5 lg:ml-0">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setAiOpen(true)}
+                className="gap-1.5 border-primary/30 bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary font-medium"
+              >
+                <Sparkles className="size-4 text-primary" />
+                <span className="hidden sm:inline">Civora AI</span>
+              </Button>
               <RoomSwitcher />
               <Button
                 variant="ghost"
@@ -271,6 +302,35 @@ export function AppShell({ children }: { children: ReactNode }) {
           {children}
         </main>
       </div>
+
+      {/* Floating Civora AI Copilot Trigger */}
+      <button
+        onClick={() => setAiOpen(true)}
+        className="fixed bottom-20 right-4 z-40 flex items-center gap-2 rounded-full border border-primary/30 bg-primary px-3.5 py-2.5 text-xs font-semibold text-primary-foreground shadow-lift transition hover:scale-105 hover:bg-primary/95 sm:bottom-6 sm:right-6 sm:px-4 sm:py-3 sm:text-sm"
+        aria-label="Open Civora AI Assistant"
+      >
+        <Sparkles className="size-4" />
+        <span className="font-display font-medium">Civora AI</span>
+      </button>
+
+      {/* Global Central Civora AI Assistant Modal */}
+      <Dialog
+        open={aiOpen}
+        onOpenChange={(open) => {
+          setAiOpen(open);
+          if (!open) setInitialAiPrompt(null);
+        }}
+      >
+        <DialogContent className="max-w-2xl p-0 h-[620px] border border-border shadow-lift overflow-hidden">
+          <CivoraAiChat
+            initialPrompt={initialAiPrompt}
+            onClose={() => {
+              setAiOpen(false);
+              setInitialAiPrompt(null);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
 
       {/* Mobile bottom nav */}
       <nav className="glass-panel fixed inset-x-0 bottom-0 z-40 border-t border-border lg:hidden">

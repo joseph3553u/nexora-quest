@@ -31,10 +31,7 @@ function Prerequisites() {
   const [selectedId, setSelectedId] = useState(subjects[4]!.id);
 
   const list = useMemo(
-    () =>
-      subjects.filter((s) =>
-        (s.name + s.code).toLowerCase().includes(query.toLowerCase()),
-      ),
+    () => subjects.filter((s) => (s.name + s.code).toLowerCase().includes(query.toLowerCase())),
     [query],
   );
 
@@ -65,7 +62,12 @@ function Prerequisites() {
 
       <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
         <div className="space-y-4">
-          <SearchField value={query} onChange={setQuery} placeholder="Search subject or code" className="sm:max-w-none" />
+          <SearchField
+            value={query}
+            onChange={setQuery}
+            placeholder="Search subject or code"
+            className="sm:max-w-none"
+          />
           {list.length === 0 ? (
             <EmptyState message="No subject matches that search." />
           ) : (

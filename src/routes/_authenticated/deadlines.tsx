@@ -44,7 +44,34 @@ export const Route = createFileRoute("/_authenticated/deadlines")({
 const categories = ["All", "Academic", "Competition", "Application", "Project"];
 
 function Deadlines() {
-  const [items, setItems] = useState<Deadline[]>(seed);
+  const [items, setItems] = useState<Deadline[]>(() => {
+    if (typeof window === "undefined") return seed;
+    try {
+      const saved = localStorage.getItem("civora_deadlines");
+      return saved ? JSON.parse(saved) : seed;
+    } catch {
+      return seed;
+    }
+  });
+
+  // Persist deadlines to localStorage
+  useState(() => {
+    if (typeof window !== "undefined" && !localStorage.getItem("civora_deadlines")) {
+      localStorage.setItem("civora_deadlines", JSON.stringify(seed));
+    }
+  });
+
+  const updateItems = (updater: (prev: Deadline[]) => Deadline[]) => {
+    setItems((prev) => {
+      const next = updater(prev);
+      try {
+        localStorage.setItem("civora_deadlines", JSON.stringify(next));
+      } catch {
+        // Ignore
+      }
+      return next;
+    });
+  };
   const [category, setCategory] = useState("All");
   const [query, setQuery] = useState("");
   const [showDone, setShowDone] = useState(false);
@@ -114,7 +141,7 @@ function Deadlines() {
                       toast("Give the deadline a title");
                       return;
                     }
-                    setItems((prev) => [
+                    updateItems((prev) => [
                       ...prev,
                       {
                         id: `d${Date.now()}`,
@@ -139,8 +166,18 @@ function Deadlines() {
       />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <StatCard label="Pending" value={`${pending.length}`} hint="Across all categories" icon={CalendarClock} />
-        <StatCard label="Due this week" value={`${urgent}`} hint="Needs attention now" icon={AlertTriangle} />
+        <StatCard
+          label="Pending"
+          value={`${pending.length}`}
+          hint="Across all categories"
+          icon={CalendarClock}
+        />
+        <StatCard
+          label="Due this week"
+          value={`${urgent}`}
+          hint="Needs attention now"
+          icon={AlertTriangle}
+        />
         <StatCard
           label="Completed"
           value={`${items.length - pending.length}`}
@@ -170,7 +207,7 @@ function Deadlines() {
                 <Checkbox
                   checked={d.done}
                   onCheckedChange={() =>
-                    setItems((prev) =>
+                    updateItems((prev) =>
                       prev.map((x) => (x.id === d.id ? { ...x, done: !x.done } : x)),
                     )
                   }

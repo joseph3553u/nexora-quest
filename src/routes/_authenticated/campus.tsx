@@ -12,7 +12,8 @@ export const Route = createFileRoute("/_authenticated/campus")({
       { title: "Campus Information · Civora" },
       {
         name: "description",
-        content: "Opening hours, locations and details for libraries, labs, canteens and support services.",
+        content:
+          "Opening hours, locations and details for libraries, labs, canteens and support services.",
       },
       { property: "og:title", content: "Campus Information · Civora" },
       {

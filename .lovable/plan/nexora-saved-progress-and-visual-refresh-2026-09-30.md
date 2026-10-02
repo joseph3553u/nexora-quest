@@ -1,6 +1,7 @@
 # Nexora saved progress and visual refresh
 
 ## What will change
+
 - Add a simple sign-in screen so each student’s progress belongs only to them.
 - Save lesson completion and course progress in Lovable Cloud instead of resetting on refresh.
 - Load saved progress into both the Dashboard and Learning Center, with clear loading, saved, and retry states.
@@ -9,6 +10,7 @@
 - Preserve every existing page, navigation item, filter, form, and local demo dataset.
 
 ## Experience
+
 - Signed-out students see a focused Nexora sign-in screen.
 - Signed-in students can tick lessons; completion updates immediately and syncs to the backend.
 - Dashboard course percentages reflect the same saved lesson state.
@@ -16,6 +18,7 @@
 - Motion remains subtle and respects reduced-motion preferences.
 
 ## Technical details
+
 - Enable email/password and managed Google sign-in.
 - Create a private `course_progress` table with row-level access limited to the signed-in student, including explicit authenticated and service grants.
 - Use authenticated server functions for progress reads/writes, with the existing bearer middleware.
@@ -24,4 +27,5 @@
 - Verify database policies, app build, signed-in lesson updates, refresh persistence, and desktop/mobile layouts.
 
 ## Scope boundary
+
 - Only course and lesson progress becomes persistent in this pass; other demo actions remain local as requested by the original MVP scope.
