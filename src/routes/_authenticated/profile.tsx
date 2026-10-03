@@ -3,9 +3,23 @@ import { PageHeader } from "@/components/common/PageHeader";
 import { StudentProfileForm } from "@/components/profile/StudentProfileForm";
 import { useProfile } from "@/hooks/use-profile";
 import { useGameScores } from "@/hooks/use-game-scores";
+import { useSkillSwapper } from "@/hooks/use-skill-swapper";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Trophy, Brain, Swords, SpellCheck, Flame, ArrowRight, Gamepad2 } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Trophy,
+  Brain,
+  Swords,
+  SpellCheck,
+  Flame,
+  ArrowRight,
+  Gamepad2,
+  ArrowLeftRight,
+  Clock,
+  CheckCircle2,
+  Sparkles,
+} from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   head: () => ({ meta: [{ title: "Student Profile · Civora" }] }),
@@ -15,6 +29,7 @@ export const Route = createFileRoute("/_authenticated/profile")({
 function ProfilePage() {
   const { data: profile, isLoading, error } = useProfile();
   const { scores } = useGameScores();
+  const { activePartnership, isTodayCompleted } = useSkillSwapper();
 
   return (
     <div className="mx-auto max-w-3xl space-y-8 animate-in fade-in duration-300">
@@ -23,6 +38,130 @@ function ProfilePage() {
         title="Student Profile"
         description="Update your academic credentials, verified skills, and track your cognitive brain scores."
       />
+
+      {/* Active Skill Swapper Partnership Card */}
+      {activePartnership && (
+        <section className="surface p-6 rounded-3xl border-2 border-primary/30 shadow-soft space-y-4 bg-primary/5 relative overflow-hidden">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-4">
+            <div className="flex items-center gap-2.5">
+              <span className="flex size-9 items-center justify-center rounded-xl bg-primary/20 text-primary">
+                <ArrowLeftRight className="size-5" />
+              </span>
+              <div>
+                <h2 className="font-display text-base font-bold text-foreground flex items-center gap-2">
+                  <span>Active Skill Swap Partnership</span>
+                  <Badge
+                    variant="outline"
+                    className="font-mono text-[10px] text-primary border-primary/40 bg-primary/10"
+                  >
+                    1-ON-1 ROOM ACTIVE
+                  </Badge>
+                </h2>
+                <p className="text-xs text-muted-foreground">
+                  Daily 1-hour mutual skill exchange with your matched study partner.
+                </p>
+              </div>
+            </div>
+
+            <Button asChild size="sm" className="h-8.5 rounded-xl font-semibold gap-1.5 text-xs">
+              <Link to="/skill-swapper">
+                <span>Enter Swap Room</span>
+                <ArrowRight className="size-3.5" />
+              </Link>
+            </Button>
+          </div>
+
+          {/* Currently skill swapping with person2 and their points beside it */}
+          <div className="p-4 rounded-2xl bg-card border border-border/80 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <Avatar className="size-11 border-2 border-primary/40">
+                  <AvatarImage src={activePartnership.partner.avatar_url || undefined} />
+                  <AvatarFallback className="text-xs font-bold bg-primary/20 text-primary">
+                    {activePartnership.partner.name.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs text-muted-foreground">
+                      Currently skill swapping with
+                    </span>
+                    <strong className="text-sm font-bold text-foreground">
+                      {activePartnership.partner.name}
+                    </strong>
+                    <span className="font-mono text-xs text-primary font-semibold">
+                      (@{activePartnership.partner.civora_id})
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-muted-foreground">
+                    Department: {activePartnership.partner.department}
+                  </p>
+                </div>
+              </div>
+
+              {/* Partner Points beside it & Your Points */}
+              <div className="flex items-center gap-2 shrink-0">
+                <div className="px-3 py-1.5 rounded-xl bg-primary/10 border border-primary/20 text-center">
+                  <span className="text-[10px] uppercase font-bold text-muted-foreground block">
+                    {activePartnership.partner.name.split(" ")[0]}'s Points
+                  </span>
+                  <span className="font-mono text-sm font-bold text-primary">
+                    {activePartnership.partner.points} pts
+                  </span>
+                </div>
+
+                <div className="px-3 py-1.5 rounded-xl bg-muted/60 border border-border/60 text-center">
+                  <span className="text-[10px] uppercase font-bold text-muted-foreground block">
+                    Your Points
+                  </span>
+                  <span className="font-mono text-sm font-bold text-foreground">
+                    {activePartnership.my_points} pts
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Skills & Daily Attempt Status */}
+            <div className="pt-2 border-t border-border/50 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div className="p-2.5 rounded-xl bg-muted/30 border border-border/50 space-y-0.5">
+                <span className="text-[10px] uppercase font-bold text-muted-foreground block">
+                  Mutual Exchange
+                </span>
+                <p className="text-foreground text-[11px] truncate">
+                  <span className="font-semibold text-primary">You teach:</span>{" "}
+                  {activePartnership.my_skill_teaching}
+                </p>
+                <p className="text-foreground text-[11px] truncate">
+                  <span className="font-semibold text-primary">You learn:</span>{" "}
+                  {activePartnership.partner.skill_teaching}
+                </p>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-muted/30 border border-border/50 flex flex-col justify-between">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-muted-foreground font-semibold">Daily 1h Attempt:</span>
+                  {isTodayCompleted ? (
+                    <span className="text-emerald-500 font-bold flex items-center gap-1">
+                      <CheckCircle2 className="size-3" /> Completed (+50 pts)
+                    </span>
+                  ) : (
+                    <span className="text-amber-500 font-semibold flex items-center gap-1">
+                      <Clock className="size-3" /> Pending today
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center justify-between text-[11px] mt-1 pt-1 border-t border-border/40">
+                  <span className="text-muted-foreground">Active Streak:</span>
+                  <span className="font-bold text-amber-500 flex items-center gap-1 font-mono">
+                    <Flame className="size-3 fill-amber-500" />
+                    {activePartnership.current_streak_days} Days
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Brain Games & Cognitive Performance Card */}
       <section className="surface p-6 rounded-3xl border-border/80 shadow-soft space-y-4">

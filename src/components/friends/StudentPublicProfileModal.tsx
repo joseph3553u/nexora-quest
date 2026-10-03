@@ -8,7 +8,9 @@ import {
   FolderKanban,
   CheckCircle2,
   Clock,
+  ArrowLeftRight,
 } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -30,6 +32,7 @@ export function StudentPublicProfileModal({
   onOpenMessage,
   onOpenCollab,
 }: StudentPublicProfileModalProps) {
+  const navigate = useNavigate();
   const { currentUserId, acceptedFriends, sentFriendRequests, sendFriendRequest } = useFriends();
 
   if (!student) return null;
@@ -157,6 +160,18 @@ export function StudentPublicProfileModal({
                   <span>Project Collab</span>
                 </Button>
               </div>
+
+              <Button
+                variant="secondary"
+                className="w-full gap-2 border border-primary/20 text-xs font-semibold hover:border-primary/40"
+                onClick={() => {
+                  onOpenChange(false);
+                  navigate({ to: "/skill-swapper" });
+                }}
+              >
+                <ArrowLeftRight className="size-3.5 text-primary" />
+                <span>1-on-1 Skill Swap Room</span>
+              </Button>
             </div>
           )}
         </div>

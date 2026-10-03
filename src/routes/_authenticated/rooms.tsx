@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
   ArrowLeft,
+  ArrowLeftRight,
   BookOpen,
   Check,
   ChevronRight,
@@ -134,6 +135,37 @@ export function RoomsPage() {
           ) : undefined
         }
       />
+
+      {/* 1-on-1 Skill Swapper Room Spotlight */}
+      <section className="surface p-5 sm:p-6 rounded-3xl border-2 border-primary/30 bg-primary/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-soft">
+        <div className="flex items-start gap-3.5">
+          <span className="flex size-10 items-center justify-center rounded-2xl bg-primary/20 text-primary shrink-0 mt-0.5">
+            <ArrowLeftRight className="size-5" />
+          </span>
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="font-display text-base font-bold text-foreground">
+                Looking for 1-on-1 Peer Skill Swapping?
+              </h2>
+              <Badge className="bg-primary text-primary-foreground text-[10px] font-bold">
+                NEW
+              </Badge>
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground max-w-xl">
+              Connect with a partner in an individual room environment to spend 1 hour daily
+              teaching each other your best skills, keep your streak alive, and earn Skill Swapper
+              Points.
+            </p>
+          </div>
+        </div>
+
+        <Button asChild className="h-9.5 px-4 font-semibold text-xs shrink-0 rounded-xl gap-2">
+          <Link to="/skill-swapper">
+            <span>Launch Skill Swapper</span>
+            <DoorOpen className="size-4" />
+          </Link>
+        </Button>
+      </section>
 
       {/* Enter or Create Room */}
       <section className="surface p-6 sm:p-7 relative overflow-hidden">

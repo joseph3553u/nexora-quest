@@ -68,7 +68,11 @@ function Community() {
       return data.user?.id ?? "";
     },
   });
-  const { data: items = [], isLoading, isError } = useQuery({
+  const {
+    data: items = [],
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["community-posts", userId],
     queryFn: async (): Promise<Post[]> => {
       let remotePosts: Post[] = [];
