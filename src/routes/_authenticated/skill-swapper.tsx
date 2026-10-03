@@ -125,7 +125,9 @@ export function SkillSwapperPage() {
         setSecondsRemaining((prev) => {
           if (prev <= 1) {
             setIsTimerRunning(false);
-            toast.success("1-Hour Daily Session Goal reached! You can now verify and claim points.");
+            toast.success(
+              "1-Hour Daily Session Goal reached! You can now verify and claim points.",
+            );
             return 0;
           }
           return prev - 1;
@@ -594,7 +596,9 @@ Session exercise compiled successfully (0 errors, 0 warnings).`,
                   </Badge>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  <strong className="text-foreground">You teach {activePartnership.partner.name}:</strong>{" "}
+                  <strong className="text-foreground">
+                    You teach {activePartnership.partner.name}:
+                  </strong>{" "}
                   {activePartnership.my_skill_teaching}
                 </p>
               </div>
@@ -613,7 +617,9 @@ Session exercise compiled successfully (0 errors, 0 warnings).`,
                   </Badge>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  <strong className="text-foreground">{activePartnership.partner.name} teaches you:</strong>{" "}
+                  <strong className="text-foreground">
+                    {activePartnership.partner.name} teaches you:
+                  </strong>{" "}
                   {activePartnership.partner.skill_teaching}
                 </p>
               </div>
@@ -698,8 +704,8 @@ Session exercise compiled successfully (0 errors, 0 warnings).`,
                   Complete Today's 1-Hour Session
                 </h3>
                 <p className="text-xs text-muted-foreground max-w-lg">
-                  Both partners must teach and attempt the session concepts. Upon verification,
-                  both earn <strong className="text-primary">+50 Skill Swapper Points</strong> and
+                  Both partners must teach and attempt the session concepts. Upon verification, both
+                  earn <strong className="text-primary">+50 Skill Swapper Points</strong> and
                   advance their streak!
                 </p>
               </div>
@@ -711,7 +717,9 @@ Session exercise compiled successfully (0 errors, 0 warnings).`,
                     className="h-11 px-5 rounded-2xl font-bold text-xs sm:text-sm gap-2 shadow-soft"
                   >
                     <Trophy className="size-4" />
-                    <span>{isTodayCompleted ? "Re-log Today's Session" : "Verify & Claim +50 Pts"}</span>
+                    <span>
+                      {isTodayCompleted ? "Re-log Today's Session" : "Verify & Claim +50 Pts"}
+                    </span>
                   </Button>
                 </DialogTrigger>
 
@@ -734,7 +742,9 @@ Session exercise compiled successfully (0 errors, 0 warnings).`,
                           Reward: +50 Skill Swapper Points
                         </span>
                         <span className="text-[11px] text-muted-foreground">
-                          Streak will increase to {activePartnership.current_streak_days + (isTodayCompleted ? 0 : 1)} Days 🔥
+                          Streak will increase to{" "}
+                          {activePartnership.current_streak_days + (isTodayCompleted ? 0 : 1)} Days
+                          🔥
                         </span>
                       </div>
                       <Badge className="font-mono text-xs">+50 PTS</Badge>
@@ -808,7 +818,10 @@ Session exercise compiled successfully (0 errors, 0 warnings).`,
                 <Users2 className="size-3.5 text-primary" />
                 <span>1-on-1 Room Stream</span>
               </span>
-              <Badge variant="outline" className="text-[10px] text-emerald-500 border-emerald-500/30">
+              <Badge
+                variant="outline"
+                className="text-[10px] text-emerald-500 border-emerald-500/30"
+              >
                 2 Connected
               </Badge>
             </div>
@@ -991,7 +1004,8 @@ Session exercise compiled successfully (0 errors, 0 warnings).`,
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold text-muted-foreground">Total Sessions:</span>
             <Badge variant="secondary" className="font-mono text-xs">
-              {activePartnership.total_sessions_count} sessions ({activePartnership.total_minutes_completed} mins)
+              {activePartnership.total_sessions_count} sessions (
+              {activePartnership.total_minutes_completed} mins)
             </Badge>
           </div>
         </div>
@@ -1011,9 +1025,7 @@ Session exercise compiled successfully (0 errors, 0 warnings).`,
               >
                 <div className="space-y-1.5">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-mono text-xs font-bold text-foreground">
-                      {log.date}
-                    </span>
+                    <span className="font-mono text-xs font-bold text-foreground">{log.date}</span>
                     <Badge variant="outline" className="text-[10px] font-mono">
                       {log.minutes_spent} MINUTES
                     </Badge>

@@ -48,8 +48,40 @@ function AuthPage() {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
       if ((event === "INITIAL_SESSION" || event === "SIGNED_IN") && session) {
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("civora_demo_mode");
+          localStorage.removeItem("civora_guest_session");
+        }
+        const userId = session.user.id;
+        const isLocallyOnboarded =
+          typeof window !== "undefined" &&
+          localStorage.getItem(`civora_onboarding_completed_${userId}`) === "true";
+
+        if (!isLocallyOnboarded) {
+          try {
+            const { data: profile } = await backend
+              .from("profiles")
+              .select("onboarding_complete")
+              .eq("id", userId)
+              .maybeSingle();
+
+            if (profile && profile.onboarding_complete === true) {
+              if (typeof window !== "undefined") {
+                localStorage.setItem(`civora_onboarding_completed_${userId}`, "true");
+              }
+              void navigate({ to: "/dashboard", replace: true });
+              return;
+            }
+          } catch {
+            // Ignore
+          }
+          // New account first login -> go to onboarding
+          void navigate({ to: "/onboarding", replace: true });
+          return;
+        }
+
         void navigate({ to: "/dashboard", replace: true });
       }
     });
@@ -72,8 +104,13 @@ function AuthPage() {
     setPending(true);
     report("");
     try {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("civora_demo_mode");
+        localStorage.removeItem("civora_guest_session");
+      }
+
       if (mode === "signin") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
           if (error.code === "email_not_confirmed") {
             report("Please confirm your email first. Check your inbox for the link.", "resend");
@@ -87,13 +124,36 @@ function AuthPage() {
           }
           return;
         }
+
+        const userId = data.user.id;
+        const isLocallyOnboarded =
+          typeof window !== "undefined" &&
+          localStorage.getItem(`civora_onboarding_completed_${userId}`) === "true";
+
+        if (!isLocallyOnboarded) {
+          const { data: profile } = await backend
+            .from("profiles")
+            .select("onboarding_complete")
+            .eq("id", userId)
+            .maybeSingle();
+
+          if (!profile || profile.onboarding_complete !== true) {
+            // New account first login -> must fill details on onboarding
+            await navigate({ to: "/onboarding", replace: true });
+            return;
+          }
+          if (typeof window !== "undefined") {
+            localStorage.setItem(`civora_onboarding_completed_${userId}`, "true");
+          }
+        }
+        await navigate({ to: "/dashboard", replace: true });
       } else {
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
             emailRedirectTo: window.location.origin,
-            data: { display_name: displayName || "Alex" },
+            data: { display_name: displayName.trim() || email.split("@")[0] || "Student" },
           },
         });
         if (error) {
@@ -111,8 +171,10 @@ function AuthPage() {
           );
           return;
         }
+
+        // New account created -> first page after login is filling academic details & interests!
+        await navigate({ to: "/onboarding", replace: true });
       }
-      await navigate({ to: "/dashboard", replace: true });
     } catch (error) {
       report(error instanceof Error ? error.message : "Unable to complete authentication.");
     } finally {
@@ -380,7 +442,9 @@ function AuthPage() {
               variant="outline"
               onClick={() => {
                 if (typeof window !== "undefined") {
+                  localStorage.setItem("civora_demo_mode", "true");
                   localStorage.setItem("civora_guest_session", "true");
+                  localStorage.removeItem("civora_google_session");
                 }
                 void navigate({ to: "/dashboard", replace: true });
               }}

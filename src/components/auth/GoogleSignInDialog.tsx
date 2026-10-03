@@ -30,32 +30,54 @@ export function GoogleSignInDialog({ open, onOpenChange }: GoogleSignInDialogPro
   const completeGoogleSignIn = async (email: string, name: string) => {
     setLoading(true);
     try {
+      const cleanEmail = email.trim().toLowerCase();
+      const userId = `google-user-${cleanEmail.replace(/[^a-z0-9]/g, "-")}`;
+      const displayName = name.trim() || cleanEmail.split("@")[0] || "Student";
+
       const googleSession = {
-        id: `google-user-${Date.now()}`,
-        email: email.trim(),
-        name: name.trim(),
+        id: userId,
+        email: cleanEmail,
+        name: displayName,
         provider: "google",
         signed_at: new Date().toISOString(),
       };
 
       if (typeof window !== "undefined") {
+        // Clear demo mode flags so this is treated as a real student account
+        localStorage.removeItem("civora_demo_mode");
+        localStorage.removeItem("civora_guest_session");
         localStorage.setItem("civora_google_session", JSON.stringify(googleSession));
-        localStorage.setItem("civora_guest_session", "true");
       }
 
-      saveLocalProfile({
-        display_name: name.trim(),
-        civora_id:
-          email
-            .split("@")[0]
-            .toLowerCase()
-            .replace(/[^a-z0-9._-]/g, "") || "student.klr",
-        college: "KLR College of Engineering and Technology (KLRCET)",
-      });
+      // Check if this Google account already completed onboarding previously (stored login)
+      let isAlreadyOnboarded =
+        typeof window !== "undefined" &&
+        localStorage.getItem(`civora_onboarding_completed_${userId}`) === "true";
 
-      toast.success(`Signed in with Google as ${email.trim()}`);
+      if (!isAlreadyOnboarded && typeof window !== "undefined") {
+        const storedProfileRaw = localStorage.getItem(`civora_student_profile_${userId}`);
+        if (storedProfileRaw) {
+          try {
+            const parsed = JSON.parse(storedProfileRaw);
+            if (parsed.onboarding_complete === true) {
+              isAlreadyOnboarded = true;
+            }
+          } catch {
+            // Ignore
+          }
+        }
+      }
+
+      toast.success(`Signed in with Google as ${cleanEmail}`);
       onOpenChange(false);
-      await navigate({ to: "/dashboard", replace: true });
+
+      if (isAlreadyOnboarded) {
+        // Returning account: continue with stored login
+        await navigate({ to: "/dashboard", replace: true });
+      } else {
+        // New account login: first page after login is filling academic details and interests!
+        await navigate({ to: "/onboarding", replace: true });
+      }
     } catch {
       toast.error("Failed to complete Google Sign In.");
     } finally {

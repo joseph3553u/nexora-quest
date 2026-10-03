@@ -29,7 +29,7 @@ type FormValues = {
 const empty: FormValues = {
   display_name: "",
   civora_id: "",
-  college: "KLR College of Engineering and Technology (KLRCET)",
+  college: "",
   program: "",
   department: "",
   semester: "",
@@ -60,6 +60,33 @@ export function StudentProfileForm({
 
   useEffect(() => {
     if (!profile) return;
+
+    // For brand new accounts on first login:
+    // DO NOT fill static dummy data by itself!
+    if (!profile.onboarding_complete) {
+      setForm({
+        display_name: profile.display_name || "",
+        civora_id: profile.civora_id || "",
+        college: profile.college || "",
+        program: profile.program || "",
+        department: profile.department || "",
+        semester: profile.semester || "",
+        target_role: profile.target_role || "",
+        cgpa: profile.cgpa != null ? String(profile.cgpa) : "",
+        attendance: profile.attendance != null ? String(profile.attendance) : "",
+        credits: profile.credits != null ? String(profile.credits) : "",
+        skills: (profile.skills || []).join(", "),
+        answers: {
+          challenge: profile.onboarding_answers?.["challenge"] || "",
+          study_hours: profile.onboarding_answers?.["study_hours"] || "",
+          study_style: profile.onboarding_answers?.["study_style"] || "",
+          strengths: profile.onboarding_answers?.["strengths"] || "",
+        },
+      });
+      return;
+    }
+
+    // For returning users with stored profile, or demo student (Alex):
     const name =
       profile.display_name.toLowerCase().includes("joseph") ||
       profile.display_name === "Alex Morgan"
@@ -68,20 +95,20 @@ export function StudentProfileForm({
     setForm({
       display_name: name,
       civora_id: profile.civora_id || "alex.cs",
-      college: profile.college || "KLR College of Engineering and Technology (KLRCET)",
-      program: profile.program,
-      department: profile.department,
-      semester: profile.semester,
-      target_role: profile.target_role,
+      college: profile.college || "",
+      program: profile.program || "",
+      department: profile.department || "",
+      semester: profile.semester || "",
+      target_role: profile.target_role || "",
       cgpa: profile.cgpa == null ? "" : String(profile.cgpa),
       attendance: profile.attendance == null ? "" : String(profile.attendance),
       credits: profile.credits == null ? "" : String(profile.credits),
       skills: (profile.skills || []).join(", "),
       answers: {
-        challenge: profile.onboarding_answers["challenge"] ?? "",
-        study_hours: profile.onboarding_answers["study_hours"] ?? "",
-        study_style: profile.onboarding_answers["study_style"] ?? "",
-        strengths: profile.onboarding_answers["strengths"] ?? "",
+        challenge: profile.onboarding_answers?.["challenge"] ?? "",
+        study_hours: profile.onboarding_answers?.["study_hours"] ?? "",
+        study_style: profile.onboarding_answers?.["study_style"] ?? "",
+        strengths: profile.onboarding_answers?.["strengths"] ?? "",
       },
     });
   }, [profile]);
@@ -135,6 +162,7 @@ export function StudentProfileForm({
       const normalizedCivoraId = form.civora_id.trim().toLowerCase();
 
       const localPayload = {
+        id: profile?.id,
         display_name: form.display_name.trim(),
         civora_id: normalizedCivoraId,
         college: form.college.trim(),
@@ -155,7 +183,10 @@ export function StudentProfileForm({
         onboarding_complete: true,
       };
 
-      saveLocalProfile(localPayload);
+      saveLocalProfile(localPayload, profile?.id);
+      if (typeof window !== "undefined" && profile?.id) {
+        localStorage.setItem(`civora_onboarding_completed_${profile.id}`, "true");
+      }
 
       try {
         const {
@@ -180,7 +211,7 @@ export function StudentProfileForm({
                 skills: parsedSkills,
               },
               onboarding_answers: form.answers,
-              onboarding_complete: onboarding || profile?.onboarding_complete || true,
+              onboarding_complete: true,
               updated_at: new Date().toISOString(),
             },
             { onConflict: "id" },
@@ -192,7 +223,9 @@ export function StudentProfileForm({
 
       await queryClient.invalidateQueries({ queryKey: ["profile"] });
       toast.success(
-        onboarding ? "Your profile is ready" : "Profile and Civora ID updated successfully",
+        onboarding
+          ? "Welcome to Civora! Your academic workspace is ready."
+          : "Profile updated successfully",
       );
       if (onboarding) await navigate({ to: "/dashboard", replace: true });
     } catch (error) {
@@ -211,7 +244,7 @@ export function StudentProfileForm({
     return (
       <div className="space-y-1.5" key={key}>
         <Label htmlFor={key} className="text-xs font-semibold text-foreground">
-          {label}
+          {label} {required && <span className="text-destructive">*</span>}
         </Label>
         <Input
           id={key}
@@ -239,12 +272,12 @@ export function StudentProfileForm({
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 pt-1">
-          {field("display_name", "Display name", "How classmates see you", true)}
+          {field("display_name", "Display Name", "e.g. Alex or your full name", true)}
 
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
               <Label htmlFor="civora_id" className="text-xs font-semibold text-foreground">
-                Civora ID (Unique Handle)
+                Civora ID (Unique Handle) <span className="text-destructive">*</span>
               </Label>
               {civoraIdStatus.checking ? (
                 <span className="flex items-center gap-1 text-[11px] text-muted-foreground font-mono">
@@ -277,36 +310,53 @@ export function StudentProfileForm({
                     civora_id: e.target.value.toLowerCase().replace(/[^a-z0-9._-]/g, ""),
                   }))
                 }
-                placeholder="e.g. alex.cs"
+                placeholder="e.g. alex.cs or your handle"
                 required
                 className="pl-9 font-mono text-xs sm:text-sm h-10 rounded-xl border-border/80 focus-visible:border-primary/60"
               />
             </div>
             <p className="text-[11px] text-muted-foreground">
-              Students and professors can connect with you using @{form.civora_id || "yourhandle"}.
+              Students and peers can connect with you using @{form.civora_id || "yourhandle"}.
             </p>
           </div>
 
           {field(
             "college",
-            "College / Institute",
-            "e.g. KLR College of Engineering and Technology (KLRCET)",
+            "College / University",
+            "e.g. Stanford University / KLRCET / MIT",
             true,
           )}
-          {field("program", "Degree / Program", "e.g. B.Tech Computer Science & Engineering", true)}
-          {field("department", "Department", "e.g. Computer Science & Engineering", true)}
-          {field("semester", "Current Semester / Year", "e.g. Semester 5 (3rd Year)", true)}
-          {field("target_role", "Target Role or Exam", "e.g. Full-Stack Engineer, GATE 2027", true)}
+          {field(
+            "program",
+            "Degree / Program",
+            "e.g. B.Tech Computer Science / B.S. Software Eng",
+            true,
+          )}
+          {field("department", "Department / Major", "e.g. Computer Science & Engineering", true)}
+          {field(
+            "semester",
+            "Current Semester / Academic Year",
+            "e.g. Semester 1 (1st Year)",
+            true,
+          )}
+          {field(
+            "target_role",
+            "Target Role or Career Goal",
+            "e.g. Full-Stack Engineer, AI Researcher",
+            true,
+          )}
 
           <div className="space-y-1.5 sm:col-span-2">
             <Label htmlFor="skills" className="text-xs font-semibold text-foreground">
-              Skills &amp; Technologies (comma separated)
+              Skills, Technologies &amp; Academic Interests (comma separated){" "}
+              <span className="text-destructive">*</span>
             </Label>
             <Input
               id="skills"
               value={form.skills}
               onChange={(e) => setForm((v) => ({ ...v, skills: e.target.value }))}
-              placeholder="e.g. Programming for Problem Solving (PPS), Data Structures, Python, SQL"
+              placeholder="e.g. Python, C++, Data Structures, Web Development, SQL, Machine Learning"
+              required
               className="h-10 text-xs sm:text-sm rounded-xl border-border/80 focus-visible:border-primary/60 font-mono"
             />
           </div>
@@ -314,74 +364,79 @@ export function StudentProfileForm({
       </section>
 
       {/* 2. Academic Record Metrics */}
-      {!onboarding && (
-        <section className="surface p-5 sm:p-6 space-y-4 border-border/80">
-          <div>
-            <h2 className="font-display text-sm font-bold text-foreground">
-              Verified Academic Metrics
-            </h2>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              These values feed into your Dashboard telemetry and attendance radar.
-            </p>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-3 pt-1">
-            <div className="space-y-1.5">
-              <Label htmlFor="cgpa" className="text-xs font-semibold text-foreground">
-                CGPA (0.00 – 10.00)
-              </Label>
-              <Input
-                id="cgpa"
-                type="number"
-                min="0"
-                max="10"
-                step="0.01"
-                value={form.cgpa}
-                onChange={(e) => setForm((v) => ({ ...v, cgpa: e.target.value }))}
-                placeholder="e.g. 8.74"
-                className="h-10 text-xs sm:text-sm rounded-xl border-border/80 focus-visible:border-primary/60 font-mono"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="attendance" className="text-xs font-semibold text-foreground">
-                Attendance % (0 – 100)
-              </Label>
-              <Input
-                id="attendance"
-                type="number"
-                min="0"
-                max="100"
-                step="0.1"
-                value={form.attendance}
-                onChange={(e) => setForm((v) => ({ ...v, attendance: e.target.value }))}
-                placeholder="e.g. 86"
-                className="h-10 text-xs sm:text-sm rounded-xl border-border/80 focus-visible:border-primary/60 font-mono"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="credits" className="text-xs font-semibold text-foreground">
-                Credits Earned
-              </Label>
-              <Input
-                id="credits"
-                type="number"
-                min="0"
-                step="1"
-                value={form.credits}
-                onChange={(e) => setForm((v) => ({ ...v, credits: e.target.value }))}
-                placeholder="e.g. 112"
-                className="h-10 text-xs sm:text-sm rounded-xl border-border/80 focus-visible:border-primary/60 font-mono"
-              />
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 3. Learning Preferences Card */}
       <section className="surface p-5 sm:p-6 space-y-4 border-border/80">
         <div>
           <h2 className="font-display text-sm font-bold text-foreground">
-            Learning Preferences &amp; Copilot Tuning
+            Academic Performance Metrics{" "}
+            {onboarding && (
+              <span className="text-xs font-normal text-muted-foreground font-mono">
+                (Optional)
+              </span>
+            )}
+          </h2>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            {onboarding
+              ? "If you have your current CGPA, attendance %, or completed credits, enter them below (or update anytime later)."
+              : "These values feed into your Dashboard telemetry and attendance radar."}
+          </p>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-3 pt-1">
+          <div className="space-y-1.5">
+            <Label htmlFor="cgpa" className="text-xs font-semibold text-foreground">
+              CGPA / GPA (0.00 – 10.00)
+            </Label>
+            <Input
+              id="cgpa"
+              type="number"
+              min="0"
+              max="10"
+              step="0.01"
+              value={form.cgpa}
+              onChange={(e) => setForm((v) => ({ ...v, cgpa: e.target.value }))}
+              placeholder="e.g. 8.50"
+              className="h-10 text-xs sm:text-sm rounded-xl border-border/80 focus-visible:border-primary/60 font-mono"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="attendance" className="text-xs font-semibold text-foreground">
+              Attendance % (0 – 100)
+            </Label>
+            <Input
+              id="attendance"
+              type="number"
+              min="0"
+              max="100"
+              step="0.1"
+              value={form.attendance}
+              onChange={(e) => setForm((v) => ({ ...v, attendance: e.target.value }))}
+              placeholder="e.g. 85"
+              className="h-10 text-xs sm:text-sm rounded-xl border-border/80 focus-visible:border-primary/60 font-mono"
+            />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="credits" className="text-xs font-semibold text-foreground">
+              Credits Earned
+            </Label>
+            <Input
+              id="credits"
+              type="number"
+              min="0"
+              step="1"
+              value={form.credits}
+              onChange={(e) => setForm((v) => ({ ...v, credits: e.target.value }))}
+              placeholder="e.g. 45"
+              className="h-10 text-xs sm:text-sm rounded-xl border-border/80 focus-visible:border-primary/60 font-mono"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Learning Preferences & Academic Interests Card */}
+      <section className="surface p-5 sm:p-6 space-y-4 border-border/80">
+        <div>
+          <h2 className="font-display text-sm font-bold text-foreground">
+            Academic Interests &amp; Learning Preferences
           </h2>
           <p className="text-xs text-muted-foreground mt-0.5">
             Your preferences tune Civora AI's roadmap recommendations and exam preparation
@@ -392,7 +447,7 @@ export function StudentProfileForm({
         <div className="grid gap-4 sm:grid-cols-2 pt-1">
           <div className="space-y-1.5">
             <Label htmlFor="study_hours" className="text-xs font-semibold text-foreground">
-              Target Study Hours / Week
+              Target Study Hours / Week <span className="text-destructive">*</span>
             </Label>
             <Input
               id="study_hours"
@@ -400,14 +455,14 @@ export function StudentProfileForm({
               onChange={(e) =>
                 setForm((v) => ({ ...v, answers: { ...v.answers, study_hours: e.target.value } }))
               }
-              placeholder="e.g. 12–15 hours"
+              placeholder="e.g. 10–15 hours / week"
               required
               className="h-10 text-xs sm:text-sm rounded-xl border-border/80"
             />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="study_style" className="text-xs font-semibold text-foreground">
-              Preferred Learning Style
+              Preferred Learning Style <span className="text-destructive">*</span>
             </Label>
             <Input
               id="study_style"
@@ -415,14 +470,14 @@ export function StudentProfileForm({
               onChange={(e) =>
                 setForm((v) => ({ ...v, answers: { ...v.answers, study_style: e.target.value } }))
               }
-              placeholder="e.g. Hands-on coding, video lectures, formula revision"
+              placeholder="e.g. Hands-on coding projects, peer discussion, visual slides"
               required
               className="h-10 text-xs sm:text-sm rounded-xl border-border/80"
             />
           </div>
           <div className="space-y-1.5 sm:col-span-2">
             <Label htmlFor="challenge" className="text-xs font-semibold text-foreground">
-              What topic or subject would you most like to improve?
+              What topic or subject would you most like to learn or improve?
             </Label>
             <Textarea
               id="challenge"
@@ -431,7 +486,7 @@ export function StudentProfileForm({
               onChange={(e) =>
                 setForm((v) => ({ ...v, answers: { ...v.answers, challenge: e.target.value } }))
               }
-              placeholder="e.g. Advanced pointer manipulation in PPS, SQL indexing, or differential equations"
+              placeholder="e.g. Mastering Data Structures & Algorithms, Systems Programming, or Web Architecture"
               className="rounded-xl text-xs sm:text-sm border-border/80"
             />
           </div>
@@ -444,7 +499,11 @@ export function StudentProfileForm({
           disabled={pending}
           className="h-10 px-6 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs sm:text-sm cursor-pointer shadow-soft"
         >
-          {pending ? "Saving Changes…" : onboarding ? "Complete Onboarding" : "Save Profile"}
+          {pending
+            ? "Saving Changes…"
+            : onboarding
+              ? "Complete Setup & Enter Workspace →"
+              : "Save Profile"}
         </Button>
       </div>
     </form>
