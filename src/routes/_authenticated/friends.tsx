@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   Users,
@@ -16,6 +16,7 @@ import {
   Trash2,
   ArrowRight,
   AtSign,
+  Swords,
 } from "lucide-react";
 import { PageHeader } from "@/components/common/PageHeader";
 import { Button } from "@/components/ui/button";
@@ -49,6 +50,7 @@ export const Route = createFileRoute("/_authenticated/friends")({
 });
 
 export function FriendsPage() {
+  const navigate = useNavigate();
   const {
     currentProfile,
     acceptedFriends,
@@ -134,7 +136,7 @@ export function FriendsPage() {
             <div className="flex items-center gap-2 rounded-xl border border-primary/30 bg-primary-softer px-3.5 py-1.5 text-xs font-medium text-primary">
               <span className="text-muted-foreground">My Civora ID:</span>
               <span className="font-mono font-bold text-foreground">
-                @{currentProfile?.civora_id || "joseph.klrcet"}
+                @{currentProfile?.civora_id || "alex.cs"}
               </span>
               <Button
                 variant="ghost"
@@ -371,7 +373,7 @@ export function FriendsPage() {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between pt-3 border-t border-border">
+                    <div className="flex items-center justify-between pt-3 border-t border-border flex-wrap gap-2">
                       <Button
                         variant="ghost"
                         size="sm"
@@ -382,15 +384,27 @@ export function FriendsPage() {
                         <span>Remove</span>
                       </Button>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5 flex-wrap">
                         <Button
                           variant="outline"
                           size="sm"
-                          className="h-8 text-xs border-primary/30 text-primary hover:bg-primary/10 gap-1.5"
+                          className="h-8 text-xs border-primary/30 text-primary hover:bg-primary/10 gap-1.5 cursor-pointer"
+                          onClick={() => {
+                            toast.success(`Challenging ${friend.display_name} to Chess!`);
+                            void navigate({ to: "/games" });
+                          }}
+                        >
+                          <Swords className="size-3.5" />
+                          <span>Chess</span>
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-8 text-xs border-border/80 gap-1.5"
                           onClick={() => openCollab(friend)}
                         >
                           <FolderKanban className="size-3.5" />
-                          <span>Project Collab</span>
+                          <span>Collab</span>
                         </Button>
                         <Button
                           size="sm"

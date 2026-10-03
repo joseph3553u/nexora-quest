@@ -1,6 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Bookmark, Building, MapPin, Sparkles } from "lucide-react";
+import {
+  Bookmark,
+  Building,
+  MapPin,
+  Sparkles,
+  TrendingUp,
+  Briefcase,
+  CheckCircle2,
+  SlidersHorizontal,
+  ArrowRight,
+  ExternalLink,
+} from "lucide-react";
 import { PageHeader } from "@/components/common/PageHeader";
 import { FilterChips, SearchField, EmptyState } from "@/components/common/FilterBar";
 import { Badge } from "@/components/ui/badge";
@@ -9,7 +20,6 @@ import { OpportunityDetailDialog } from "@/components/opportunities/OpportunityD
 import { triggerImproveEligibility } from "@/components/opportunities/opportunity-eligibility";
 import { opportunities as seed, type Opportunity } from "@/data/demo";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/opportunities")({
   head: () => ({
@@ -18,7 +28,7 @@ export const Route = createFileRoute("/_authenticated/opportunities")({
       {
         name: "description",
         content:
-          "Internships, full-time roles, research positions and scholarships matched to your profile.",
+          "Internships, full-time roles, research positions and scholarships matched to your student capability profile.",
       },
       { property: "og:title", content: "Opportunity Feed · Civora" },
       {
@@ -51,114 +61,186 @@ function Opportunities() {
     [items, type, query, savedOnly],
   );
 
+  const highMatchCount = items.filter((o) => (o.overallMatch ?? 75) >= 80).length;
+  const savedCount = items.filter((o) => o.saved).length;
+
   function openDetail(opp: Opportunity) {
     setSelectedOpp(opp);
     setDetailOpen(true);
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-7 animate-in fade-in duration-300">
       <PageHeader
-        eyebrow="What's out there"
+        eyebrow="Career & Research Discovery"
         title="Opportunity Feed"
-        description="Fresh roles and funding with automated student capability matching across C, JavaScript, Python, and databases."
+        description="Curated internships, hackathons, and research grants matched directly to your coursework and programming capability."
         actions={
-          <Button variant="outline" onClick={() => setSavedOnly((s) => !s)}>
-            {savedOnly ? "Show all" : "Saved only"}
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setSavedOnly((s) => !s)}
+            className={cn(
+              "h-9 text-xs font-semibold gap-1.5 rounded-xl border-border/80 cursor-pointer",
+              savedOnly && "border-primary/40 bg-primary/10 text-primary",
+            )}
+          >
+            <Bookmark className={cn("size-3.5", savedOnly && "fill-primary text-primary")} />
+            <span>{savedOnly ? "Showing Saved" : `Saved (${savedCount})`}</span>
           </Button>
         }
       />
 
+      {/* Discovery Telemetry Stats */}
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className="surface p-4 flex items-center justify-between border-border/70">
+          <div>
+            <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+              Total Verified Postings
+            </p>
+            <p className="text-xl font-bold font-display text-foreground mt-0.5">
+              {items.length} Roles
+            </p>
+          </div>
+          <div className="size-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+            <Briefcase className="size-4" />
+          </div>
+        </div>
+
+        <div className="surface p-4 flex items-center justify-between border-border/70">
+          <div>
+            <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+              High Match (≥80%)
+            </p>
+            <p className="text-xl font-bold font-display text-primary mt-0.5">
+              {highMatchCount} Matches
+            </p>
+          </div>
+          <div className="size-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+            <Sparkles className="size-4" />
+          </div>
+        </div>
+
+        <div className="surface p-4 flex items-center justify-between border-border/70">
+          <div>
+            <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+              Student Profile
+            </p>
+            <p className="text-xl font-bold font-display text-foreground mt-0.5">
+              Alex · CSE Sem 5
+            </p>
+          </div>
+          <div className="size-8 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center">
+            <TrendingUp className="size-4" />
+          </div>
+        </div>
+      </div>
+
+      {/* Search and Filters */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <SearchField value={query} onChange={setQuery} placeholder="Search roles or companies" />
+        <SearchField
+          value={query}
+          onChange={setQuery}
+          placeholder="Search by role title, company, or technology stack…"
+          className="sm:w-80"
+        />
         <FilterChips options={types} value={type} onChange={setType} />
       </div>
 
+      {/* Opportunity Cards List */}
       {list.length === 0 ? (
-        <EmptyState message="No opportunities match these filters." />
+        <EmptyState message="No opportunities match your current filter parameters." />
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3.5">
           {list.map((o) => {
             const matchScore = o.overallMatch ?? 78;
             return (
               <article
                 key={o.id}
-                className="surface lift flex flex-col gap-4 p-5 sm:flex-row sm:items-center cursor-pointer transition-all hover:border-primary/50"
+                className="surface lift flex flex-col gap-4 p-5 sm:flex-row sm:items-center justify-between cursor-pointer transition-all border-border/80 hover:border-primary/50 group"
                 onClick={() => openDetail(o)}
               >
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary-softer text-primary">
-                  <Building className="size-5" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="font-semibold text-foreground hover:text-primary transition-colors">
-                      {o.role}
-                    </h3>
-                    <Badge variant="secondary">{o.type}</Badge>
-                    <Badge
-                      variant="outline"
-                      className="border-primary/40 bg-primary-softer text-primary text-xs font-semibold gap-1"
-                    >
-                      <Sparkles className="size-3" />
-                      <span>{matchScore}% Capability Match</span>
-                    </Badge>
-                    {100 - matchScore > 0 && (
-                      <span className="text-[11px] font-semibold text-amber-600 dark:text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded">
-                        {100 - matchScore}% Gap
-                      </span>
-                    )}
+                <div className="flex items-start gap-4 min-w-0 flex-1">
+                  <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-border/70 bg-card text-primary font-bold shadow-subtle group-hover:border-primary/40 group-hover:text-primary transition-colors">
+                    <Building className="size-5" />
                   </div>
-                  <p className="mt-1 flex flex-wrap items-center gap-x-3 text-sm text-muted-foreground">
-                    <span>{o.org}</span>
-                    <span className="flex items-center gap-1">
-                      <MapPin className="size-3.5" /> {o.location}
-                    </span>
-                    <span>Posted {o.posted}</span>
-                  </p>
-                  <div className="mt-2.5 flex flex-wrap items-center gap-2">
-                    {o.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-md bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground"
+
+                  <div className="min-w-0 flex-1 space-y-1.5">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="font-display font-bold text-sm sm:text-base text-foreground group-hover:text-primary transition-colors">
+                        {o.role}
+                      </h3>
+                      <Badge variant="secondary" className="text-[10px] font-mono">
+                        {o.type}
+                      </Badge>
+                      <Badge
+                        variant="outline"
+                        className="border-primary/30 bg-primary/10 text-primary text-[10px] font-mono font-semibold gap-1 py-0 h-4.5"
                       >
-                        {t}
+                        <Sparkles className="size-3" />
+                        <span>{matchScore}% Match</span>
+                      </Badge>
+                    </div>
+
+                    <p className="flex flex-wrap items-center gap-x-3 text-xs text-muted-foreground">
+                      <span className="font-semibold text-foreground/90">{o.org}</span>
+                      <span className="flex items-center gap-1">
+                        <MapPin className="size-3 text-muted-foreground" /> {o.location}
                       </span>
-                    ))}
-                    <span className="text-xs text-primary font-medium ml-1">
-                      View skills breakdown & AI roadmap →
-                    </span>
+                      <span className="font-mono text-[11px]">Posted {o.posted}</span>
+                    </p>
+
+                    <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                      {o.tags.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-md border border-border/60 bg-muted/50 px-2 py-0.5 text-[11px] font-mono text-muted-foreground"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                      <span className="text-[11px] text-primary font-medium hover:underline ml-1">
+                        View skills breakdown &amp; AI roadmap →
+                      </span>
+                    </div>
                   </div>
                 </div>
+
                 <div
-                  className="flex items-center gap-3 sm:flex-col sm:items-end"
+                  className="flex items-center justify-between sm:flex-col sm:items-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-border/50"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <p className="font-semibold text-primary">{o.stipend}</p>
-                  <div className="flex flex-wrap items-center gap-2">
+                  <p className="font-display font-bold text-sm sm:text-base text-primary">
+                    {o.stipend}
+                  </p>
+                  <div className="flex items-center gap-2">
                     <Button
                       variant="ghost"
                       size="icon"
                       aria-label="Save opportunity"
+                      className="size-8.5 rounded-lg border border-border/70 hover:bg-muted/70 cursor-pointer"
                       onClick={() =>
                         setItems((prev) =>
                           prev.map((x) => (x.id === o.id ? { ...x, saved: !x.saved } : x)),
                         )
                       }
                     >
-                      <Bookmark
-                        className={cn("size-4.5", o.saved && "fill-primary text-primary")}
-                      />
+                      <Bookmark className={cn("size-4", o.saved && "fill-primary text-primary")} />
                     </Button>
                     <Button
                       size="sm"
                       variant="outline"
-                      className="border-primary/40 bg-primary/10 text-primary hover:bg-primary/20 gap-1 text-xs"
+                      className="h-8.5 text-xs font-semibold border-primary/30 bg-primary/10 text-primary hover:bg-primary/20 gap-1 rounded-xl cursor-pointer"
                       onClick={() => triggerImproveEligibility(o)}
                     >
-                      <Sparkles className="size-3.5" />
-                      <span>Improve Eligibility</span>
+                      <Sparkles className="size-3 text-primary" />
+                      <span>Boost Match</span>
                     </Button>
-                    <Button size="sm" onClick={() => openDetail(o)}>
+                    <Button
+                      size="sm"
+                      className="h-8.5 text-xs font-semibold rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground cursor-pointer shadow-subtle"
+                      onClick={() => openDetail(o)}
+                    >
                       Check Match
                     </Button>
                   </div>

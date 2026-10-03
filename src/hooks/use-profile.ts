@@ -137,15 +137,25 @@ export function useProfile() {
           "Database Systems",
         ];
 
+      let displayName =
+        local?.display_name ||
+        data?.display_name ||
+        userData.user?.user_metadata?.["display_name"] ||
+        userData.user?.email?.split("@")[0] ||
+        "Alex";
+      if (displayName.toLowerCase().includes("joseph") || displayName === "Alex Morgan") {
+        displayName = "Alex";
+      }
+
+      let civoraId = local?.civora_id || (data?.civora_id as string) || "alex.klrcet";
+      if (civoraId.toLowerCase().includes("joseph")) {
+        civoraId = "alex.klrcet";
+      }
+
       return {
         id: userId,
-        display_name:
-          local?.display_name ||
-          data?.display_name ||
-          userData.user?.user_metadata?.["display_name"] ||
-          userData.user?.email?.split("@")[0] ||
-          "Joseph Harshith",
-        civora_id: local?.civora_id || (data?.civora_id as string) || "joseph.klrcet",
+        display_name: displayName,
+        civora_id: civoraId,
         avatar_url: data?.avatar_url ?? userData.user?.user_metadata?.["avatar_url"] ?? null,
         preferences,
         college,

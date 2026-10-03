@@ -517,36 +517,39 @@ export function Timetable() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-in fade-in duration-300">
       <PageHeader
-        eyebrow="Stay on schedule · KLRCET"
-        title="Timetable & Schedule"
+        eyebrow="Academic Schedule &amp; Lecture Alerts"
+        title="Timetable &amp; Schedule"
         description="Weekly class schedule for KLR College of Engineering and Technology. Enter classes manually or import a syllabus/timetable PDF."
         actions={
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
             <Dialog open={addOpen} onOpenChange={setAddOpen}>
               <DialogTrigger asChild>
-                <Button>
-                  <Plus className="size-4" /> Add class manually
+                <Button className="h-9.5 gap-1.5 font-semibold text-xs sm:text-sm">
+                  <Plus className="size-4" /> Add Class
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
+              <DialogContent className="surface border-border/80 sm:max-w-md">
                 <DialogHeader>
-                  <DialogTitle>Add class to schedule</DialogTitle>
-                  <DialogDescription>
+                  <DialogTitle className="font-display">Add class to schedule</DialogTitle>
+                  <DialogDescription className="text-xs">
                     Add a lecture, lab, or tutorial to your weekly timetable.
                   </DialogDescription>
                 </DialogHeader>
-                <div className="space-y-3 py-2">
+                <div className="space-y-3.5 py-2">
                   <div className="space-y-1.5">
-                    <Label htmlFor="m-subject">Subject</Label>
+                    <Label htmlFor="m-subject" className="text-xs font-semibold">
+                      Subject
+                    </Label>
                     <Input
                       id="m-subject"
                       placeholder="e.g. Programming for Problem Solving (PPS)"
                       value={manualForm.subject}
                       onChange={(e) => setManualForm({ ...manualForm, subject: e.target.value })}
+                      className="h-9.5 text-xs sm:text-sm"
                     />
-                    <div className="flex flex-wrap gap-1 pt-1">
+                    <div className="flex flex-wrap gap-1.5 pt-1">
                       {[
                         "PPS",
                         "Engineering Mathematics",
@@ -557,7 +560,7 @@ export function Timetable() {
                           key={s}
                           type="button"
                           onClick={() => setManualForm({ ...manualForm, subject: s })}
-                          className="rounded bg-muted px-2 py-0.5 text-[11px] text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                          className="rounded-lg border border-border/60 bg-muted/40 px-2 py-0.5 text-[10px] font-medium text-muted-foreground hover:border-primary/40 hover:text-foreground cursor-pointer"
                         >
                           + {s}
                         </button>
@@ -566,10 +569,12 @@ export function Timetable() {
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
-                      <Label htmlFor="m-weekday">Day of Week</Label>
+                      <Label htmlFor="m-weekday" className="text-xs font-semibold">
+                        Day of Week
+                      </Label>
                       <select
                         id="m-weekday"
-                        className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+                        className="h-9.5 w-full rounded-lg border border-border/80 bg-card/60 px-3 text-xs sm:text-sm backdrop-blur-md"
                         value={manualForm.weekday}
                         onChange={(e) => setManualForm({ ...manualForm, weekday: e.target.value })}
                       >
@@ -583,18 +588,23 @@ export function Timetable() {
                       </select>
                     </div>
                     <div className="space-y-1.5">
-                      <Label htmlFor="m-location">Room / Lab</Label>
+                      <Label htmlFor="m-location" className="text-xs font-semibold">
+                        Room / Lab
+                      </Label>
                       <Input
                         id="m-location"
                         placeholder="e.g. CSE Lab 2"
                         value={manualForm.location}
                         onChange={(e) => setManualForm({ ...manualForm, location: e.target.value })}
+                        className="h-9.5 text-xs sm:text-sm"
                       />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
-                      <Label htmlFor="m-start">Start Time</Label>
+                      <Label htmlFor="m-start" className="text-xs font-semibold">
+                        Start Time
+                      </Label>
                       <Input
                         id="m-start"
                         type="time"
@@ -602,23 +612,29 @@ export function Timetable() {
                         onChange={(e) =>
                           setManualForm({ ...manualForm, startTime: e.target.value })
                         }
+                        className="h-9.5 text-xs sm:text-sm font-mono"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <Label htmlFor="m-end">End Time</Label>
+                      <Label htmlFor="m-end" className="text-xs font-semibold">
+                        End Time
+                      </Label>
                       <Input
                         id="m-end"
                         type="time"
                         value={manualForm.endTime}
                         onChange={(e) => setManualForm({ ...manualForm, endTime: e.target.value })}
+                        className="h-9.5 text-xs sm:text-sm font-mono"
                       />
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <Label htmlFor="m-remind">Remind Before</Label>
+                    <Label htmlFor="m-remind" className="text-xs font-semibold">
+                      Remind Before
+                    </Label>
                     <select
                       id="m-remind"
-                      className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+                      className="h-9.5 w-full rounded-lg border border-border/80 bg-card/60 px-3 text-xs sm:text-sm backdrop-blur-md"
                       value={manualForm.remindMinutes}
                       onChange={(e) =>
                         setManualForm({ ...manualForm, remindMinutes: e.target.value })
@@ -631,37 +647,49 @@ export function Timetable() {
                     </select>
                   </div>
                 </div>
-                <DialogFooter>
-                  <Button variant="outline" onClick={() => setAddOpen(false)}>
+                <DialogFooter className="gap-2 sm:gap-0">
+                  <Button
+                    variant="outline"
+                    onClick={() => setAddOpen(false)}
+                    className="h-9 text-xs"
+                  >
                     Cancel
                   </Button>
-                  <Button onClick={handleAddManualClass}>Save Class</Button>
+                  <Button onClick={handleAddManualClass} className="h-9 text-xs font-semibold">
+                    Save Class
+                  </Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
 
-            <Button variant="outline" onClick={enableNotifications}>
-              <Bell className="size-4" /> Enable reminders
+            <Button
+              variant="outline"
+              onClick={enableNotifications}
+              className="h-9.5 text-xs font-semibold gap-1.5"
+            >
+              <Bell className="size-4" /> Enable Reminders
             </Button>
           </div>
         }
       />
 
       {/* Today's Schedule & Next Class Banner */}
-      <section className="grid gap-4 md:grid-cols-3">
-        <div className="surface p-5 md:col-span-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="status-glow flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <CalendarCheck className="size-4" />
+      <section className="grid gap-6 md:grid-cols-3">
+        <div className="surface p-5 sm:p-6 md:col-span-2">
+          <div className="flex items-center justify-between border-b border-border/50 pb-3.5">
+            <div className="flex items-center gap-2.5">
+              <span className="status-glow flex size-9 items-center justify-center rounded-xl bg-gradient-to-tr from-primary to-primary/80 text-primary-foreground shadow-xs">
+                <CalendarCheck className="size-4.5" />
               </span>
               <div>
-                <h2 className="font-semibold text-base">
+                <h2 className="font-display font-bold text-base text-foreground">
                   Today's Schedule ({weekdays[todayWeekday]})
                 </h2>
-                <p className="text-xs text-muted-foreground">
-                  {todayClasses.length} {todayClasses.length === 1 ? "class" : "classes"} scheduled
-                  for today
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  <span className="font-semibold text-primary">
+                    {todayClasses.length} {todayClasses.length === 1 ? "class" : "classes"}
+                  </span>{" "}
+                  scheduled for today
                 </p>
               </div>
             </div>
@@ -671,12 +699,12 @@ export function Timetable() {
           </div>
 
           {todayClasses.length === 0 ? (
-            <div className="mt-4 rounded-lg border border-dashed border-border p-4 text-center text-sm text-muted-foreground">
+            <div className="mt-4 rounded-xl border border-dashed border-border/80 bg-muted/20 p-6 text-center text-xs text-muted-foreground">
               No classes scheduled for today ({weekdays[todayWeekday]}). Enjoy your study break or
               review lessons!
             </div>
           ) : (
-            <div className="mt-4 space-y-2">
+            <div className="mt-4 space-y-2.5">
               {todayClasses.map((item) => {
                 const isCurrent =
                   currentTimeStr >= item.starts_at &&
@@ -686,19 +714,22 @@ export function Timetable() {
                 return (
                   <div
                     key={item.id}
-                    className={`flex items-center justify-between rounded-lg border p-3 transition-colors ${
+                    className={`flex items-center justify-between rounded-xl border p-3.5 transition-all duration-150 ${
                       isCurrent
-                        ? "border-primary bg-primary/10 shadow-soft"
-                        : "border-border bg-card/60"
+                        ? "border-primary/60 bg-primary/10 shadow-soft"
+                        : "border-border/70 bg-card/60 hover:border-primary/40 hover:bg-card"
                     }`}
                   >
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium text-sm">{item.subject}</span>
+                        <span className="font-display font-bold text-sm text-foreground">
+                          {item.subject}
+                        </span>
                         {isCurrent && (
-                          <Badge className="bg-primary text-[10px] text-primary-foreground">
+                          <span className="flex items-center gap-1 text-[10px] font-semibold text-primary bg-primary/15 px-2 py-0.5 rounded-full border border-primary/20">
+                            <span className="size-1.5 rounded-full bg-primary animate-pulse" />
                             In progress
-                          </Badge>
+                          </span>
                         )}
                         {isUpcoming && nextClass?.id === item.id && (
                           <Badge variant="secondary" className="text-[10px]">
@@ -706,8 +737,8 @@ export function Timetable() {
                           </Badge>
                         )}
                       </div>
-                      <p className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
-                        <Clock className="size-3" />
+                      <p className="mt-1 flex items-center gap-2 text-xs text-muted-foreground font-mono">
+                        <Clock className="size-3 text-primary" />
                         <span>
                           {formatTime(item.starts_at)}{" "}
                           {item.ends_at && `– ${formatTime(item.ends_at)}`}
@@ -715,7 +746,7 @@ export function Timetable() {
                         {item.location && (
                           <>
                             <span>·</span>
-                            <MapPin className="size-3" />
+                            <MapPin className="size-3 text-muted-foreground" />
                             <span>{item.location}</span>
                           </>
                         )}
@@ -729,48 +760,54 @@ export function Timetable() {
         </div>
 
         {/* Next upcoming class spotlight */}
-        <div className="surface flex flex-col justify-between p-5">
+        <div className="surface flex flex-col justify-between p-5 sm:p-6">
           <div>
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary">
+            <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-primary">
               <Sparkles className="size-3.5" /> Upcoming Highlight
             </div>
             {nextClass ? (
-              <div className="mt-3">
-                <Badge variant={isClassActive ? "default" : "secondary"} className="mb-2">
+              <div className="mt-3.5">
+                <Badge variant={isClassActive ? "default" : "secondary"} className="mb-2 text-xs">
                   {isClassActive ? "Happening Now" : "Next Class"}
                 </Badge>
-                <h3 className="font-display font-semibold text-lg leading-tight">
+                <h3 className="font-display font-bold text-base sm:text-lg leading-tight text-foreground">
                   {nextClass.subject}
                 </h3>
-                <p className="mt-2 text-sm font-medium text-muted-foreground">
+                <p className="mt-2 text-xs sm:text-sm font-semibold font-mono text-primary">
                   {formatTime(nextClass.starts_at)}
                   {nextClass.ends_at ? ` – ${formatTime(nextClass.ends_at)}` : ""}
                 </p>
-                <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <MapPin className="size-3.5" /> {nextClass.location}
+                <p className="mt-1.5 flex items-center gap-1.5 text-xs text-muted-foreground font-mono">
+                  <MapPin className="size-3.5 text-muted-foreground" /> {nextClass.location}
                 </p>
               </div>
             ) : (
-              <div className="mt-4 text-sm text-muted-foreground">
-                <p className="font-medium">All classes completed</p>
-                <p className="mt-1 text-xs">
+              <div className="mt-4 text-xs text-muted-foreground">
+                <p className="font-bold text-foreground">All classes completed</p>
+                <p className="mt-1 leading-relaxed">
                   You are all caught up for today! Review notes or check your course progress.
                 </p>
               </div>
             )}
           </div>
-          <div className="mt-4 border-t border-border pt-3">
-            <span className="text-[11px] text-muted-foreground">
-              Reminders active in this tab via Web Notifications.
+          <div className="mt-5 border-t border-border/50 pt-3">
+            <span className="text-[10px] text-muted-foreground flex items-center gap-1.5">
+              <span className="size-1.5 rounded-full bg-primary" />
+              Reminders active via Web Notifications
             </span>
           </div>
         </div>
       </section>
 
       {/* PDF Upload Section */}
-      <section className="surface flex flex-col gap-4 p-5 sm:flex-row sm:items-end">
+      <section className="surface flex flex-col gap-4 p-5 sm:p-6 sm:flex-row sm:items-end backdrop-blur-xl">
         <div className="flex-1 space-y-2">
-          <Label htmlFor="timetable-file">Import Timetable / Syllabus PDF</Label>
+          <Label
+            htmlFor="timetable-file"
+            className="text-xs font-bold uppercase tracking-wider text-foreground"
+          >
+            Import Timetable / Syllabus PDF
+          </Label>
           <Input
             id="timetable-file"
             ref={inputRef}
@@ -778,17 +815,23 @@ export function Timetable() {
             accept="application/pdf,.pdf"
             disabled={uploading}
             onChange={(event) => void importPdf(event.target.files?.[0])}
+            className="h-10 text-xs sm:text-sm file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
           />
           <p className="text-xs text-muted-foreground">
             Upload any college timetable PDF. Gemini extracts days, subjects, and lab sessions
             automatically.
           </p>
         </div>
-        <div className="w-full space-y-2 sm:w-48">
-          <Label htmlFor="reminder-minutes">Default Reminder</Label>
+        <div className="w-full space-y-2 sm:w-52">
+          <Label
+            htmlFor="reminder-minutes"
+            className="text-xs font-bold uppercase tracking-wider text-foreground"
+          >
+            Default Reminder
+          </Label>
           <select
             id="reminder-minutes"
-            className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+            className="h-10 w-full rounded-lg border border-border/80 bg-card/60 px-3 text-xs sm:text-sm backdrop-blur-md"
             value={minutes}
             onChange={(event) => setMinutes(event.target.value)}
           >
@@ -800,7 +843,7 @@ export function Timetable() {
           </select>
         </div>
         {uploading && (
-          <span className="flex items-center gap-2 text-sm text-muted-foreground">
+          <span className="flex items-center gap-2 text-xs text-primary font-semibold py-2">
             <LoaderCircle className="size-4 animate-spin text-primary" /> Parsing PDF with AI…
           </span>
         )}

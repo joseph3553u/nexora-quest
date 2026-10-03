@@ -156,7 +156,7 @@ const DEFAULT_RESOURCES: ResourceRow[] = [
     subject: "Data Structures",
     resource_type: "Notes",
     semester: "Semester 3",
-    author_name: "Joseph H. (Senior Peer)",
+    author_name: "Alex (Senior Peer)",
     file_name: "DSA_Lab_Record_KLRCET.pdf",
     storage_path: "demo/dsa_record.pdf",
     mime_type: "application/pdf",
@@ -304,7 +304,7 @@ function Resources() {
         subject: uploadForm.subject.trim() || "Programming for Problem Solving (PPS)",
         resource_type: resourceType,
         semester: uploadForm.semester.trim() || "Semester 1",
-        author_name: profile?.display_name || "Joseph Harshith",
+        author_name: profile?.display_name || "Alex",
         file_name: file.name,
         storage_path: `local/${file.name}`,
         mime_type: mimeType,
@@ -506,71 +506,138 @@ ACADEMIC NOTES:
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-7 animate-in fade-in duration-300">
       <PageHeader
-        eyebrow="Shared knowledge"
+        eyebrow="Academic Repository"
         title="Resource Library"
-        description="Curated study material from your seniors, classmates and faculty."
+        description="Verified lecture notes, laboratory manuals, formula cheatsheets, and past exam papers shared across KLRCET."
         actions={
-          <Button onClick={() => setUploadOpen(true)}>
-            <Upload className="size-4" /> Upload resource
+          <Button
+            size="sm"
+            onClick={() => setUploadOpen(true)}
+            className="h-9 gap-1.5 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs cursor-pointer shadow-subtle"
+          >
+            <Upload className="size-4" />
+            <span>Upload Resource</span>
           </Button>
         }
       />
+
+      {/* Discovery Telemetry Stats */}
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className="surface p-4 flex items-center justify-between border-border/70">
+          <div>
+            <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+              Total Course Materials
+            </p>
+            <p className="text-xl font-bold font-display text-foreground mt-0.5">
+              {resources.length} Files
+            </p>
+          </div>
+          <div className="size-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+            <Bookmark className="size-4" />
+          </div>
+        </div>
+
+        <div className="surface p-4 flex items-center justify-between border-border/70">
+          <div>
+            <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+              Active Semester
+            </p>
+            <p className="text-xl font-bold font-display text-foreground mt-0.5">
+              Semester 5 (CSE)
+            </p>
+          </div>
+          <div className="size-8 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center">
+            <Download className="size-4" />
+          </div>
+        </div>
+
+        <div className="surface p-4 flex items-center justify-between border-border/70">
+          <div>
+            <p className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+              AI Document Reader
+            </p>
+            <p className="text-xl font-bold font-display text-emerald-500 mt-0.5">Enabled</p>
+          </div>
+          <div className="size-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center">
+            <MessageCircle className="size-4" />
+          </div>
+        </div>
+      </div>
+
+      {/* Upload Dialog */}
       <Dialog open={uploadOpen} onOpenChange={setUploadOpen}>
-        <DialogContent>
+        <DialogContent className="surface border border-border/80 shadow-lift rounded-2xl max-w-lg">
           <DialogHeader>
-            <DialogTitle>Upload a resource</DialogTitle>
+            <DialogTitle className="font-display text-lg font-bold">
+              Upload Academic Resource
+            </DialogTitle>
           </DialogHeader>
-          <form onSubmit={submitUpload} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="resource-file">File (PDF, Markdown, or text · 20 MB max)</Label>
+          <form onSubmit={submitUpload} className="space-y-4 py-2">
+            <div className="space-y-1.5">
+              <Label htmlFor="resource-file" className="text-xs font-semibold">
+                File Attachment (PDF, Markdown, or Text · 20 MB max)
+              </Label>
               <Input
                 ref={inputRef}
                 id="resource-file"
                 type="file"
                 accept="application/pdf,text/plain,text/markdown,.md,.txt,.pdf"
+                className="rounded-xl text-xs sm:text-sm"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="resource-title">Title</Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="resource-title" className="text-xs font-semibold">
+                Document Title
+              </Label>
               <Input
                 id="resource-title"
                 value={uploadForm.title}
                 onChange={(event) =>
                   setUploadForm((form) => ({ ...form, title: event.target.value }))
                 }
-                placeholder="Defaults to file name"
+                placeholder="e.g. PPS Pointer Allocation & Linked Lists Notes"
+                className="rounded-xl text-xs sm:text-sm"
               />
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="resource-subject">Subject</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="resource-subject" className="text-xs font-semibold">
+                  Course Subject
+                </Label>
                 <Input
                   id="resource-subject"
                   value={uploadForm.subject}
                   onChange={(event) =>
                     setUploadForm((form) => ({ ...form, subject: event.target.value }))
                   }
+                  placeholder="Programming for Problem Solving"
+                  className="rounded-xl text-xs sm:text-sm"
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="resource-semester">Semester</Label>
+              <div className="space-y-1.5">
+                <Label htmlFor="resource-semester" className="text-xs font-semibold">
+                  Semester
+                </Label>
                 <Input
                   id="resource-semester"
                   value={uploadForm.semester}
                   onChange={(event) =>
                     setUploadForm((form) => ({ ...form, semester: event.target.value }))
                   }
-                  placeholder="e.g. Sem 4"
+                  placeholder="e.g. Semester 1"
+                  className="rounded-xl text-xs sm:text-sm"
                 />
               </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="resource-type">Type</Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="resource-type" className="text-xs font-semibold">
+                Material Classification
+              </Label>
               <select
                 id="resource-type"
-                className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm"
+                className="h-10 w-full rounded-xl border border-input bg-background px-3 text-xs sm:text-sm font-sans"
                 value={resourceType}
                 onChange={(event) => setResourceType(event.target.value)}
               >
@@ -581,8 +648,10 @@ ACADEMIC NOTES:
                   ))}
               </select>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="resource-description">Description</Label>
+            <div className="space-y-1.5">
+              <Label htmlFor="resource-description" className="text-xs font-semibold">
+                Brief Summary
+              </Label>
               <Textarea
                 id="resource-description"
                 rows={2}
@@ -590,31 +659,46 @@ ACADEMIC NOTES:
                 onChange={(event) =>
                   setUploadForm((form) => ({ ...form, description: event.target.value }))
                 }
+                placeholder="Topics covered, assignment numbers, or unit highlights…"
+                className="rounded-xl text-xs sm:text-sm"
               />
             </div>
-            <label className="flex items-center gap-2 text-sm">
+            <label className="flex items-center gap-2 text-xs text-muted-foreground pt-1 cursor-pointer">
               <Checkbox
                 checked={isPublic}
                 onCheckedChange={(checked) => setIsPublic(checked === true)}
               />{" "}
-              Share with other signed-in Civora students
+              <span>Share publicly with verified KLRCET students</span>
             </label>
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setUploadOpen(false)}>
+            <DialogFooter className="gap-2 pt-2">
+              <Button
+                variant="outline"
+                size="sm"
+                type="button"
+                onClick={() => setUploadOpen(false)}
+                className="rounded-xl cursor-pointer"
+              >
                 Cancel
               </Button>
-              <Button type="submit" disabled={uploading}>
+              <Button
+                type="submit"
+                size="sm"
+                disabled={uploading}
+                className="rounded-xl bg-primary text-primary-foreground font-semibold cursor-pointer"
+              >
                 {uploading ? (
-                  <LoaderCircle className="size-4 animate-spin" />
+                  <LoaderCircle className="size-4 animate-spin mr-1" />
                 ) : (
-                  <Upload className="size-4" />
-                )}{" "}
-                Upload
+                  <Upload className="size-4 mr-1" />
+                )}
+                <span>Upload Material</span>
               </Button>
             </DialogFooter>
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* AI Q&A Dialog */}
       <Dialog
         open={!!chatResource}
         onOpenChange={(open) => {
@@ -624,28 +708,38 @@ ACADEMIC NOTES:
           }
         }}
       >
-        <DialogContent>
+        <DialogContent className="surface border border-border/80 shadow-lift rounded-2xl max-w-lg">
           <DialogHeader>
-            <DialogTitle>Ask about {chatResource?.title}</DialogTitle>
+            <DialogTitle className="font-display text-base font-bold flex items-center gap-2">
+              <MessageCircle className="size-4 text-primary" />
+              <span>Ask Civora about {chatResource?.title}</span>
+            </DialogTitle>
           </DialogHeader>
-          <div className="max-h-[45vh] space-y-3 overflow-auto">
+          <div className="max-h-[45vh] space-y-3 overflow-auto py-2">
             {answer ? (
-              <p className="whitespace-pre-wrap rounded-md bg-muted p-3 text-sm leading-relaxed">
+              <div className="whitespace-pre-wrap rounded-xl border border-primary/20 bg-muted/40 p-4 text-xs sm:text-sm leading-relaxed text-foreground">
                 {answer}
-              </p>
+              </div>
             ) : (
-              <p className="text-sm text-muted-foreground">
-                Answers are grounded in this resource’s extracted text.
-              </p>
+              <div className="rounded-xl border border-dashed border-border/80 p-4 text-xs text-muted-foreground text-center">
+                Ask any formula, algorithm, or concept question grounded directly in this document's
+                text.
+              </div>
             )}
           </div>
-          <form onSubmit={chat} className="flex gap-2">
+          <form onSubmit={chat} className="flex gap-2 pt-2">
             <Input
               value={question}
               onChange={(event) => setQuestion(event.target.value)}
-              placeholder="Ask a question about this resource"
+              placeholder="e.g. Explain the main algorithm or formula in this note…"
+              className="h-10 text-xs sm:text-sm rounded-xl"
             />
-            <Button type="submit" disabled={asking || !question.trim()} aria-label="Ask AI">
+            <Button
+              type="submit"
+              disabled={asking || !question.trim()}
+              size="icon"
+              className="size-10 rounded-xl bg-primary text-primary-foreground shrink-0 cursor-pointer"
+            >
               {asking ? (
                 <LoaderCircle className="size-4 animate-spin" />
               ) : (
@@ -655,20 +749,23 @@ ACADEMIC NOTES:
           </form>
         </DialogContent>
       </Dialog>
-      <div className="surface flex flex-col gap-4 p-4">
+
+      {/* Filter and Search Bar */}
+      <div className="surface flex flex-col gap-4 p-4.5 border-border/80">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <SearchField
             value={query}
             onChange={setQuery}
-            placeholder="Search by title, subject, or author"
+            placeholder="Search by note title, subject, or professor…"
+            className="flex-1"
           />
-          <div className="flex gap-3 sm:ml-auto">
+          <div className="flex gap-2 sm:ml-auto">
             <Select value={semester} onValueChange={setSemester}>
-              <SelectTrigger className="w-36">
+              <SelectTrigger className="w-36 rounded-xl text-xs h-9">
                 <SelectValue placeholder="Semester" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All semesters</SelectItem>
+                <SelectItem value="all">All Semesters</SelectItem>
                 {semesters.map((item) => (
                   <SelectItem key={item} value={item}>
                     {item}
@@ -677,18 +774,20 @@ ACADEMIC NOTES:
               </SelectContent>
             </Select>
             <Select value={sort} onValueChange={setSort}>
-              <SelectTrigger className="w-40">
+              <SelectTrigger className="w-40 rounded-xl text-xs h-9">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="popular">Most downloaded</SelectItem>
-                <SelectItem value="newest">Recently added</SelectItem>
+                <SelectItem value="popular">Most Downloaded</SelectItem>
+                <SelectItem value="newest">Recently Added</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <FilterChips options={types} value={type} onChange={setType} />
       </div>
+
+      {/* Resource Cards Grid */}
       {isError ? (
         <p role="alert" className="text-sm text-destructive">
           Unable to load resources. Apply the Civora backend migration and try again.
@@ -697,45 +796,58 @@ ACADEMIC NOTES:
         <EmptyState
           message={
             isLoading
-              ? "Loading resources…"
+              ? "Loading study resources…"
               : resources.length
-                ? "Try a different subject, type, or semester."
+                ? "Try a different subject, type, or semester filter."
                 : "No shared resources yet. Upload the first study file."
           }
         />
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {list.map((resource) => (
-            <article key={resource.id} className="surface lift flex flex-col p-5">
-              <div className="flex items-start justify-between gap-3">
-                <Badge variant="secondary">{resource.resource_type}</Badge>
-                <button
-                  onClick={() => void toggleSave(resource)}
-                  aria-label={resource.saved ? "Remove saved resource" : "Save resource"}
-                  className="text-muted-foreground transition-colors hover:text-primary"
-                >
-                  <Bookmark
-                    className={`size-4.5 ${resource.saved ? "fill-primary text-primary" : ""}`}
-                  />
-                </button>
-              </div>
-              <h3 className="mt-3 font-semibold leading-snug">{resource.title}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {[resource.subject, resource.semester, resource.author_name]
-                  .filter(Boolean)
-                  .join(" · ")}
-              </p>
-              {resource.description && (
-                <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
-                  {resource.description}
+            <article
+              key={resource.id}
+              className="surface lift group flex flex-col justify-between p-5 border-border/80 hover:border-primary/50"
+            >
+              <div>
+                <div className="flex items-start justify-between gap-3">
+                  <Badge
+                    variant="outline"
+                    className="text-[10px] font-mono border-primary/30 text-primary bg-primary/10"
+                  >
+                    {resource.resource_type}
+                  </Badge>
+                  <button
+                    onClick={() => void toggleSave(resource)}
+                    aria-label={resource.saved ? "Remove saved resource" : "Save resource"}
+                    className="text-muted-foreground transition-colors hover:text-primary cursor-pointer"
+                  >
+                    <Bookmark
+                      className={`size-4.5 ${resource.saved ? "fill-primary text-primary" : ""}`}
+                    />
+                  </button>
+                </div>
+                <h3 className="mt-3 font-display font-bold text-sm sm:text-base leading-snug text-foreground group-hover:text-primary transition-colors">
+                  {resource.title}
+                </h3>
+                <p className="mt-1 text-xs text-muted-foreground font-mono">
+                  {[resource.subject, resource.semester, resource.author_name]
+                    .filter(Boolean)
+                    .join(" · ")}
                 </p>
-              )}
-              <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-5 text-sm">
-                <span className="text-xs text-muted-foreground">
+                {resource.description && (
+                  <p className="mt-2 line-clamp-2 text-xs text-muted-foreground leading-relaxed">
+                    {resource.description}
+                  </p>
+                )}
+              </div>
+
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-border/60 text-xs">
+                <span className="text-[11px] font-mono text-muted-foreground">
                   {resource.download_count.toLocaleString()} downloads
                   {!resource.is_public ? " · Private" : ""}
                 </span>
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   <Button
                     size="sm"
                     variant="outline"
@@ -744,22 +856,26 @@ ACADEMIC NOTES:
                       setAnswer("");
                     }}
                     disabled={!resource.has_text}
-                    aria-label="Ask AI about resource"
+                    className="h-8 text-xs gap-1 rounded-lg border-border/70 hover:border-primary/40 cursor-pointer"
+                    title="Ask AI about this document"
                   >
-                    <MessageCircle className="size-4" />
+                    <MessageCircle className="size-3.5 text-primary" />
+                    <span className="hidden sm:inline">Ask AI</span>
                   </Button>
                   <Button
                     size="sm"
                     variant="outline"
                     onClick={() => void download(resource)}
                     disabled={downloading === resource.id}
-                    aria-label="Download resource"
+                    className="h-8 text-xs gap-1 rounded-lg border-border/70 hover:border-primary/40 cursor-pointer"
+                    title="Download document"
                   >
                     {downloading === resource.id ? (
-                      <LoaderCircle className="size-4 animate-spin" />
+                      <LoaderCircle className="size-3.5 animate-spin" />
                     ) : (
-                      <Download className="size-4" />
+                      <Download className="size-3.5" />
                     )}
+                    <span>Download</span>
                   </Button>
                 </div>
               </div>

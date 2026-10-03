@@ -10,6 +10,8 @@ import {
   Clock,
   LoaderCircle,
   Sparkles,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { PageHeader } from "@/components/common/PageHeader";
 import { FilterChips, SearchField, EmptyState } from "@/components/common/FilterBar";
@@ -204,143 +206,202 @@ function Learning() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 animate-in fade-in duration-300">
       <PageHeader
-        eyebrow="Keep moving"
+        eyebrow="Curriculum &amp; Milestones"
         title="Learning Center"
-        description="Structured tracks with lesson-level progress, securely synced to your account."
+        description="Structured tracks with lesson-level verified progress, synced securely to your academic profile."
         actions={
-          <span className="flex items-center gap-2 text-xs text-muted-foreground">
+          <div className="flex items-center gap-2 rounded-lg border border-border/60 bg-card/60 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur-md">
             {saving ? (
-              <LoaderCircle className="size-4 animate-spin text-primary" />
+              <LoaderCircle className="size-3.5 animate-spin text-primary" />
             ) : isError ? (
-              <CloudAlert className="size-4 text-destructive" />
+              <CloudAlert className="size-3.5 text-destructive" />
             ) : (
-              <Cloud className="size-4 text-primary" />
+              <Cloud className="size-3.5 text-primary" />
             )}
-            {saving
-              ? "Saving…"
-              : isError
-                ? "Sync unavailable"
-                : isLoading
-                  ? "Loading progress…"
-                  : "Progress saved"}
-          </span>
+            <span className="font-medium">
+              {saving
+                ? "Saving progress…"
+                : isError
+                  ? "Sync offline"
+                  : isLoading
+                    ? "Loading tracks…"
+                    : "Progress synced"}
+            </span>
+          </div>
         }
       />
 
-      <section className="surface space-y-4 p-5">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      {/* AI Study Roadmap Hero Section */}
+      <section className="surface relative overflow-hidden p-6 sm:p-7">
+        <div className="pointer-events-none absolute -right-20 -top-20 size-72 rounded-full bg-primary/10 blur-3xl" />
+
+        <div className="relative flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h2 className="font-semibold">AI study roadmap</h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Personalized from your profile, goals, and saved course progress.
+            <div className="flex items-center gap-2">
+              <span className="flex size-7 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <Sparkles className="size-4" />
+              </span>
+              <h2 className="font-display text-lg font-bold text-foreground">AI Study Roadmap</h2>
+            </div>
+            <p className="mt-1.5 text-xs sm:text-sm text-muted-foreground max-w-xl">
+              Generated specifically from your degree program, career targets, and real-time course
+              completions.
             </p>
           </div>
-          <Button onClick={buildRoadmap} disabled={generating || isLoading}>
+          <Button
+            onClick={buildRoadmap}
+            disabled={generating || isLoading}
+            className="gap-2 font-semibold h-9.5"
+          >
             <Sparkles className="size-4" />
-            {generating ? "Building…" : activeRoadmap ? "Refresh roadmap" : "Build my roadmap"}
+            {generating
+              ? "Synthesizing…"
+              : activeRoadmap
+                ? "Regenerate Roadmap"
+                : "Build My Roadmap"}
           </Button>
         </div>
+
         {activeRoadmap ? (
-          <div className="space-y-4">
-            <p className="text-sm leading-relaxed">{activeRoadmap.summary}</p>
-            <div className="grid gap-3 md:grid-cols-2">
+          <div className="relative mt-6 space-y-6 pt-5 border-t border-border/60">
+            <p className="text-xs sm:text-sm font-medium leading-relaxed text-foreground/90 bg-muted/30 p-3.5 rounded-xl border border-border/50">
+              {activeRoadmap.summary}
+            </p>
+            <div className="grid gap-4 md:grid-cols-2">
               {activeRoadmap.weeks.map((week) => (
-                <article key={week.week} className="rounded-lg border border-border p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-primary">
-                    Week {week.week}
-                  </p>
-                  <h3 className="mt-1 font-medium">{week.focus}</h3>
-                  <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+                <article
+                  key={week.week}
+                  className="rounded-xl border border-border/70 bg-card/70 p-4.5 backdrop-blur-md transition-all duration-150 hover:border-primary/40"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-primary bg-primary/10 px-2 py-0.5 rounded">
+                      Week {week.week}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-sm font-bold text-foreground">{week.focus}</h3>
+                  <ul className="mt-3 space-y-2 text-xs text-muted-foreground">
                     {week.tasks.map((task, index) => (
-                      <li key={`${week.week}-${index}`}>{task}</li>
+                      <li key={`${week.week}-${index}`} className="flex items-start gap-2">
+                        <span className="size-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
+                        <span className="leading-snug">{task}</span>
+                      </li>
                     ))}
                   </ul>
                 </article>
               ))}
             </div>
             {activeRoadmap.recommendations.length > 0 && (
-              <div>
-                <h3 className="text-sm font-semibold">Recommendations</h3>
-                <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+              <div className="rounded-xl border border-border/60 bg-muted/20 p-4">
+                <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
+                  Faculty &amp; Academic Recommendations
+                </h3>
+                <ul className="mt-2.5 space-y-1.5 text-xs text-muted-foreground">
                   {activeRoadmap.recommendations.map((item, index) => (
-                    <li key={index}>{item}</li>
+                    <li key={index} className="flex items-start gap-2">
+                      <span className="size-1 rounded-full bg-primary mt-1.5 shrink-0" />
+                      <span>{item}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
             )}
           </div>
         ) : (
-          <p className="text-sm text-muted-foreground">
-            Generate a plan to turn your goals and current progress into clear weekly next steps.
+          <p className="mt-4 text-xs text-muted-foreground">
+            Click "Build My Roadmap" to turn your coursework and semester goals into actionable
+            weekly targets.
           </p>
         )}
       </section>
 
+      {/* Filter and Search Bar */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <SearchField value={query} onChange={setQuery} placeholder="Search courses" />
+        <SearchField value={query} onChange={setQuery} placeholder="Search courses or topics…" />
         <FilterChips options={tracks} value={track} onChange={setTrack} />
       </div>
+
       {isError ? (
         <p role="alert" className="text-sm text-destructive">
-          Unable to load courses. Apply the Civora backend migration and try again.
+          Unable to load courses. Please check your connection and try again.
         </p>
       ) : list.length === 0 ? (
-        <EmptyState message={isLoading ? "Loading courses…" : "No courses in this track yet."} />
+        <EmptyState
+          title="No courses found"
+          message={isLoading ? "Loading courses…" : "No courses match your active search filters."}
+        />
       ) : (
         <div className="space-y-4">
           {list.map((course) => {
             const open = openId === course.id;
+            const completedCount = course.lessons.filter((lesson) => lesson.done).length;
             return (
-              <article key={course.id} className="surface overflow-hidden">
-                <div className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center">
+              <article
+                key={course.id}
+                className="surface overflow-hidden transition-all duration-200"
+              >
+                <div className="flex flex-col gap-4 p-5 sm:p-6 sm:flex-row sm:items-center">
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <Badge variant="secondary">{course.track}</Badge>
-                      <Badge variant="outline">{course.level}</Badge>
-                      <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <Clock className="size-3.5" /> {course.hours}h
+                      <Badge variant="secondary" className="text-xs">
+                        {course.track}
+                      </Badge>
+                      <Badge variant="outline" className="text-xs">
+                        {course.level}
+                      </Badge>
+                      <span className="flex items-center gap-1 text-xs text-muted-foreground font-mono">
+                        <Clock className="size-3.5" /> {course.hours}h curriculum
                       </span>
                     </div>
-                    <h3 className="mt-2 font-semibold">{course.title}</h3>
-                    <Progress value={course.progress} className="mt-3 max-w-md" />
-                    <p className="mt-1.5 text-xs text-muted-foreground">
-                      {course.progress}% complete ·{" "}
-                      {course.lessons.filter((lesson) => lesson.done).length}/
-                      {course.lessons.length} lessons
+                    <h3 className="mt-2.5 font-display text-base sm:text-lg font-bold text-foreground">
+                      {course.title}
+                    </h3>
+                    <Progress value={course.progress} className="mt-3.5 max-w-md h-2" />
+                    <p className="mt-2 text-xs font-mono text-muted-foreground">
+                      <span className="font-semibold text-foreground">
+                        {course.progress}% complete
+                      </span>{" "}
+                      · {completedCount}/{course.lessons.length} lessons completed
                     </p>
                   </div>
                   <Button
-                    variant={open ? "secondary" : "default"}
+                    variant={open ? "secondary" : "outline"}
                     onClick={() => setOpenId(open ? "" : course.id)}
-                    className="sm:self-center"
+                    className="sm:self-center gap-1.5 h-9 text-xs font-medium cursor-pointer"
                   >
-                    {open ? "Hide lessons" : "View lessons"}
+                    <span>{open ? "Hide Curriculum" : "View Lessons"}</span>
+                    {open ? (
+                      <ChevronUp className="size-3.5" />
+                    ) : (
+                      <ChevronDown className="size-3.5" />
+                    )}
                   </Button>
                 </div>
                 {open && (
-                  <ul className="divide-y divide-border border-t border-border bg-muted/40">
+                  <ul className="divide-y divide-border/60 border-t border-border/60 bg-muted/20">
                     {course.lessons.map((lesson) => (
                       <li key={lesson.id}>
                         <button
                           onClick={() => toggleLesson(course.id, lesson.id)}
-                          className="flex w-full items-center gap-3 px-5 py-3 text-left transition-colors hover:bg-muted"
+                          className="flex w-full items-center gap-3 px-5 py-3 text-left transition-colors hover:bg-muted/50 cursor-pointer"
                         >
                           {lesson.done ? (
-                            <CheckCircle2 className="size-4.5 text-success" />
+                            <CheckCircle2 className="size-4.5 text-success shrink-0" />
                           ) : (
-                            <Circle className="size-4.5 text-muted-foreground" />
+                            <Circle className="size-4.5 text-muted-foreground hover:text-primary transition-colors shrink-0" />
                           )}
                           <span
                             className={cn(
-                              "flex-1 text-sm",
-                              lesson.done && "text-muted-foreground line-through",
+                              "flex-1 text-xs sm:text-sm font-medium",
+                              lesson.done
+                                ? "text-muted-foreground line-through"
+                                : "text-foreground",
                             )}
                           >
                             {lesson.title}
                           </span>
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-[11px] font-mono text-muted-foreground shrink-0">
                             {lesson.minutes} min
                           </span>
                         </button>
@@ -356,3 +417,5 @@ function Learning() {
     </div>
   );
 }
+
+export default Learning;

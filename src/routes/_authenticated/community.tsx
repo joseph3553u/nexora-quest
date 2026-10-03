@@ -168,7 +168,7 @@ function Community() {
       toast("Write something first");
       return;
     }
-    const authorName = profile?.display_name || "Joseph Harshith";
+    const authorName = profile?.display_name || "Alex";
     const authorRole =
       [profile?.department, profile?.semester].filter(Boolean).join(" · ") || "CSE · Semester 5";
 
@@ -252,7 +252,7 @@ function Community() {
   async function addComment(event: FormEvent) {
     event.preventDefault();
     if (!selectedPost || !commentDraft.trim()) return;
-    const authorName = profile?.display_name || "Joseph Harshith";
+    const authorName = profile?.display_name || "Alex";
 
     const newComment: Comment = {
       id: `comm-local-${Date.now()}`,

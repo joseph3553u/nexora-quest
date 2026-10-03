@@ -57,7 +57,7 @@ function summarizeActivity(rows: SavedProgress[]) {
   today.setHours(0, 0, 0, 0);
   const cursor = new Date(today);
   if (!counts.has(localDayKey(cursor))) cursor.setDate(cursor.getDate() - 1);
-  let studyStreak = 23; // Realistic starting streak for Joseph
+  let studyStreak = 23; // Realistic starting streak for Alex
   let activeStreakCount = 0;
   while (counts.has(localDayKey(cursor)) && activeStreakCount < counts.size) {
     activeStreakCount += 1;

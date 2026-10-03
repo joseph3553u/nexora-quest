@@ -17,6 +17,7 @@ import {
   DoorOpen,
   CalendarDays,
   Users2,
+  Gamepad2,
   type LucideIcon,
 } from "lucide-react";
 
@@ -75,6 +76,7 @@ export const navItems: NavItem[] = [
     group: "Grow",
   },
   { title: "Achievements", short: "Awards", to: "/achievements", icon: Award, group: "Grow" },
+  { title: "Brain Games", short: "Games", to: "/games", icon: Gamepad2, group: "Grow" },
 
   {
     title: "Deadline Center",

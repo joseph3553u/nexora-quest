@@ -21,10 +21,10 @@ export const Route = createFileRoute("/_authenticated")({
         try {
           const parsed = JSON.parse(googleSessionRaw);
           user = {
-            id: parsed.id || "google-user-joseph",
-            email: parsed.email || "josephgorantla3553@gmail.com",
+            id: parsed.id || "google-user-alex",
+            email: parsed.email || "alex.student@gmail.com",
             user_metadata: {
-              display_name: parsed.name || "Joseph Harshith",
+              display_name: parsed.name || "Alex",
               avatar_url: parsed.avatar_url || null,
             },
             app_metadata: { provider: "google" },
@@ -43,9 +43,9 @@ export const Route = createFileRoute("/_authenticated")({
       localStorage.getItem("civora_guest_session") === "true"
     ) {
       user = {
-        id: "demo-student-klrcet",
-        email: "joseph@klrcet.ac.in",
-        user_metadata: { display_name: "Joseph Harshith" },
+        id: "demo-student-alex",
+        email: "alex@civora.edu",
+        user_metadata: { display_name: "Alex" },
         app_metadata: {},
         aud: "authenticated",
         created_at: new Date().toISOString(),

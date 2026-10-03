@@ -172,7 +172,7 @@ const INITIAL_DEMO_MESSAGES: DirectMessageItem[] = [
     id: "msg-1",
     sender_id: "seed-student-priya",
     receiver_id: "demo-student-id",
-    content: "Hey Joseph! Did you complete the PPS Pointer Assignment for Section B?",
+    content: "Hey Alex! Did you complete the PPS Pointer Assignment for Section B?",
     created_at: new Date(Date.now() - 3600000 * 2).toISOString(),
     read: true,
   },

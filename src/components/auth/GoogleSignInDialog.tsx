@@ -101,30 +101,26 @@ export function GoogleSignInDialog({ open, onOpenChange }: GoogleSignInDialogPro
             <button
               type="button"
               disabled={loading}
-              onClick={() =>
-                completeGoogleSignIn("josephgorantla3553@gmail.com", "Joseph Harshith")
-              }
+              onClick={() => completeGoogleSignIn("alex.student@gmail.com", "Alex")}
               className="w-full flex items-center justify-between gap-3 rounded-xl border border-border p-3.5 text-left transition-all hover:border-primary/50 hover:bg-muted/40 group"
             >
               <div className="flex items-center gap-3">
                 <Avatar className="size-11 border border-border">
                   <AvatarFallback className="bg-primary/10 text-primary font-bold">
-                    JH
+                    AL
                   </AvatarFallback>
                 </Avatar>
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <span className="font-semibold text-sm text-foreground">Joseph Harshith</span>
+                    <span className="font-semibold text-sm text-foreground">Alex</span>
                     <Badge
                       variant="outline"
                       className="border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 text-[10px] py-0 px-1"
                     >
-                      Active
+                      Active Scholar
                     </Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground font-mono">
-                    josephgorantla3553@gmail.com
-                  </p>
+                  <p className="text-xs text-muted-foreground font-mono">alex.student@gmail.com</p>
                   <p className="text-[11px] text-primary mt-0.5">
                     KLRCET Computer Science &amp; Engineering
                   </p>
@@ -147,7 +143,7 @@ export function GoogleSignInDialog({ open, onOpenChange }: GoogleSignInDialogPro
                 <span className="font-medium text-xs text-foreground">
                   Use another Google account
                 </span>
-                <p className="text-[11px] text-muted-foreground">Enter a different email address</p>
+                <p className="text-[11px] text-muted-foreground">Enter email only</p>
               </div>
             </button>
 
@@ -166,9 +162,14 @@ export function GoogleSignInDialog({ open, onOpenChange }: GoogleSignInDialogPro
             className="mt-4 space-y-3"
           >
             <div className="space-y-1.5">
-              <label htmlFor="custom-email" className="text-xs font-semibold">
-                Google Email Address *
-              </label>
+              <div className="flex items-center justify-between">
+                <label htmlFor="custom-email" className="text-xs font-semibold">
+                  Email only *
+                </label>
+                <span className="text-[10px] font-mono text-muted-foreground uppercase">
+                  Email only
+                </span>
+              </div>
               <Input
                 id="custom-email"
                 type="email"
@@ -188,7 +189,7 @@ export function GoogleSignInDialog({ open, onOpenChange }: GoogleSignInDialogPro
                 id="custom-name"
                 value={customName}
                 onChange={(e) => setCustomName(e.target.value)}
-                placeholder="e.g. Harshith"
+                placeholder="e.g. Alex"
                 className="text-sm"
               />
             </div>

@@ -1053,7 +1053,7 @@ export const collegeNotices = [
 ];
 
 export const student = {
-  name: "Joseph Harshith",
+  name: "Alex",
   college: "KLR College of Engineering and Technology (KLRCET)",
   program: "B.Tech Computer Science & Engineering",
   department: "Computer Science & Engineering",

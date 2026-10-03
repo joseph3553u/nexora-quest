@@ -94,7 +94,7 @@ export const SAMPLE_ROOM_FILES: Record<string, Omit<RoomFile, "id" | "room_id">[
       title: "Pointer Arithmetic & Dynamic Memory (malloc/calloc) Guide",
       file_type: "PDF Notes",
       size_label: "3.1 MB",
-      uploaded_by: "Joseph H.",
+      uploaded_by: "Alex",
       created_at: new Date().toISOString(),
     },
     {
